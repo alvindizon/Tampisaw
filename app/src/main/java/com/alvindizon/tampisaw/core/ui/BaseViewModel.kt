@@ -16,6 +16,6 @@ abstract class BaseViewModel  constructor(
 
 
     override fun onDestroy(owner: LifecycleOwner) {
-        compositeDisposable.dispose()
+        compositeDisposable.clear()
     }
 }
