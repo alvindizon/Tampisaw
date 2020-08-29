@@ -1,8 +1,8 @@
 package com.alvindizon.tampisaw.core
 
-import com.alvindizon.tampisaw.data.networking.model.ListPhotosResponse
-import com.alvindizon.tampisaw.data.networking.model.Urls
-import com.alvindizon.tampisaw.data.networking.model.User
+import com.alvindizon.tampisaw.data.networking.model.listphotos.ListPhotosResponse
+import com.alvindizon.tampisaw.data.networking.model.listphotos.Urls
+import com.alvindizon.tampisaw.data.networking.model.listphotos.User
 import com.alvindizon.tampisaw.ui.gallery.UnsplashPhoto
 import com.alvindizon.tampisaw.ui.gallery.UnsplashPhotoUrls
 import com.alvindizon.tampisaw.ui.gallery.UnsplashUser

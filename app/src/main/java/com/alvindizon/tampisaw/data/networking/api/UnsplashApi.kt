@@ -1,7 +1,7 @@
 package com.alvindizon.tampisaw.data.networking.api
 
 import com.alvindizon.tampisaw.BuildConfig
-import com.alvindizon.tampisaw.data.networking.model.ListPhotosResponse
+import com.alvindizon.tampisaw.data.networking.model.listphotos.ListPhotosResponse
 import io.reactivex.Single
 import retrofit2.http.GET
 import retrofit2.http.Headers
