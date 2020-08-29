@@ -101,8 +101,8 @@ dependencies {
     implementation "androidx.preference:preference:$preferenceVersion"
 
     //Navigation
-    implementation "androidx.navigation:navigation-fragment:$rootProject.navigationVersion"
-    implementation "androidx.navigation:navigation-ui:$rootProject.navigationVersion"
+    implementation "androidx.navigation:navigation-fragment-ktx:$rootProject.navigationVersion"
+    implementation "androidx.navigation:navigation-ui-ktx:$rootProject.navigationVersion"
 
 }
 

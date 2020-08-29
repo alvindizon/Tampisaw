@@ -6,5 +6,26 @@
     <fragment
         android:id="@+id/gallery_dest"
         android:name="com.alvindizon.tampisaw.ui.gallery.GalleryFragment"
-        android:label="fragment_gallery" />
+        android:label="fragment_gallery" >
+        <action
+            android:id="@+id/detailsAction"
+            app:destination="@id/details_dest" >
+            <argument
+                android:name="url"
+                app:argType="string"
+                android:defaultValue="" />
+        </action>
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/details_dest"
+        android:name="com.alvindizon.tampisaw.ui.details.DetailsFragment"
+        android:label="fragment_details" >
+        <argument
+            android:name="url"
+            app:argType="string"
+            android:defaultValue="" />
+
+    </fragment>
 </navigation>

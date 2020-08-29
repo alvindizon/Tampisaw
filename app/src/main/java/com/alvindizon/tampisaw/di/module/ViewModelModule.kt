@@ -3,6 +3,8 @@ package com.alvindizon.tampisaw.di.module
 import androidx.lifecycle.ViewModel
 import com.alvindizon.tampisaw.core.ViewModelFactory
 import com.alvindizon.tampisaw.domain.GetAllPhotosUseCase
+import com.alvindizon.tampisaw.domain.GetPhotoUseCase
+import com.alvindizon.tampisaw.ui.details.DetailsViewModel
 import com.alvindizon.tampisaw.ui.gallery.GalleryViewModel
 import dagger.MapKey
 import dagger.Module
@@ -34,5 +36,13 @@ class ViewModelModule {
     @ViewModelKey(GalleryViewModel::class)
     fun provideGalleryViewModel(getAllPhotosUseCase: GetAllPhotosUseCase): ViewModel {
         return GalleryViewModel(getAllPhotosUseCase)
+    }
+
+
+    @Provides
+    @IntoMap
+    @ViewModelKey(DetailsViewModel::class)
+    fun provideDetailsViewModel(getPhotoUseCase: GetPhotoUseCase): ViewModel {
+        return DetailsViewModel(getPhotoUseCase)
     }
 }

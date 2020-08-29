@@ -1,10 +1,12 @@
 package com.alvindizon.tampisaw.data.networking.api
 
 import com.alvindizon.tampisaw.BuildConfig
+import com.alvindizon.tampisaw.data.networking.model.getphoto.GetPhotoResponse
 import com.alvindizon.tampisaw.data.networking.model.listphotos.ListPhotosResponse
 import io.reactivex.Single
 import retrofit2.http.GET
 import retrofit2.http.Headers
+import retrofit2.http.Path
 import retrofit2.http.Query
 
 interface UnsplashApi {
@@ -21,5 +23,11 @@ interface UnsplashApi {
         @Query("per_page") itemsPerPage: Int,
         @Query("order_by") order: String
     ): Single<List<ListPhotosResponse>>
+
+    @Headers("Accept-Version: v1", "Authorization: Client-ID $ACCESS_KEY")
+    @GET("photos/{id}")
+    fun getPhoto(
+        @Path("id") id: String
+    ): Single<GetPhotoResponse>
 
 }

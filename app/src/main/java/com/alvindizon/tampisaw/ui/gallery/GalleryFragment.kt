@@ -2,11 +2,11 @@ package com.alvindizon.tampisaw.ui.gallery
 
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.alvindizon.tampisaw.R
@@ -59,9 +59,10 @@ class GalleryFragment: Fragment(R.layout.fragment_gallery) {
 
     private fun setupGallery() {
         // Add a click listener for each list item
-        adapter = GalleryAdapter{
-            // TODO display details screen on click
-            Log.d("GalleryFragment", "item description: ${it.description}")
+        adapter = GalleryAdapter{ photo ->
+            photo.id.let {
+                findNavController().navigate(GalleryFragmentDirections.detailsAction(it))
+            }
         }
 
         // Apply the following settings to our recyclerview
