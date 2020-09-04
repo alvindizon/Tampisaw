@@ -1,6 +1,7 @@
 package com.alvindizon.tampisaw.di.component
 
 
+import com.alvindizon.tampisaw.di.module.ActivityModule
 import com.alvindizon.tampisaw.di.module.AppModule
 import com.alvindizon.tampisaw.di.module.NetworkModule
 import com.alvindizon.tampisaw.di.module.RepoModule
@@ -11,6 +12,6 @@ import javax.inject.Singleton
 @Singleton
 interface AppComponent {
 
-    fun presentationComponent(): PresentationComponent
+    fun presentationComponent(activityModule: ActivityModule): PresentationComponent
 
 }

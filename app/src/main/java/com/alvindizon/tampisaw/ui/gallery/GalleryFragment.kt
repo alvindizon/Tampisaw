@@ -30,7 +30,7 @@ class GalleryFragment: Fragment(R.layout.fragment_gallery) {
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        InjectorUtils.getPresentationComponent().inject(this)
+        InjectorUtils.getPresentationComponent(requireActivity()).inject(this)
         viewModel = ViewModelProvider(this, viewModelFactory).get(GalleryViewModel::class.java)
     }
 
