@@ -11,6 +11,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.alvindizon.tampisaw.R
 import com.alvindizon.tampisaw.core.ViewModelFactory
+import com.alvindizon.tampisaw.core.ui.DialogManager
 import com.alvindizon.tampisaw.databinding.FragmentDetailsBinding
 import com.alvindizon.tampisaw.di.InjectorUtils
 import com.bumptech.glide.Glide
@@ -27,6 +28,9 @@ class DetailsFragment: Fragment(R.layout.fragment_details) {
 
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
+
+    @Inject
+    lateinit var dialogManager: DialogManager
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
