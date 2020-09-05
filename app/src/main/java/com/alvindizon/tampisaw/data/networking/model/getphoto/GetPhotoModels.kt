@@ -20,6 +20,8 @@ data class GetPhotoResponse(
     val color: String,
     @Json(name = "downloads")
     val downloads: Int = 0,
+    @Json(name = "views")
+    val views: Int = 0,
     @Json(name = "likes")
     val likes: Int = 0,
     @Json(name = "liked_by_user")

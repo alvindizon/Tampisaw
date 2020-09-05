@@ -1,4 +1,7 @@
 <resources>
     <string name="app_name">Tampisaw</string>
     <string name="retry">Retry</string>
+    <string name="title_views">Views</string>
+    <string name="title_downloads">Downloads</string>
+    <string name="title_likes">Likes</string>
 </resources>

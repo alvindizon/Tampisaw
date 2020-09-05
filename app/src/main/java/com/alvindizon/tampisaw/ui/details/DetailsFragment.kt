@@ -35,7 +35,7 @@ class DetailsFragment: Fragment(R.layout.fragment_details) {
     override fun onAttach(context: Context) {
         super.onAttach(context)
         InjectorUtils.getPresentationComponent(requireActivity()).inject(this)
-        viewModel = ViewModelProvider(this, viewModelFactory).get(DetailsViewModel::class.java)
+        viewModel = ViewModelProvider(requireActivity(), viewModelFactory).get(DetailsViewModel::class.java)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
