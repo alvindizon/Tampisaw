@@ -70,6 +70,12 @@ class DetailsFragment: Fragment(R.layout.fragment_details) {
         viewLifecycleOwner.lifecycle.addObserver(viewModel)
 
         viewModel.getPhoto(args.url)
+
+        binding?.apply {
+            fab.setOnClickListener {
+                dialogManager.showDialog(InfoBottomSheet.newInstance())
+            }
+        }
     }
 
     override fun onDestroyView() {
