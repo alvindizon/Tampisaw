@@ -2,8 +2,12 @@
 <resources>
     <color name="color_primary">#6200EE</color>
     <color name="color_primary_variant">#3700B3</color>
-    <color name="color_accent">#03DAC5</color>
+    <color name="color_secondary">#03DAC5</color>
+    <color name="color_secondary_variant">#036C62</color>
     <color name="shimmer_base_0">#c2c2c2</color>
     <color name="shimmer_highlight_0">#ffffff</color>
     <color name="color_on_surface">#000000</color>
+    <color name="color_divider">#1F000000</color>
+    <color name="color_tinted_surface">#ffffff</color>
+    <color name="color_on_surface_secondary">#9e9e9e</color>
 </resources>

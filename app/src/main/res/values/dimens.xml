@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="margin_1">8dp</dimen>
+
+    <!--Bottom Drawer-->
+    <dimen name="bottom_sheet_handle_width">28dp</dimen>
+    <dimen name="bottom_sheet_handle_height">4dp</dimen>
+    <dimen name="bottom_sheet_handle_radius">8dp</dimen>
+</resources>
