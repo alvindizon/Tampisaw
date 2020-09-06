@@ -4,4 +4,7 @@
     <string name="title_views">Views</string>
     <string name="title_downloads">Downloads</string>
     <string name="title_likes">Likes</string>
+    <string name="download_img">Download image</string>
+    <string name="img_details">Show photo details</string>
+    <string name="set_wallpaper">Set image as wallpaper</string>
 </resources>

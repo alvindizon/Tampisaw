@@ -4,6 +4,7 @@ import android.content.Context
 import android.os.Bundle
 import android.view.View
 import androidx.activity.OnBackPressedCallback
+import androidx.core.view.forEach
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -72,8 +73,12 @@ class DetailsFragment: Fragment(R.layout.fragment_details) {
         viewModel.getPhoto(args.url)
 
         binding?.apply {
-            fab.setOnClickListener {
-                dialogManager.showDialog(InfoBottomSheet.newInstance())
+            fab.forEach { item ->
+                item.setOnClickListener {
+                    when(it.id) {
+                        R.id.faboption_1 -> dialogManager.showDialog(InfoBottomSheet.newInstance())
+                    }
+                }
             }
         }
     }

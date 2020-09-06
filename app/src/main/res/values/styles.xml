@@ -4,8 +4,8 @@
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/color_primary</item>
         <item name="colorPrimaryVariant">@color/color_primary_variant</item>
-        <item name="colorSecondary">@color/color_secondary_variant</item>
-        <item name="colorSecondaryVariant">@color/color_secondary</item>
+        <item name="colorSecondary">@color/color_secondary</item>
+        <item name="colorSecondaryVariant">@color/color_secondary_variant</item>
         <item name="colorOnSurface">@color/color_on_surface</item>
 
         <item name="colorPrimaryDark">?colorPrimaryVariant</item>
