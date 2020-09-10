@@ -22,5 +22,14 @@ data class PhotoDetails (
     val latitude: Double?,
     val longitude: Double?,
     val download: String?,
-    val downloadLocation: String?
+    val downloadLocation: String?,
+    val rawUrl: String,
+    val fullUrl: String,
+    val regularUrl: String,
+    val smallUrl: String,
+    val thumbUrl: String,
 )
+
+
+val PhotoDetails.fileName: String
+    get() = "${this.id}.jpg"

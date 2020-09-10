@@ -3,6 +3,7 @@ package com.alvindizon.tampisaw.di.module
 import android.app.Application
 import android.content.Context
 import android.net.ConnectivityManager
+import androidx.core.app.NotificationManagerCompat
 import androidx.preference.PreferenceManager
 import com.squareup.moshi.Moshi
 import dagger.Module
@@ -29,4 +30,12 @@ class AppModule (private val application: Application){
     @Provides
     @Singleton
     fun provideSharedPreferences(context: Context) = PreferenceManager.getDefaultSharedPreferences(context)
+
+    @Provides
+    @Singleton
+    fun provideNotificationManager(context: Context): NotificationManagerCompat = NotificationManagerCompat.from(context)
+
+    @Provides
+    @Singleton
+    fun provideContentResolver(context: Context) = context.contentResolver
 }

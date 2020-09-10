@@ -58,4 +58,6 @@ ext {
     androidVeilVersion = '1.0.9'
     preferenceVersion = '1.1.1'
     fabVersion = '1.0.1'
+    workVersion = '2.4.0'
+    okioVersion = '2.7.0'
 }

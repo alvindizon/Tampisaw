@@ -25,9 +25,7 @@ class DetailsViewModel(private val getPhotoUseCase: GetPhotoUseCase): BaseViewMo
             .doOnSubscribe { _uiState.value = LOADING }
             .subscribeBy(
                 onSuccess = {
-                    _uiState.value = it.urls.regular?.let {
-                        url -> SUCCESS(url)
-                    }
+                    _uiState.value = SUCCESS(it.toPhotoDetails())
                     photoDetails.set(it.toPhotoDetails())
                 },
                 onError = { error ->

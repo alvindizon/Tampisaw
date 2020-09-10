@@ -106,6 +106,12 @@ dependencies {
 
     implementation "com.nambimobile.widgets:expandable-fab:$fabVersion"
 
+    // WorkManager
+    implementation "androidx.work:work-runtime-ktx:$workVersion"
+    implementation "androidx.work:work-rxjava2:$workVersion"
+
+    // Okio
+    implementation "com.squareup.okio:okio:$okioVersion"
 }
 
 String getAccessKey() {

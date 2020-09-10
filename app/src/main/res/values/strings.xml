@@ -7,4 +7,11 @@
     <string name="download_img">Download image</string>
     <string name="img_details">Show photo details</string>
     <string name="set_wallpaper">Set image as wallpaper</string>
+    <string name="title_download_again">Download again?</string>
+    <string name="download_again">Photo already downloaded. Do you want to download this photo again?</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="cancel">Cancel</string>
+    <string name="download_complete">Download complete</string>
+    <string name="err_download">Error downloading photo.</string>
 </resources>

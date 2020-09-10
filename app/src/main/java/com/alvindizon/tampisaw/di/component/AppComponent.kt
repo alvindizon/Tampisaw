@@ -1,14 +1,11 @@
 package com.alvindizon.tampisaw.di.component
 
 
-import com.alvindizon.tampisaw.di.module.ActivityModule
-import com.alvindizon.tampisaw.di.module.AppModule
-import com.alvindizon.tampisaw.di.module.NetworkModule
-import com.alvindizon.tampisaw.di.module.RepoModule
+import com.alvindizon.tampisaw.di.module.*
 import dagger.Component
 import javax.inject.Singleton
 
-@Component(modules = [AppModule::class, NetworkModule::class, RepoModule::class])
+@Component(modules = [AppModule::class, NetworkModule::class, RepoModule::class, WorkerModule::class])
 @Singleton
 interface AppComponent {
 

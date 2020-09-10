@@ -106,15 +106,15 @@ data class CurrentUserCollection(
 @JsonClass(generateAdapter = true)
 data class Urls(
     @Json(name = "raw")
-    val raw: String ? = null,
+    val raw: String,
     @Json(name = "full")
-    val full: String ? = null,
+    val full: String,
     @Json(name = "regular")
-    val regular: String? = null,
+    val regular: String,
     @Json(name = "small")
-    val small: String? = null,
+    val small: String,
     @Json(name = "thumb")
-    val thumb: String? = null,
+    val thumb: String,
 )
 
 @JsonClass(generateAdapter = true)
