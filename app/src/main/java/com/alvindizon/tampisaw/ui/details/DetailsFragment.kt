@@ -24,6 +24,7 @@ import com.alvindizon.tampisaw.databinding.FragmentDetailsBinding
 import com.alvindizon.tampisaw.di.InjectorUtils
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import javax.inject.Inject
 
 class DetailsFragment: Fragment(R.layout.fragment_details) {
@@ -113,12 +114,32 @@ class DetailsFragment: Fragment(R.layout.fragment_details) {
 
     private fun downloadPhoto(photoDetails: PhotoDetails) {
         if(requireContext().hasWritePermission()) {
-            val request = ImageDownloader.enqueueDownload(
-                photoDetails.regularUrl, photoDetails.fileName, photoDetails.id
-            )
-            workManager.enqueue(request)
+            showDownloadQualityChoice(requireContext(), photoDetails) {
+                val request = ImageDownloader.enqueueDownload(
+                    it, photoDetails.fileName, photoDetails.id
+                )
+                workManager.enqueue(request)
+            }
+
         } else {
             requestPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE, requestCode = 0)
         }
+    }
+
+    private fun showDownloadQualityChoice(context: Context, photoDetails: PhotoDetails, url: ((String) -> Unit)?) {
+        val items = arrayOf("Raw", "Regular", "Full", "Small", "Thumb")
+        MaterialAlertDialogBuilder(context)
+            .setTitle(R.string.title_photo_quality)
+            .setItems(items) { _, which ->
+                url?.invoke( when(which) {
+                    0 -> photoDetails.rawUrl
+                    1 -> photoDetails.regularUrl
+                    2 -> photoDetails.fullUrl
+                    3 -> photoDetails.smallUrl
+                    4 -> photoDetails.thumbUrl
+                    else ->photoDetails.regularUrl
+                })
+            }
+            .show()
     }
 }
