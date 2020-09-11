@@ -1,16 +1,24 @@
 package com.alvindizon.tampisaw.ui.details
 
 import android.Manifest
+import android.app.WallpaperManager
 import android.content.Context
+import android.graphics.Bitmap
+import android.graphics.ImageDecoder
+import android.net.Uri
+import android.os.Build
 import android.os.Bundle
+import android.provider.MediaStore
 import android.view.View
 import androidx.activity.OnBackPressedCallback
+import androidx.core.content.ContextCompat
 import androidx.core.view.forEach
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import androidx.work.WorkInfo
 import androidx.work.WorkManager
 import com.alvindizon.tampisaw.R
 import com.alvindizon.tampisaw.core.ViewModelFactory
@@ -18,6 +26,7 @@ import com.alvindizon.tampisaw.core.hasWritePermission
 import com.alvindizon.tampisaw.core.requestPermission
 import com.alvindizon.tampisaw.core.ui.DialogManager
 import com.alvindizon.tampisaw.core.utils.fileExists
+import com.alvindizon.tampisaw.core.utils.getUriForPhoto
 import com.alvindizon.tampisaw.core.utils.showFileExistsDialog
 import com.alvindizon.tampisaw.data.download.ImageDownloader
 import com.alvindizon.tampisaw.databinding.FragmentDetailsBinding
@@ -25,11 +34,14 @@ import com.alvindizon.tampisaw.di.InjectorUtils
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.google.android.material.snackbar.Snackbar
 import javax.inject.Inject
 
 class DetailsFragment: Fragment(R.layout.fragment_details) {
 
     private var binding: FragmentDetailsBinding? = null
+
+    private var snackbar: Snackbar? = null
 
     private lateinit var viewModel: DetailsViewModel
 
@@ -106,6 +118,17 @@ class DetailsFragment: Fragment(R.layout.fragment_details) {
                                 downloadPhoto(photoDetails)
                             }
                         }
+                        R.id.faboption_3 -> {
+                            if(requireContext().fileExists(photoDetails.fileName)) {
+                                requireContext().getUriForPhoto(photoDetails.fileName)?.let { uri ->
+                                    setWallpaper(uri)
+                                }?:run {
+                                    downloadWallpaper(photoDetails)
+                                }
+                            } else {
+                                downloadWallpaper(photoDetails)
+                            }
+                        }
                     }
                 }
             }
@@ -142,4 +165,67 @@ class DetailsFragment: Fragment(R.layout.fragment_details) {
             }
             .show()
     }
+
+    private fun setWallpaper(uri: Uri) {
+        try {
+            startActivity(WallpaperManager.getInstance(requireContext()).getCropAndSetWallpaperIntent(uri))
+        } catch (e: IllegalArgumentException) {
+            var bitmap: Bitmap? = null
+            try {
+                bitmap = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+                    ImageDecoder.decodeBitmap(ImageDecoder.createSource(requireActivity().contentResolver, uri))
+                } else {
+                    MediaStore.Images.Media.getBitmap(requireActivity().contentResolver, uri)
+                }
+                WallpaperManager.getInstance(requireActivity().applicationContext).setBitmap(bitmap)
+                binding?.root?.rootView?.let {
+                    Snackbar.make(it,"Wallpaper set successfully", Snackbar.LENGTH_SHORT).show()
+                }
+            } catch (e: Exception) {
+                binding?.root?.rootView?.let {
+                    Snackbar.make(it,"Error setting wallpaper: ${e.message}", Snackbar.LENGTH_LONG).show()
+                }
+            } finally {
+                bitmap?.recycle()
+            }
+        }
+    }
+
+    private fun downloadWallpaper(photoDetails: PhotoDetails) {
+        if(requireContext().hasWritePermission()) {
+            showDownloadQualityChoice(requireContext(), photoDetails) {
+                val request = ImageDownloader.enqueueDownload(
+                    it, photoDetails.fileName, photoDetails.id
+                )
+                workManager.enqueue(request)
+
+                binding?.root?.rootView?.let {view ->
+                    snackbar = Snackbar.make(view,"Setting wallpaper...", Snackbar.LENGTH_INDEFINITE)
+                        .setAction(R.string.cancel) {
+                            workManager.cancelWorkById(request.id)
+                        }
+                        .setActionTextColor(ContextCompat.getColor(requireContext(), R.color.cancel_red))
+
+                    snackbar?.show()
+                }
+
+                workManager.getWorkInfoByIdLiveData(request.id).observe(viewLifecycleOwner,
+                    { workInfo ->
+                        if(workInfo.state == WorkInfo.State.SUCCEEDED) {
+                            snackbar?.dismiss()
+                            requireContext().getUriForPhoto(photoDetails.fileName)?.let { uri ->
+                                setWallpaper(uri)
+                            }
+                        } else if(workInfo.state == WorkInfo.State.FAILED) {
+                            binding?.root?.rootView?.let { view ->
+                                Snackbar.make(view ,"Error downloading wallpaper.", Snackbar.LENGTH_LONG).show()
+                            }
+                        }
+                    })
+            }
+        } else {
+            requestPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE, requestCode = 0)
+        }
+    }
+
 }

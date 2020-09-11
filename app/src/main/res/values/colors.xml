@@ -10,4 +10,6 @@
     <color name="color_divider">#1F000000</color>
     <color name="color_tinted_surface">#ffffff</color>
     <color name="color_on_surface_secondary">#9e9e9e</color>
+
+    <color name="cancel_red">#D65151</color>
 </resources>
