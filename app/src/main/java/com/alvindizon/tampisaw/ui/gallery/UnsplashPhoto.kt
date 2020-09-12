@@ -5,7 +5,9 @@ data class UnsplashPhoto(
     val id: String,
     val description: String?,
     val user: UnsplashUser,
-    val urls: UnsplashPhotoUrls
+    val urls: UnsplashPhotoUrls,
+    val sponsored: Boolean,
+    val color: String? = "#E0E0E0"
 )
 
 data class UnsplashPhotoUrls(
@@ -18,5 +20,6 @@ data class UnsplashPhotoUrls(
 
 data class UnsplashUser(
     val name: String,
-    val username: String
+    val username: String,
+    val profileImageUrl: String?,
 )

@@ -15,4 +15,5 @@
     <string name="download_complete">Download complete</string>
     <string name="err_download">Error downloading photo.</string>
     <string name="title_photo_quality">Choose photo quality</string>
+    <string name="sponsored">Sponsored</string>
 </resources>

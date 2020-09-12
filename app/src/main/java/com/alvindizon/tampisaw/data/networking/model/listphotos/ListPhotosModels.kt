@@ -12,6 +12,8 @@ data class ListPhotosResponse(
     val createdAt: String,
     @Json(name = "current_user_collections")
     val currentUserCollections: List<CurrentUserCollection?>? = null,
+    @Json(name = "sponsorship")
+    val sponsorship: Sponsorship?,
     @Json(name = "description")
     val description: String? = null,
     @Json(name = "height")
@@ -126,5 +128,10 @@ data class ProfileImage(
     val medium: String,
     @Json(name = "small")
     val small: String
+)
+
+@JsonClass(generateAdapter = true)
+data class Sponsorship(
+    val sponsor: User?
 )
 

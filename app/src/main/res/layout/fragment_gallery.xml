@@ -7,22 +7,29 @@
     android:layout_height="match_parent"
     android:fitsSystemWindows="true">
 
-    <com.skydoves.androidveil.VeilRecyclerFrameView
-        android:id="@+id/list"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:veilFrame_baseAlpha="0.6"
-        app:veilFrame_baseColor="@color/shimmer_base_0"
-        app:veilFrame_highlightAlpha="1.0"
-        app:veilFrame_highlightColor="@color/shimmer_highlight_0"
-        app:veilFrame_layout="@layout/item_gallery"
-        app:veilFrame_radius="4dp"
-        app:veilFrame_shimmerEnable="true"
-        app:veilFrame_veiled="false" />
+<androidx.core.widget.ContentLoadingProgressBar
+    android:id="@+id/progress_bar"
+    style="?android:attr/progressBarStyle"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:visibility="invisible"
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toTopOf="parent"
+    tools:visibility="visible"/>
+
+<androidx.recyclerview.widget.RecyclerView
+    android:id="@+id/list"
+    android:layout_width="0dp"
+    android:layout_height="0dp"
+    android:scrollbars="vertical"
+    android:paddingVertical="12dp"
+    app:layoutManager="LinearLayoutManager"
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toTopOf="parent"/>
 
     <Button
         android:id="@+id/retry_button"

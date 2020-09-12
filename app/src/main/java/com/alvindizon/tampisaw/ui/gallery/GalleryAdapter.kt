@@ -1,7 +1,10 @@
 package com.alvindizon.tampisaw.ui.gallery
 
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
@@ -29,14 +32,28 @@ class GalleryAdapter(val listener: (UnsplashPhoto) -> Unit)
 
         fun bind(photo: UnsplashPhoto, position: Int) {
 
+            binding.imageView.background = ColorDrawable(Color.parseColor(photo.color))
+
             Glide.with(binding.imageView)
                 .load(photo.urls.regular)
+                .thumbnail(Glide.with(binding.imageView).load(photo.urls.thumb).centerCrop())
                 .centerCrop()
                 .transition(DrawableTransitionOptions.withCrossFade())
-                .error(R.drawable.ic_error)
                 .into(binding.imageView)
+                .clearOnDetach()
 
-            binding.textViewUserName.text = photo.user.username
+            binding.username.text = photo.user.name
+            binding.handle.isVisible = !photo.sponsored
+            binding.labelSponsored.isVisible = photo.sponsored
+            binding.handle.text = photo.user.username
+
+            Glide.with(binding.avatar)
+                .load(photo.user.profileImageUrl)
+                .placeholder(R.drawable.ic_user)
+                .circleCrop()
+                .transition(DrawableTransitionOptions.withCrossFade())
+                .into(binding.avatar)
+                .clearOnDetach()
         }
     }
 

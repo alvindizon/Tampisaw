@@ -9,4 +9,5 @@
 
     <!--FAB margin-->
     <dimen name="fab_margin">14dp</dimen>
+    <dimen name="avatar_size">40dp</dimen>
 </resources>

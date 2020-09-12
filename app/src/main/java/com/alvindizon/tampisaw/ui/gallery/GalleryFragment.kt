@@ -8,9 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.paging.LoadState
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.alvindizon.tampisaw.R
-import com.alvindizon.tampisaw.core.Const
 import com.alvindizon.tampisaw.core.ViewModelFactory
 import com.alvindizon.tampisaw.databinding.FragmentGalleryBinding
 import com.alvindizon.tampisaw.di.InjectorUtils
@@ -65,43 +63,35 @@ class GalleryFragment: Fragment(R.layout.fragment_gallery) {
             }
         }
 
-        // Apply the following settings to our recyclerview
-        binding?.list?.run {
-            setAdapter(adapter.withLoadStateHeaderAndFooter(
+        binding?.apply {
+            // Apply the following settings to our recyclerview
+            list.adapter = adapter.withLoadStateHeaderAndFooter(
                 header = RetryAdapter {
                     adapter.retry()
                 },
                 footer = RetryAdapter {
                     adapter.retry()
                 }
-            ))
-            setLayoutManager(LinearLayoutManager(requireContext()))
-            addVeiledItems(Const.PAGE_SIZE)
-        }
+            )
 
-        // Add a listener for the current state of paging
-        adapter.addLoadStateListener { loadState ->
-            // Unveil the list if refresh succeeds
-            if(loadState.source.refresh is LoadState.NotLoading) {
-                binding?.list?.unVeil()
-            }
-            // Shimmer during initial load or refresh
-            if(loadState.source.refresh is LoadState.Loading) {
-                binding?.list?.veil()
-            }
-            // Show the retry state if initial load or refresh fails.
-            binding?.retryButton?.isVisible = loadState.source.refresh is LoadState.Error
-            // On error, make the list invisible
-            binding?.list?.isVisible = loadState.source.refresh !is LoadState.Error
+            // Add a listener for the current state of paging
+            adapter.addLoadStateListener { loadState ->
+                // Only show the list if refresh succeeds.
+                list.isVisible = loadState.source.refresh is LoadState.NotLoading
+                // Show loading spinner during initial load or refresh.
+                progressBar.isVisible = loadState.source.refresh is LoadState.Loading
+                // Show the retry state if initial load or refresh fails.
+                retryButton.isVisible = loadState.source.refresh is LoadState.Error
 
-            val errorState = loadState.source.append as? LoadState.Error
-                ?: loadState.source.prepend as? LoadState.Error
-                ?: loadState.append as? LoadState.Error
-                ?: loadState.prepend as? LoadState.Error
-            errorState?.let {
-                Snackbar.make(requireView(),
-                    "\uD83D\uDE28 Wooops ${it.error}",
-                    Snackbar.LENGTH_LONG).show()
+                val errorState = loadState.source.append as? LoadState.Error
+                    ?: loadState.source.prepend as? LoadState.Error
+                    ?: loadState.append as? LoadState.Error
+                    ?: loadState.prepend as? LoadState.Error
+                errorState?.let {
+                    Snackbar.make(requireView(),
+                        "\uD83D\uDE28 Wooops ${it.error}",
+                        Snackbar.LENGTH_LONG).show()
+                }
             }
         }
 

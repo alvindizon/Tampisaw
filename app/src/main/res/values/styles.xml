@@ -12,4 +12,11 @@
         <item name="colorAccent">?colorSecondary</item>
     </style>
 
+    <style name="ImageCardViewStyle" parent="Widget.MaterialComponents.CardView">
+        <item name="android:layout_marginLeft">@dimen/margin_1</item>
+        <item name="android:layout_marginTop">@dimen/margin_1</item>
+        <item name="android:layout_marginRight">@dimen/margin_1</item>
+        <item name="android:layout_marginBottom">@dimen/margin_1</item>
+    </style>
+
 </resources>
