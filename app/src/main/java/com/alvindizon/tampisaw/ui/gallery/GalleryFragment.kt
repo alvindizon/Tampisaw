@@ -34,9 +34,9 @@ class GalleryFragment: Fragment(R.layout.fragment_gallery) {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewModel.uiState?.observe(this, {
-            adapter.submitData(lifecycle, it)
-        })
+
+        // display all photos, sorted by latest
+        viewModel.getAllPhotos()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -51,8 +51,8 @@ class GalleryFragment: Fragment(R.layout.fragment_gallery) {
     }
 
     override fun onDestroyView() {
-        binding = null
         super.onDestroyView()
+        binding = null
     }
 
     private fun setupGallery() {
@@ -62,6 +62,10 @@ class GalleryFragment: Fragment(R.layout.fragment_gallery) {
                 findNavController().navigate(GalleryFragmentDirections.detailsAction(it))
             }
         }
+
+        viewModel.uiState?.observe(viewLifecycleOwner, {
+            adapter.submitData(lifecycle, it)
+        })
 
         binding?.apply {
             // Apply the following settings to our recyclerview
@@ -95,8 +99,7 @@ class GalleryFragment: Fragment(R.layout.fragment_gallery) {
             }
         }
 
-        // display all photos, sorted by latest
-        viewModel.getAllPhotos()
+
     }
 
     private fun setupRetryButton() {
