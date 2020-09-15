@@ -19,7 +19,8 @@ import kotlin.math.ln
 import kotlin.math.pow
 
 fun ListPhotosResponse.toUnsplashPhoto() = UnsplashPhoto(
-    id, description, user.toUnsplashUser(), urls.toUnsplashUrls(), sponsorship != null, color
+    id, description, user.toUnsplashUser(), urls.toUnsplashUrls(), sponsorship != null, color,
+    height, width
 )
 
 fun User.toUnsplashUser() = UnsplashUser(name, username, profileImage?.large)

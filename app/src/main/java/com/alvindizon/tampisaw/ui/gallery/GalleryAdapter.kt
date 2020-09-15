@@ -13,6 +13,7 @@ import com.alvindizon.tampisaw.databinding.ItemGalleryBinding
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 
+const val TRANSITION_MILLIS = 330
 
 class UnsplashDiff: DiffUtil.ItemCallback<UnsplashPhoto>() {
     override fun areItemsTheSame(oldItem: UnsplashPhoto, newItem: UnsplashPhoto): Boolean {
@@ -37,8 +38,7 @@ class GalleryAdapter(val listener: (UnsplashPhoto) -> Unit)
             Glide.with(binding.imageView)
                 .load(photo.urls.regular)
                 .thumbnail(Glide.with(binding.imageView).load(photo.urls.thumb).centerCrop())
-                .centerCrop()
-                .transition(DrawableTransitionOptions.withCrossFade())
+                .transition(DrawableTransitionOptions.withCrossFade(TRANSITION_MILLIS))
                 .into(binding.imageView)
                 .clearOnDetach()
 
@@ -46,6 +46,10 @@ class GalleryAdapter(val listener: (UnsplashPhoto) -> Unit)
             binding.handle.isVisible = !photo.sponsored
             binding.labelSponsored.isVisible = photo.sponsored
             binding.handle.text = photo.user.username
+
+            if(photo.height != null && photo.width != null) {
+                binding.imageView.aspectRatio = photo.height.toDouble() / photo.width.toDouble()
+            }
 
             Glide.with(binding.avatar)
                 .load(photo.user.profileImageUrl)
