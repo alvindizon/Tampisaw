@@ -48,6 +48,8 @@
                 android:layout_height="match_parent"
                 android:layout_weight=".80"
                 android:gravity="fill"
+                android:ellipsize="end"
+                android:maxLines="1"
                 tools:text="alvindizon" />
         </LinearLayout>
 

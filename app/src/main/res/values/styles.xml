@@ -20,7 +20,7 @@
     </style>
 
     <style name="ToolbarTitleStyle">
-        <item name="android:textSize">18sp</item>
+        <item name="android:textSize">14sp</item>
         <item name="android:textColor">?attr/colorOnBackground</item>
     </style>
 
