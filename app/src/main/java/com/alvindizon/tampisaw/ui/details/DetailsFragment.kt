@@ -77,7 +77,7 @@ class DetailsFragment: Fragment(R.layout.fragment_details) {
                         .into(imgView)
 
                     setupFabOptions(it.photoDetails)
-
+                    setupToolbar(it.photoDetails)
                 }
             }
         })
@@ -99,7 +99,6 @@ class DetailsFragment: Fragment(R.layout.fragment_details) {
 
         viewModel.getPhoto(args.url)
 
-        setupToolbar()
     }
 
     override fun onDestroyView() {
@@ -232,15 +231,26 @@ class DetailsFragment: Fragment(R.layout.fragment_details) {
         }
     }
 
-    private fun setupToolbar() {
+    private fun setupToolbar(photoDetails: PhotoDetails) {
         binding?.apply{
             val activity = requireActivity() as AppCompatActivity
             toolbar.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.toolbar_color))
             activity.setSupportActionBar(toolbar)
             activity.supportActionBar?.setDisplayShowTitleEnabled(false)
-            toolbar.setNavigationOnClickListener {
+
+            upBtn.setOnClickListener {
                 findNavController().popBackStack()
             }
+
+            Glide.with(avatar)
+                .load(photoDetails.profileImageUrl)
+                .placeholder(R.drawable.ic_user)
+                .circleCrop()
+                .transition(DrawableTransitionOptions.withCrossFade())
+                .into(avatar)
+                .clearOnDetach()
+
+            toolbarTitle.text = photoDetails.username
 
             // show/hide toolbar and FAB on click anywhere on screen
             layout.setOnClickListener {

@@ -152,7 +152,9 @@ data class User(
     @Json(name = "total_collections")
     val totalCollections: Int = 0,
     @Json(name = "links")
-    val links: UserLinks
+    val links: UserLinks,
+    @Json(name = "profile_image")
+    val profileImage: ProfileImage? = null,
 )
 
 @JsonClass(generateAdapter = true)
@@ -167,4 +169,14 @@ data class UserLinks(
     val likes: String,
     @Json(name = "portfolio")
     val portfolio: String
+)
+
+@JsonClass(generateAdapter = true)
+data class ProfileImage(
+    @Json(name = "large")
+    val large: String,
+    @Json(name = "medium")
+    val medium: String,
+    @Json(name = "small")
+    val small: String
 )

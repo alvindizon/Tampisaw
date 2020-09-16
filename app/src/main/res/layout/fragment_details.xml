@@ -15,15 +15,41 @@
         android:elevation="4dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:navigationIcon="@drawable/ic_back">
-
-        <TextView
-            android:id="@+id/toolbar_title"
-            style="@style/ToolbarTitleStyle"
-            android:layout_width="wrap_content"
+        app:layout_constraintTop_toTopOf="parent">
+        
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            tools:text="alvindizon" />
+            android:gravity="center"
+            android:focusable="true"
+            android:focusableInTouchMode="true">
+
+            <ImageView
+                android:id="@+id/up_btn"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight=".10"
+                android:src="@drawable/ic_back"
+                tools:ignore="ContentDescription"/>
+
+            <ImageView
+                android:id="@+id/avatar"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight=".10"
+                tools:ignore="ContentDescription"/>
+
+            <TextView
+                android:id="@+id/toolbar_title"
+                style="@style/ToolbarTitleStyle"
+                android:paddingStart="16dp"
+                android:paddingEnd="8dp"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight=".80"
+                android:gravity="fill"
+                tools:text="alvindizon" />
+        </LinearLayout>
 
     </androidx.appcompat.widget.Toolbar>
 

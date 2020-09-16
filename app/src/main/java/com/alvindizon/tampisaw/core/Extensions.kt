@@ -31,7 +31,7 @@ fun GetPhotoResponse.toPhotoDetails() = PhotoDetails(
     id, createdAt, updatedAt, width, height, color, views.toCompactFormat(), downloads.toCompactFormat(), likes.toCompactFormat(),
     description, exif.make, exif.model, exif.exposureTime, exif.aperture, exif.focalLength, exif.iso, location.city,
     location.position.latitude, location.position.longitude, links.download, links.downloadLocation,
-    urls.raw, urls.full, urls.regular, urls.small, urls.thumb
+    urls.raw, urls.full, urls.regular, urls.small, urls.thumb, user.profileImage?.large, user.name
 )
 
 fun Int.toCompactFormat(): String {

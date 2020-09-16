@@ -28,6 +28,8 @@ data class PhotoDetails (
     val regularUrl: String,
     val smallUrl: String,
     val thumbUrl: String,
+    val profileImageUrl: String?,
+    val username: String?
 )
 
 
