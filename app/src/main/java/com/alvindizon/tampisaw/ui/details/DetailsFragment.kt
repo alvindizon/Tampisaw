@@ -11,6 +11,7 @@ import android.os.Bundle
 import android.provider.MediaStore
 import android.view.View
 import androidx.activity.OnBackPressedCallback
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.view.forEach
 import androidx.core.view.isVisible
@@ -76,6 +77,7 @@ class DetailsFragment: Fragment(R.layout.fragment_details) {
                         .into(imgView)
 
                     setupFabOptions(it.photoDetails)
+
                 }
             }
         })
@@ -96,6 +98,8 @@ class DetailsFragment: Fragment(R.layout.fragment_details) {
         viewLifecycleOwner.lifecycle.addObserver(viewModel)
 
         viewModel.getPhoto(args.url)
+
+        setupToolbar()
     }
 
     override fun onDestroyView() {
@@ -105,7 +109,7 @@ class DetailsFragment: Fragment(R.layout.fragment_details) {
 
     private fun setupFabOptions(photoDetails: PhotoDetails) {
         binding?.apply {
-            fab.forEach { item ->
+            fabLayout.forEach { item ->
                 item.setOnClickListener {
                     when(it.id) {
                         R.id.faboption_1 -> dialogManager.showDialog(InfoBottomSheet.newInstance())
@@ -225,6 +229,34 @@ class DetailsFragment: Fragment(R.layout.fragment_details) {
             }
         } else {
             requestPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE, requestCode = 0)
+        }
+    }
+
+    private fun setupToolbar() {
+        binding?.apply{
+            val activity = requireActivity() as AppCompatActivity
+            toolbar.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.toolbar_color))
+            activity.setSupportActionBar(toolbar)
+            activity.supportActionBar?.setDisplayShowTitleEnabled(false)
+            toolbar.setNavigationOnClickListener {
+                findNavController().popBackStack()
+            }
+
+            // show/hide toolbar and FAB on click anywhere on screen
+            layout.setOnClickListener {
+                activity.supportActionBar?.apply {
+                    if(isShowing) {
+                        hide()
+                    } else {
+                        show()
+                    }
+                }
+                if(fab.visibility == View.VISIBLE) {
+                    fab.hide()
+                } else {
+                    fab.show()
+                }
+            }
         }
     }
 

@@ -1,78 +1,106 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:background="@android:color/black">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:elevation="4dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:navigationIcon="@drawable/ic_back">
+
+        <TextView
+            android:id="@+id/toolbar_title"
+            style="@style/ToolbarTitleStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="alvindizon" />
+
+    </androidx.appcompat.widget.Toolbar>
 
     <ImageView
         android:id="@+id/image"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
+        app:layout_constraintTop_toTopOf="parent"/>
 
     <androidx.core.widget.ContentLoadingProgressBar
         android:id="@+id/progress_bar"
         style="?android:attr/progressBarStyle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
+        app:layout_constraintTop_toTopOf="parent"/>
 
     <com.nambimobile.widgets.efab.ExpandableFabLayout
-        android:id="@+id/fab"
+        android:id="@+id/fabLayout"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
+        app:layout_constraintTop_toTopOf="parent">
         
         <com.nambimobile.widgets.efab.Overlay
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:overlay_orientation="portrait"
             app:overlay_alpha="0.62"
-            app:overlay_color="@color/color_on_surface"/>
+            app:overlay_color="@color/color_on_surface"
+            app:overlay_orientation="portrait"/>
         
         <com.nambimobile.widgets.efab.ExpandableFab
+            android:id="@+id/fab"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|end"
-            android:layout_marginBottom="@dimen/fab_margin"
             android:layout_marginEnd="@dimen/fab_margin"
+            android:layout_marginBottom="@dimen/fab_margin"
+            app:efab_closingAnticipateTension="0"
             app:efab_icon="@drawable/ic_more"
-            app:efab_orientation="portrait"
             app:efab_iconAnimationRotationDeg="-180"
             app:efab_openingAnimationDurationMs="500"
-            app:efab_closingAnticipateTension="0"/>
+            app:efab_color="@color/color_background"
+            app:efab_orientation="portrait"/>
 
         <com.nambimobile.widgets.efab.FabOption
             android:id="@+id/faboption_1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:fab_orientation="portrait"
             app:fab_icon="@drawable/ic_info"
+            app:fab_orientation="portrait"
+            app:fab_color="@color/color_background"
             app:label_text="@string/img_details" />
 
         <com.nambimobile.widgets.efab.FabOption
             android:id="@+id/faboption_2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:fab_orientation="portrait"
             app:fab_icon="@drawable/ic_download"
+            app:fab_orientation="portrait"
+            app:fab_color="@color/color_background"
             app:label_text="@string/download_img" />
 
         <com.nambimobile.widgets.efab.FabOption
             android:id="@+id/faboption_3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:fab_orientation="portrait"
             app:fab_icon="@drawable/ic_wallpaper"
+            app:fab_orientation="portrait"
+            app:fab_color="@color/color_background"
             app:label_text="@string/set_wallpaper" />
 
     </com.nambimobile.widgets.efab.ExpandableFabLayout>
