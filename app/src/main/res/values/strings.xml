@@ -16,4 +16,7 @@
     <string name="err_download">Error downloading photo.</string>
     <string name="title_photo_quality">Choose photo quality</string>
     <string name="sponsored">Sponsored</string>
+    <string name="title_camera">Camera</string>
+    <string name="title_location">Location</string>
+    <string name="title_dimension">Dimension</string>
 </resources>

@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="viewModel"
+            type="com.alvindizon.tampisaw.ui.details.DetailsViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/location_title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textColor="@color/color_on_surface_secondary"
+            android:text="@string/title_location"
+            android:textAlignment="center"
+            android:textSize="14sp"
+            android:fontFamily="sans-serif-medium"
+            android:paddingStart="@dimen/margin_3"
+            android:paddingEnd="@dimen/margin_3"
+            android:paddingTop="@dimen/margin_1"
+            android:paddingBottom="@dimen/margin_1"
+            app:layout_constraintEnd_toStartOf="@+id/guideline3"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.0" />
+
+        <TextView
+            android:id="@+id/location"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"
+            android:textSize="14sp"
+            android:maxLines="1"
+            android:ellipsize="end"
+            android:fontFamily="sans-serif-light"
+            android:paddingStart="@dimen/margin_3"
+            android:paddingEnd="@dimen/margin_3"
+            android:paddingTop="@dimen/margin_1"
+            android:paddingBottom="@dimen/margin_1"
+            android:text="@{viewModel.photoDetails.location}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/location_title"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.0"
+            tools:text="Kang Tipayan Diki"/>
+
+        <TextView
+            android:id="@+id/camera_title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textColor="@color/color_on_surface_secondary"
+            android:text="@string/title_camera"
+            android:textAlignment="center"
+            android:textSize="14sp"
+            android:fontFamily="sans-serif-medium"
+            android:paddingStart="@dimen/margin_3"
+            android:paddingEnd="@dimen/margin_3"
+            android:paddingTop="@dimen/margin_1"
+            android:paddingBottom="@dimen/margin_1"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/guideline3"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/location_title"
+            app:layout_constraintVertical_bias="0.0" />
+
+        <TextView
+            android:id="@+id/camera"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"
+            android:textSize="14sp"
+            android:maxLines="1"
+            android:ellipsize="end"
+            android:fontFamily="sans-serif-light"
+            android:paddingStart="@dimen/margin_3"
+            android:paddingEnd="@dimen/margin_3"
+            android:paddingTop="@dimen/margin_1"
+            android:paddingBottom="@dimen/margin_1"
+            android:text="@{viewModel.photoDetails.camera}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/camera_title"
+            app:layout_constraintTop_toBottomOf="@id/location"
+            app:layout_constraintVertical_bias="0.0"
+            tools:text="NIKON"/>
+
+        <TextView
+            android:id="@+id/dimension_title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textColor="@color/color_on_surface_secondary"
+            android:text="@string/title_dimension"
+            android:textAlignment="center"
+            android:textSize="14sp"
+            android:fontFamily="sans-serif-medium"
+            android:paddingStart="@dimen/margin_3"
+            android:paddingEnd="@dimen/margin_3"
+            android:paddingTop="@dimen/margin_1"
+            android:paddingBottom="@dimen/margin_1"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/guideline3"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/camera_title"
+            app:layout_constraintVertical_bias="0.0" />
+
+        <TextView
+            android:id="@+id/dimension"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"
+            android:textSize="14sp"
+            android:maxLines="1"
+            android:ellipsize="end"
+            android:fontFamily="sans-serif-light"
+            android:paddingStart="@dimen/margin_3"
+            android:paddingEnd="@dimen/margin_3"
+            android:paddingTop="@dimen/margin_1"
+            android:paddingBottom="@dimen/margin_1"
+            android:text="@{viewModel.photoDetails.dimension}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/camera_title"
+            app:layout_constraintTop_toBottomOf="@id/camera"
+            app:layout_constraintVertical_bias="0.0"
+            tools:text="4000 x 6000"/>
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.5" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

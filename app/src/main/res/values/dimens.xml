@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="margin_1">8dp</dimen>
+    <dimen name="margin_2">16dp</dimen>
+    <dimen name="margin_3">24dp</dimen>
 
     <!--Bottom Drawer-->
     <dimen name="bottom_sheet_handle_width">28dp</dimen>

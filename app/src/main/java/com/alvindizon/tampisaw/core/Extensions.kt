@@ -15,6 +15,7 @@ import com.alvindizon.tampisaw.ui.details.PhotoDetails
 import com.alvindizon.tampisaw.ui.gallery.UnsplashPhoto
 import com.alvindizon.tampisaw.ui.gallery.UnsplashPhotoUrls
 import com.alvindizon.tampisaw.ui.gallery.UnsplashUser
+import java.util.*
 import kotlin.math.ln
 import kotlin.math.pow
 
@@ -28,9 +29,9 @@ fun User.toUnsplashUser() = UnsplashUser(name, username, profileImage?.large)
 fun Urls.toUnsplashUrls() = UnsplashPhotoUrls(raw, full, regular, small, thumb)
 
 fun GetPhotoResponse.toPhotoDetails() = PhotoDetails(
-    id, createdAt, updatedAt, width, height, color, views.toCompactFormat(), downloads.toCompactFormat(), likes.toCompactFormat(),
-    description, exif.make, exif.model, exif.exposureTime, exif.aperture, exif.focalLength, exif.iso, location.city,
-    location.position.latitude, location.position.longitude, links.download, links.downloadLocation,
+    id, createdAt, updatedAt, "$width x $height", color, views.toCompactFormat(),
+    downloads.toCompactFormat(), likes.toCompactFormat(), description,
+    getCamera(), getLocationString(), links.download, links.downloadLocation,
     urls.raw, urls.full, urls.regular, urls.small, urls.thumb, user.profileImage?.large, user.name
 )
 
@@ -55,3 +56,24 @@ fun Context.hasPermission(vararg permissions: String): Boolean {
 
 fun Fragment.requestPermission(vararg permissions: String, @IntRange(from = 0) requestCode: Int) =
     requestPermissions(permissions, requestCode)
+
+fun GetPhotoResponse.getLocationString(): String = when {
+    location.city != null && location.country != null ->
+        "${location.city}, ${location.country}"
+    location.city != null && location.country == null -> location.city
+    location.city == null && location.country != null -> location.country
+    else -> "N/A"
+}
+
+fun GetPhotoResponse.getCamera(): String {
+    return exif.run {
+        model?.apply{
+            val makeList = make?.split(" ")?.map { it.trim().toLowerCase(Locale.ROOT) }
+            val modelList = model.split(" ").map { it.trim().toLowerCase(Locale.ROOT) }
+
+            if(makeList?.intersect(modelList)?.isEmpty() == true) {
+                "${makeList.first()} $model"
+            } else model
+        }
+    } ?: "Unknown"
+}
