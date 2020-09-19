@@ -21,7 +21,8 @@ data class PhotoDetails (
     val smallUrl: String,
     val thumbUrl: String,
     val profileImageUrl: String?,
-    val username: String?
+    val username: String?,
+    val tags: List<String?>?,
 )
 
 

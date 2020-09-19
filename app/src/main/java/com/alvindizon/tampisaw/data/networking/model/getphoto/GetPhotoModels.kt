@@ -82,7 +82,7 @@ data class Position(
 @JsonClass(generateAdapter = true)
 data class Tag(
     @Json(name = "title")
-    val title: String? = null,
+    val title: String?,
 )
 
 @JsonClass(generateAdapter = true)

@@ -32,7 +32,8 @@ fun GetPhotoResponse.toPhotoDetails() = PhotoDetails(
     id, createdAt, updatedAt, "$width x $height", color, views.toCompactFormat(),
     downloads.toCompactFormat(), likes.toCompactFormat(), description,
     getCamera(), getLocationString(), links.download, links.downloadLocation,
-    urls.raw, urls.full, urls.regular, urls.small, urls.thumb, user.profileImage?.large, user.name
+    urls.raw, urls.full, urls.regular, urls.small, urls.thumb, user.profileImage?.large, user.name,
+    getTags()
 )
 
 fun Int.toCompactFormat(): String {
@@ -77,3 +78,6 @@ fun GetPhotoResponse.getCamera(): String {
         }
     } ?: "Unknown"
 }
+
+fun GetPhotoResponse.getTags(): List<String?>?  = tags?.map { it.title }
+

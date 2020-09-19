@@ -1,6 +1,5 @@
 package com.alvindizon.tampisaw.ui.details
 
-import android.app.Activity
 import android.app.Dialog
 import android.content.Context
 import android.os.Bundle
@@ -10,6 +9,8 @@ import android.view.ViewGroup
 import android.widget.FrameLayout
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.alvindizon.tampisaw.R
 import com.alvindizon.tampisaw.core.ViewModelFactory
 import com.alvindizon.tampisaw.databinding.DialogPhotoDetailsBinding
@@ -18,11 +19,13 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import javax.inject.Inject
 
-class InfoBottomSheet : BottomSheetDialogFragment() {
+class InfoBottomSheet(private val tags: List<String?>?, private val listener: (String) -> Unit) : BottomSheetDialogFragment() {
 
     @Inject lateinit var viewModelFactory: ViewModelFactory
 
     private lateinit var viewModel: DetailsViewModel
+
+    private lateinit var adapter: TagAdapter
 
     private var binding: DialogPhotoDetailsBinding? =null
 
@@ -59,15 +62,21 @@ class InfoBottomSheet : BottomSheetDialogFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        // Add a click listener for each list item
+        adapter = TagAdapter{ listener.invoke(it) }
+
         binding?.apply {
             viewModel = this@InfoBottomSheet.viewModel
             lifecycleOwner = this@InfoBottomSheet
+            tagList.layoutManager = LinearLayoutManager(context, RecyclerView.HORIZONTAL, false)
+            tagList.adapter = adapter
+            adapter.submitList(tags)
             executePendingBindings()
         }
     }
 
     companion object {
         val TAG = InfoBottomSheet::class.java.simpleName
-        fun newInstance() = InfoBottomSheet()
+        fun newInstance(tags: List<String?>?, listener: (String) -> Unit) = InfoBottomSheet(tags, listener)
     }
 }

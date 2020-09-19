@@ -9,6 +9,7 @@ import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.provider.MediaStore
+import android.util.Log
 import android.view.View
 import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
@@ -111,7 +112,9 @@ class DetailsFragment: Fragment(R.layout.fragment_details) {
             fabLayout.forEach { item ->
                 item.setOnClickListener {
                     when(it.id) {
-                        R.id.faboption_1 -> dialogManager.showDialog(InfoBottomSheet.newInstance())
+                        R.id.faboption_1 -> dialogManager.showDialog( InfoBottomSheet.newInstance(photoDetails.tags){ tag ->
+                            Log.d("DetailsFragment", "tag: $tag")
+                        })
                         R.id.faboption_2 -> {
                             if(requireContext().fileExists(photoDetails.fileName)) {
                                 showFileExistsDialog(requireContext()) {

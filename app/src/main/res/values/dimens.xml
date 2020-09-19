@@ -3,6 +3,8 @@
     <dimen name="margin_1">8dp</dimen>
     <dimen name="margin_2">16dp</dimen>
     <dimen name="margin_3">24dp</dimen>
+    <dimen name="margin_4">4dp</dimen>
+    <dimen name="margin_5">12dp</dimen>
 
     <!--Bottom Drawer-->
     <dimen name="bottom_sheet_handle_width">28dp</dimen>
@@ -12,4 +14,5 @@
     <!--FAB margin-->
     <dimen name="fab_margin">14dp</dimen>
     <dimen name="avatar_size">40dp</dimen>
+
 </resources>
