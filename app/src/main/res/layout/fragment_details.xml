@@ -46,11 +46,19 @@
                 android:paddingEnd="8dp"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight=".80"
+                android:layout_weight=".70"
                 android:gravity="fill"
                 android:ellipsize="end"
                 android:maxLines="1"
                 tools:text="alvindizon" />
+
+            <ImageView
+                android:id="@+id/info"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight=".10"
+                android:src="@drawable/ic_info"
+                tools:ignore="ContentDescription"/>
         </LinearLayout>
 
     </androidx.appcompat.widget.Toolbar>
@@ -108,22 +116,13 @@
             android:id="@+id/faboption_1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:fab_icon="@drawable/ic_info"
-            app:fab_orientation="portrait"
-            app:fab_color="@color/color_background"
-            app:label_text="@string/img_details" />
-
-        <com.nambimobile.widgets.efab.FabOption
-            android:id="@+id/faboption_2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
             app:fab_icon="@drawable/ic_download"
             app:fab_orientation="portrait"
             app:fab_color="@color/color_background"
             app:label_text="@string/download_img" />
 
         <com.nambimobile.widgets.efab.FabOption
-            android:id="@+id/faboption_3"
+            android:id="@+id/faboption_2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:fab_icon="@drawable/ic_wallpaper"

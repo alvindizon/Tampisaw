@@ -112,10 +112,7 @@ class DetailsFragment: Fragment(R.layout.fragment_details) {
             fabLayout.forEach { item ->
                 item.setOnClickListener {
                     when(it.id) {
-                        R.id.faboption_1 -> dialogManager.showDialog( InfoBottomSheet.newInstance(photoDetails.tags){ tag ->
-                            Log.d("DetailsFragment", "tag: $tag")
-                        })
-                        R.id.faboption_2 -> {
+                        R.id.faboption_1 -> {
                             if(requireContext().fileExists(photoDetails.fileName)) {
                                 showFileExistsDialog(requireContext()) {
                                     downloadPhoto(photoDetails)
@@ -124,7 +121,7 @@ class DetailsFragment: Fragment(R.layout.fragment_details) {
                                 downloadPhoto(photoDetails)
                             }
                         }
-                        R.id.faboption_3 -> {
+                        R.id.faboption_2 -> {
                             if(requireContext().fileExists(photoDetails.fileName)) {
                                 requireContext().getUriForPhoto(photoDetails.fileName)?.let { uri ->
                                     setWallpaper(uri)
@@ -269,6 +266,12 @@ class DetailsFragment: Fragment(R.layout.fragment_details) {
                 } else {
                     fab.show()
                 }
+            }
+
+            info.setOnClickListener {
+                dialogManager.showDialog( InfoBottomSheet.newInstance(photoDetails.tags){ tag ->
+                    Log.d("DetailsFragment", "tag: $tag")
+                })
             }
         }
     }
