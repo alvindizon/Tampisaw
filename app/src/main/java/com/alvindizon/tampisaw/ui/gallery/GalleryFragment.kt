@@ -2,6 +2,7 @@ package com.alvindizon.tampisaw.ui.gallery
 
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
@@ -64,6 +65,7 @@ class GalleryFragment: Fragment(R.layout.fragment_gallery) {
         }
 
         viewModel.uiState?.observe(viewLifecycleOwner, {
+            binding?.swipeLayout?.isRefreshing = false
             adapter.submitData(lifecycle, it)
         })
 
@@ -80,10 +82,13 @@ class GalleryFragment: Fragment(R.layout.fragment_gallery) {
 
             // Add a listener for the current state of paging
             adapter.addLoadStateListener { loadState ->
+                Log.d("GalleryFragment", "LoadState: " + loadState.source.refresh.toString())
                 // Only show the list if refresh succeeds.
                 list.isVisible = loadState.source.refresh is LoadState.NotLoading
+                // do not show SwipeRefreshLayout's progress indicator if LoadState is NotLoading
+                swipeLayout.isRefreshing = loadState.source.refresh !is LoadState.NotLoading
                 // Show loading spinner during initial load or refresh.
-                progressBar.isVisible = loadState.source.refresh is LoadState.Loading
+                progressBar.isVisible = loadState.source.refresh is LoadState.Loading && !swipeLayout.isRefreshing
                 // Show the retry state if initial load or refresh fails.
                 retryButton.isVisible = loadState.source.refresh is LoadState.Error
 
@@ -92,9 +97,17 @@ class GalleryFragment: Fragment(R.layout.fragment_gallery) {
                     ?: loadState.append as? LoadState.Error
                     ?: loadState.prepend as? LoadState.Error
                 errorState?.let {
+                    swipeLayout.isRefreshing = false
                     Snackbar.make(requireView(),
                         "\uD83D\uDE28 Wooops ${it.error}",
                         Snackbar.LENGTH_LONG).show()
+                }
+            }
+
+            swipeLayout.apply {
+                setOnRefreshListener {
+                    isRefreshing = true
+                    adapter.refresh()
                 }
             }
         }

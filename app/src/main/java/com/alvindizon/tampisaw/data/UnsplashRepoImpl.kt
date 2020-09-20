@@ -13,13 +13,16 @@ import com.alvindizon.tampisaw.ui.gallery.UnsplashPhoto
 import io.reactivex.Observable
 import io.reactivex.Single
 
-class UnsplashRepoImpl(private val unsplashPagingSource: UnsplashPagingSource,
-    private val unsplashApi: UnsplashApi): UnsplashRepo {
+class UnsplashRepoImpl(private val unsplashApi: UnsplashApi): UnsplashRepo {
 
     override fun getAllPhotos(): Observable<PagingData<UnsplashPhoto>> = Pager(
         config = PagingConfig(Const.PAGE_SIZE),
         remoteMediator = null,
-        pagingSourceFactory ={ unsplashPagingSource }
+        // Always create a new UnsplashPagingSource object. Failure to do so would result in a
+        // IllegalStateException when adapter.refresh() is called--
+        // Exception message states that the same PagingSource was used as the prev request,
+        // and a new PagingSource is required
+        pagingSourceFactory = { UnsplashPagingSource(unsplashApi) }
     ).observable
 
     override fun getPhoto(id: String): Single<GetPhotoResponse> = unsplashApi.getPhoto(id)

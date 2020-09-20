@@ -7,9 +7,8 @@ import com.alvindizon.tampisaw.data.networking.api.UnsplashApi
 import com.alvindizon.tampisaw.ui.gallery.UnsplashPhoto
 import io.reactivex.Single
 import io.reactivex.schedulers.Schedulers
-import javax.inject.Inject
 
-class UnsplashPagingSource @Inject constructor(private val unsplashApi: UnsplashApi)
+class UnsplashPagingSource (private val unsplashApi: UnsplashApi)
     : RxPagingSource<Int, UnsplashPhoto>(){
 
     override fun loadSingle(params: LoadParams<Int>): Single<LoadResult<Int, UnsplashPhoto>> {

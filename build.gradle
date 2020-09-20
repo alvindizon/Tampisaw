@@ -60,4 +60,5 @@ ext {
     fabVersion = '1.0.1'
     workVersion = '2.4.0'
     okioVersion = '2.7.0'
+    swiperefreshlayoutVer= '1.1.0'
 }

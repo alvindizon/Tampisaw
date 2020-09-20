@@ -112,6 +112,8 @@ dependencies {
 
     // Okio
     implementation "com.squareup.okio:okio:$okioVersion"
+
+    implementation "androidx.swiperefreshlayout:swiperefreshlayout:$swiperefreshlayoutVer"
 }
 
 String getAccessKey() {
