@@ -85,8 +85,6 @@ class GalleryFragment: Fragment(R.layout.fragment_gallery) {
                 Log.d("GalleryFragment", "LoadState: " + loadState.source.refresh.toString())
                 // Only show the list if refresh succeeds.
                 list.isVisible = loadState.source.refresh is LoadState.NotLoading
-                // do not show SwipeRefreshLayout's progress indicator if LoadState is NotLoading
-                swipeLayout.isRefreshing = loadState.source.refresh !is LoadState.NotLoading
                 // Show loading spinner during initial load or refresh.
                 progressBar.isVisible = loadState.source.refresh is LoadState.Loading && !swipeLayout.isRefreshing
                 // Show the retry state if initial load or refresh fails.
@@ -107,7 +105,7 @@ class GalleryFragment: Fragment(R.layout.fragment_gallery) {
             swipeLayout.apply {
                 setOnRefreshListener {
                     isRefreshing = true
-                    adapter.refresh()
+                    viewModel.getAllPhotos()
                 }
             }
         }
