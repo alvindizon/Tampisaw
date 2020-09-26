@@ -2,6 +2,9 @@ package com.alvindizon.tampisaw
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.isVisible
+import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.ui.setupWithNavController
 import com.alvindizon.tampisaw.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
@@ -10,5 +13,20 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        setupNavigation()
+    }
+
+    private fun setupNavigation() {
+        // Since we're using FragmentContainerView, use findFragmentById instead of findNavController(R.id.nav_host_fragment_txn)
+        // See https://stackoverflow.com/a/59275182/4612653
+        val host: NavHostFragment = supportFragmentManager
+            .findFragmentById(R.id.nav_host_fragment_txn) as NavHostFragment? ?: return
+
+        val navController = host.navController
+        binding.bottomNavView.setupWithNavController(navController)
+
+        navController.addOnDestinationChangedListener{ _, dest, _ ->
+            binding.bottomNavView.isVisible = dest.id != R.id.details_dest
+        }
     }
 }

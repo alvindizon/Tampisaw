@@ -28,4 +28,14 @@
             android:defaultValue="" />
 
     </fragment>
+
+    <fragment
+        android:id="@+id/collections_dest"
+        android:name="com.alvindizon.tampisaw.ui.collections.CollectionsFragment"
+        android:label="fragment_collections"/>
+
+    <fragment
+        android:id="@+id/search_dest"
+        android:name="com.alvindizon.tampisaw.ui.search.SearchFragment"
+        android:label="fragment_search"/>
 </navigation>

@@ -19,4 +19,7 @@
     <string name="title_camera">Camera</string>
     <string name="title_location">Location</string>
     <string name="title_dimension">Dimension</string>
+    <string name="home">Home</string>
+    <string name="collections">Collections</string>
+    <string name="search">Search</string>
 </resources>
