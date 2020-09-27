@@ -1,6 +1,7 @@
 package com.alvindizon.tampisaw.data.networking.api
 
 import com.alvindizon.tampisaw.BuildConfig
+import com.alvindizon.tampisaw.data.networking.model.getcollections.GetCollectionsResponse
 import com.alvindizon.tampisaw.data.networking.model.getphoto.GetPhotoResponse
 import com.alvindizon.tampisaw.data.networking.model.listphotos.ListPhotosResponse
 import io.reactivex.Completable
@@ -37,5 +38,12 @@ interface UnsplashApi {
     @Headers("Accept-Version: v1", "Authorization: Client-ID $ACCESS_KEY")
     @GET("photos/{id}/download")
     fun trackDownload(@Path("id") id: String): Completable
+
+    @Headers("Accept-Version: v1", "Authorization: Client-ID $ACCESS_KEY")
+    @GET("collections")
+    fun getCollections(
+        @Query("page") page: Int,
+        @Query("per_page") itemsPerPage: Int
+    ): Single<List<GetCollectionsResponse>>
 
 }

@@ -2,8 +2,10 @@ package com.alvindizon.tampisaw.di.module
 
 import androidx.lifecycle.ViewModel
 import com.alvindizon.tampisaw.core.ViewModelFactory
+import com.alvindizon.tampisaw.domain.GetAllCollectionsUseCase
 import com.alvindizon.tampisaw.domain.GetAllPhotosUseCase
 import com.alvindizon.tampisaw.domain.GetPhotoUseCase
+import com.alvindizon.tampisaw.ui.collections.CollectionsViewModel
 import com.alvindizon.tampisaw.ui.details.DetailsViewModel
 import com.alvindizon.tampisaw.ui.gallery.GalleryViewModel
 import dagger.MapKey
@@ -44,5 +46,12 @@ class ViewModelModule {
     @ViewModelKey(DetailsViewModel::class)
     fun provideDetailsViewModel(getPhotoUseCase: GetPhotoUseCase): ViewModel {
         return DetailsViewModel(getPhotoUseCase)
+    }
+
+    @Provides
+    @IntoMap
+    @ViewModelKey(CollectionsViewModel::class)
+    fun provideCollectionsViewModel(getAllCollectionsUseCase: GetAllCollectionsUseCase): ViewModel {
+        return CollectionsViewModel(getAllCollectionsUseCase)
     }
 }

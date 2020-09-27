@@ -7,8 +7,10 @@ import androidx.paging.rxjava2.observable
 import com.alvindizon.tampisaw.core.Const
 import com.alvindizon.tampisaw.data.networking.api.UnsplashApi
 import com.alvindizon.tampisaw.data.networking.model.getphoto.GetPhotoResponse
+import com.alvindizon.tampisaw.data.paging.CollectionPagingSource
 import com.alvindizon.tampisaw.data.paging.UnsplashPagingSource
 import com.alvindizon.tampisaw.domain.UnsplashRepo
+import com.alvindizon.tampisaw.ui.collections.UnsplashCollection
 import com.alvindizon.tampisaw.ui.gallery.UnsplashPhoto
 import io.reactivex.Observable
 import io.reactivex.Single
@@ -26,4 +28,10 @@ class UnsplashRepoImpl(private val unsplashApi: UnsplashApi): UnsplashRepo {
     ).observable
 
     override fun getPhoto(id: String): Single<GetPhotoResponse> = unsplashApi.getPhoto(id)
+
+    override fun getAllCollections(): Observable<PagingData<UnsplashCollection>> = Pager(
+        config = PagingConfig(Const.PAGE_SIZE),
+        remoteMediator = null,
+        pagingSourceFactory = { CollectionPagingSource(unsplashApi) }
+    ).observable
 }
