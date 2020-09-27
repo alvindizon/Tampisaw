@@ -11,6 +11,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.paging.LoadState
 import com.alvindizon.tampisaw.R
 import com.alvindizon.tampisaw.core.ViewModelFactory
+import com.alvindizon.tampisaw.core.ui.RetryAdapter
 import com.alvindizon.tampisaw.databinding.FragmentGalleryBinding
 import com.alvindizon.tampisaw.di.InjectorUtils
 import com.google.android.material.snackbar.Snackbar

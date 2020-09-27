@@ -1,4 +1,4 @@
-package com.alvindizon.tampisaw.ui.gallery
+package com.alvindizon.tampisaw.core.ui
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
