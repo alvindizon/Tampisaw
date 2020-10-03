@@ -24,7 +24,7 @@ class UnsplashRepoImpl(private val unsplashApi: UnsplashApi): UnsplashRepo {
         // IllegalStateException when adapter.refresh() is called--
         // Exception message states that the same PagingSource was used as the prev request,
         // and a new PagingSource is required
-        pagingSourceFactory = { UnsplashPagingSource(unsplashApi) }
+        pagingSourceFactory = { UnsplashPagingSource(unsplashApi, UnsplashPagingSource.GetPhotosType.Gallery) }
     ).observable
 
     override fun getPhoto(id: String): Single<GetPhotoResponse> = unsplashApi.getPhoto(id)
@@ -33,5 +33,11 @@ class UnsplashRepoImpl(private val unsplashApi: UnsplashApi): UnsplashRepo {
         config = PagingConfig(Const.PAGE_SIZE),
         remoteMediator = null,
         pagingSourceFactory = { CollectionPagingSource(unsplashApi) }
+    ).observable
+
+    override fun getCollectionPhotos(id: Int): Observable<PagingData<UnsplashPhoto>> = Pager(
+        config = PagingConfig(Const.PAGE_SIZE),
+        remoteMediator = null,
+        pagingSourceFactory = { UnsplashPagingSource(unsplashApi, UnsplashPagingSource.GetPhotosType.Collection, id) }
     ).observable
 }

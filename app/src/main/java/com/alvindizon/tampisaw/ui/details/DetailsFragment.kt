@@ -239,7 +239,7 @@ class DetailsFragment: Fragment(R.layout.fragment_details) {
             activity.supportActionBar?.setDisplayShowTitleEnabled(false)
 
             upBtn.setOnClickListener {
-                findNavController().popBackStack()
+                findNavController().navigateUp()
             }
 
             Glide.with(avatar)

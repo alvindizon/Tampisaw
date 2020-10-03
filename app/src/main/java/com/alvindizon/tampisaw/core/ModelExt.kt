@@ -53,7 +53,7 @@ fun GetPhotoResponse.getCamera(): String {
 fun GetPhotoResponse.getTags(): List<String?>?  = tags?.map { it.title }
 
 fun GetCollectionsResponse.toUnsplashCollection() = UnsplashCollection(
-    id.toString(), title, description, user.name, user.username, user.profileImage?.large, `private`,
+    id, title, description, user.name, user.username, user.profileImage?.large, `private`,
     coverPhoto?.color, coverPhoto?.urls?.thumb, coverPhoto?.urls?.regular, coverPhoto?.width,
     coverPhoto?.height, totalPhotos
 )

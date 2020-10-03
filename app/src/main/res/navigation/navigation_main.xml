@@ -32,10 +32,67 @@
     <fragment
         android:id="@+id/collection_list_dest"
         android:name="com.alvindizon.tampisaw.ui.collections.CollectionListFragment"
-        android:label="fragment_collection_list"/>
+        android:label="fragment_collection_list">
+
+        <action
+            android:id="@+id/collectionAction"
+            app:destination="@id/collection_dest" >
+            <argument
+                android:name="id"
+                app:argType="integer" />
+            <argument
+                android:name="description"
+                app:argType="string"
+                app:nullable="true"/>
+            <argument
+                android:name="totalPhotos"
+                app:argType="integer"/>
+            <argument
+                android:name="name"
+                app:argType="string"
+                app:nullable="true"/>
+            <argument
+                android:name="title"
+                app:argType="string"/>
+        </action>
+    </fragment>
 
     <fragment
         android:id="@+id/search_dest"
         android:name="com.alvindizon.tampisaw.ui.search.SearchFragment"
         android:label="fragment_search"/>
+
+    <fragment
+        android:id="@+id/collection_dest"
+        android:name="com.alvindizon.tampisaw.ui.collections.CollectionFragment"
+        android:label="fragment_collection">
+        <argument
+            android:name="id"
+            app:argType="integer" />
+
+        <argument
+            android:name="description"
+            app:argType="string"
+            app:nullable="true"/>
+        <argument
+            android:name="totalPhotos"
+            app:argType="integer"/>
+        <argument
+            android:name="name"
+            app:argType="string"
+            app:nullable="true"/>
+        <argument
+            android:name="title"
+            app:argType="string"/>
+
+        <action
+            android:id="@+id/detailsAction"
+            app:destination="@id/details_dest" >
+            <argument
+                android:name="url"
+                app:argType="string"
+                android:defaultValue="" />
+        </action>
+
+    </fragment>
 </navigation>
