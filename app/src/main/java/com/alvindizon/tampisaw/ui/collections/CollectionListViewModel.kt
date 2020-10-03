@@ -12,7 +12,7 @@ import io.reactivex.rxkotlin.plusAssign
 import io.reactivex.rxkotlin.subscribeBy
 import io.reactivex.schedulers.Schedulers
 
-class CollectionsViewModel(private val getAllCollectionsUseCase: GetAllCollectionsUseCase): BaseViewModel() {
+class CollectionListViewModel(private val getAllCollectionsUseCase: GetAllCollectionsUseCase): BaseViewModel() {
 
     private val _uiState = MutableLiveData<PagingData<UnsplashCollection>>()
     val uiState: LiveData<PagingData<UnsplashCollection>>? get() = _uiState

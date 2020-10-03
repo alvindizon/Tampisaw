@@ -30,9 +30,9 @@
     </fragment>
 
     <fragment
-        android:id="@+id/collections_dest"
-        android:name="com.alvindizon.tampisaw.ui.collections.CollectionsFragment"
-        android:label="fragment_collections"/>
+        android:id="@+id/collection_list_dest"
+        android:name="com.alvindizon.tampisaw.ui.collections.CollectionListFragment"
+        android:label="fragment_collection_list"/>
 
     <fragment
         android:id="@+id/search_dest"

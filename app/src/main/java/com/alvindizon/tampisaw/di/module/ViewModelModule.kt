@@ -5,7 +5,7 @@ import com.alvindizon.tampisaw.core.ViewModelFactory
 import com.alvindizon.tampisaw.domain.GetAllCollectionsUseCase
 import com.alvindizon.tampisaw.domain.GetAllPhotosUseCase
 import com.alvindizon.tampisaw.domain.GetPhotoUseCase
-import com.alvindizon.tampisaw.ui.collections.CollectionsViewModel
+import com.alvindizon.tampisaw.ui.collections.CollectionListViewModel
 import com.alvindizon.tampisaw.ui.details.DetailsViewModel
 import com.alvindizon.tampisaw.ui.gallery.GalleryViewModel
 import dagger.MapKey
@@ -50,8 +50,8 @@ class ViewModelModule {
 
     @Provides
     @IntoMap
-    @ViewModelKey(CollectionsViewModel::class)
+    @ViewModelKey(CollectionListViewModel::class)
     fun provideCollectionsViewModel(getAllCollectionsUseCase: GetAllCollectionsUseCase): ViewModel {
-        return CollectionsViewModel(getAllCollectionsUseCase)
+        return CollectionListViewModel(getAllCollectionsUseCase)
     }
 }

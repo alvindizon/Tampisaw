@@ -7,24 +7,20 @@ import android.view.View
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.fragment.findNavController
 import androidx.paging.LoadState
 import com.alvindizon.tampisaw.R
 import com.alvindizon.tampisaw.core.ViewModelFactory
 import com.alvindizon.tampisaw.core.ui.RetryAdapter
-import com.alvindizon.tampisaw.databinding.FragmentCollectionsBinding
+import com.alvindizon.tampisaw.databinding.FragmentCollectionListBinding
 import com.alvindizon.tampisaw.di.InjectorUtils
-import com.alvindizon.tampisaw.ui.gallery.GalleryAdapter
-import com.alvindizon.tampisaw.ui.gallery.GalleryFragmentDirections
-import com.alvindizon.tampisaw.ui.gallery.GalleryViewModel
 import com.google.android.material.snackbar.Snackbar
 import javax.inject.Inject
 
-class CollectionsFragment: Fragment(R.layout.fragment_collections) {
+class CollectionListFragment: Fragment(R.layout.fragment_collection_list) {
 
-    private var binding: FragmentCollectionsBinding? = null
+    private var binding: FragmentCollectionListBinding? = null
 
-    private lateinit var viewModel: CollectionsViewModel
+    private lateinit var viewModel: CollectionListViewModel
 
     private lateinit var adapter: CollectionAdapter
 
@@ -33,7 +29,7 @@ class CollectionsFragment: Fragment(R.layout.fragment_collections) {
     override fun onAttach(context: Context) {
         super.onAttach(context)
         InjectorUtils.getPresentationComponent(requireActivity()).inject(this)
-        viewModel = ViewModelProvider(this, viewModelFactory).get(CollectionsViewModel::class.java)
+        viewModel = ViewModelProvider(this, viewModelFactory).get(CollectionListViewModel::class.java)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -45,7 +41,7 @@ class CollectionsFragment: Fragment(R.layout.fragment_collections) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding = FragmentCollectionsBinding.bind(view)
+        binding = FragmentCollectionListBinding.bind(view)
 
         viewLifecycleOwner.lifecycle.addObserver(viewModel)
 
@@ -111,8 +107,6 @@ class CollectionsFragment: Fragment(R.layout.fragment_collections) {
                 }
             }
         }
-
-
     }
 
     private fun setupRetryButton() {
