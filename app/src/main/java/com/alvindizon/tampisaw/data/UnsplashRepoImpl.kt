@@ -8,6 +8,8 @@ import com.alvindizon.tampisaw.core.Const
 import com.alvindizon.tampisaw.data.networking.api.UnsplashApi
 import com.alvindizon.tampisaw.data.networking.model.getphoto.GetPhotoResponse
 import com.alvindizon.tampisaw.data.paging.CollectionPagingSource
+import com.alvindizon.tampisaw.data.paging.SearchCollectionsPagingSource
+import com.alvindizon.tampisaw.data.paging.SearchPhotosPagingSource
 import com.alvindizon.tampisaw.data.paging.UnsplashPagingSource
 import com.alvindizon.tampisaw.domain.UnsplashRepo
 import com.alvindizon.tampisaw.ui.collections.UnsplashCollection
@@ -39,5 +41,17 @@ class UnsplashRepoImpl(private val unsplashApi: UnsplashApi): UnsplashRepo {
         config = PagingConfig(Const.PAGE_SIZE),
         remoteMediator = null,
         pagingSourceFactory = { UnsplashPagingSource(unsplashApi, UnsplashPagingSource.GetPhotosType.Collection, id) }
+    ).observable
+
+    override fun searchPhotos(query: String): Observable<PagingData<UnsplashPhoto>> = Pager(
+            config = PagingConfig(Const.PAGE_SIZE),
+            remoteMediator = null,
+            pagingSourceFactory = { SearchPhotosPagingSource(unsplashApi, query)}
+    ).observable
+
+    override fun searchCollections(query: String): Observable<PagingData<UnsplashCollection>> = Pager(
+            config = PagingConfig(Const.PAGE_SIZE),
+            remoteMediator = null,
+            pagingSourceFactory = { SearchCollectionsPagingSource(unsplashApi, query)}
     ).observable
 }

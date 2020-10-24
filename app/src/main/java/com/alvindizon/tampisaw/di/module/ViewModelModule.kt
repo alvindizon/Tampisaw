@@ -2,14 +2,12 @@ package com.alvindizon.tampisaw.di.module
 
 import androidx.lifecycle.ViewModel
 import com.alvindizon.tampisaw.core.ViewModelFactory
-import com.alvindizon.tampisaw.domain.GetAllCollectionsUseCase
-import com.alvindizon.tampisaw.domain.GetAllPhotosUseCase
-import com.alvindizon.tampisaw.domain.GetCollectionPhotosUseCase
-import com.alvindizon.tampisaw.domain.GetPhotoUseCase
+import com.alvindizon.tampisaw.domain.*
 import com.alvindizon.tampisaw.ui.collections.CollectionListViewModel
 import com.alvindizon.tampisaw.ui.collections.CollectionViewModel
 import com.alvindizon.tampisaw.ui.details.DetailsViewModel
 import com.alvindizon.tampisaw.ui.gallery.GalleryViewModel
+import com.alvindizon.tampisaw.ui.search.SearchViewModel
 import dagger.MapKey
 import dagger.Module
 import dagger.Provides
@@ -62,5 +60,15 @@ class ViewModelModule {
     @ViewModelKey(CollectionViewModel::class)
     fun provideCollectionViewModel(getCollectionPhotosUseCase: GetCollectionPhotosUseCase): ViewModel {
         return CollectionViewModel(getCollectionPhotosUseCase)
+    }
+
+    @Provides
+    @IntoMap
+    @ViewModelKey(SearchViewModel::class)
+    fun provideSearchPhotosViewModel(
+        searchPhotosUseCase: SearchPhotosUseCase,
+        searchCollectionsUseCase: SearchCollectionsUseCase
+    ): ViewModel {
+        return SearchViewModel(searchPhotosUseCase, searchCollectionsUseCase)
     }
 }

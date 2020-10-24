@@ -4,6 +4,8 @@ import com.alvindizon.tampisaw.BuildConfig
 import com.alvindizon.tampisaw.data.networking.model.getcollections.GetCollectionsResponse
 import com.alvindizon.tampisaw.data.networking.model.getphoto.GetPhotoResponse
 import com.alvindizon.tampisaw.data.networking.model.listphotos.ListPhotosResponse
+import com.alvindizon.tampisaw.data.networking.model.search.SearchCollectionsResponse
+import com.alvindizon.tampisaw.data.networking.model.search.SearchPhotosResponse
 import io.reactivex.Completable
 import io.reactivex.Single
 import okhttp3.ResponseBody
@@ -53,5 +55,26 @@ interface UnsplashApi {
         @Query("page") page: Int,
         @Query("per_page") itemsPerPage: Int
     ): Single<List<ListPhotosResponse>>
+
+    @Headers("Accept-Version: v1", "Authorization: Client-ID $ACCESS_KEY")
+    @GET("search/photos")
+    fun searchPhotos(
+            @Query("query") query: String,
+            @Query("page") page: Int,
+            @Query("per_page") itemsPerPage: Int,
+            @Query("order_by") order_by: String?,
+            @Query("collections") collections: String?,
+            @Query("content_filter") contentFilter: String?,
+            @Query("color") color: String?,
+            @Query("orientation") orientation: String?
+    ): Single<SearchPhotosResponse>
+
+    @Headers("Accept-Version: v1", "Authorization: Client-ID $ACCESS_KEY")
+    @GET("search/collections")
+    fun searchCollections(
+            @Query("query") query: String,
+            @Query("page") page: Int,
+            @Query("per_page") itemsPerPage: Int,
+    ): Single<SearchCollectionsResponse>
 
 }

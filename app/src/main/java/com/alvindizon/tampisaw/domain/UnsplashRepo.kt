@@ -16,4 +16,8 @@ interface UnsplashRepo {
     fun getAllCollections(): Observable<PagingData<UnsplashCollection>>
 
     fun getCollectionPhotos(id: Int): Observable<PagingData<UnsplashPhoto>>
+
+    fun searchPhotos(query: String): Observable<PagingData<UnsplashPhoto>>
+
+    fun searchCollections(query: String): Observable<PagingData<UnsplashCollection>>
 }
