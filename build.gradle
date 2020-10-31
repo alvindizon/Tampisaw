@@ -63,4 +63,6 @@ ext {
     swiperefreshlayoutVer= '1.1.0'
     mockitoVersion = '3.3.3'
     coreTestingVersion = '2.1.0'
+    coroutineVersion = '1.4.0'
+    mockitoKotlinVer = '2.2.0'
 }
