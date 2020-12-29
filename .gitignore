@@ -87,4 +87,8 @@ Thumbs.db
 #impl build files
 *.iml
 
+# generated files on buildSrc
+/buildSrc/build
+
+
 

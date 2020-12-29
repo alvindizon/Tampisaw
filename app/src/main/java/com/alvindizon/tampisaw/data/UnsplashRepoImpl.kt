@@ -1,5 +1,6 @@
 package com.alvindizon.tampisaw.data
 
+import androidx.paging.ExperimentalPagingApi
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
@@ -17,6 +18,7 @@ import com.alvindizon.tampisaw.ui.gallery.UnsplashPhoto
 import io.reactivex.Observable
 import io.reactivex.Single
 
+@ExperimentalPagingApi
 class UnsplashRepoImpl(private val unsplashApi: UnsplashApi): UnsplashRepo {
 
     override fun getAllPhotos(): Observable<PagingData<UnsplashPhoto>> = Pager(
