@@ -1,15 +1,14 @@
 package com.alvindizon.tampisaw.di.presentation
 
 import androidx.lifecycle.ViewModel
-import com.alvindizon.tampisaw.domain.*
 import com.alvindizon.tampisaw.ui.collections.CollectionListViewModel
 import com.alvindizon.tampisaw.ui.collections.CollectionViewModel
 import com.alvindizon.tampisaw.ui.details.DetailsViewModel
 import com.alvindizon.tampisaw.ui.gallery.GalleryViewModel
 import com.alvindizon.tampisaw.ui.search.SearchViewModel
+import dagger.Binds
 import dagger.MapKey
 import dagger.Module
-import dagger.Provides
 import dagger.multibindings.IntoMap
 import javax.inject.Scope
 import kotlin.reflect.KClass
@@ -18,46 +17,34 @@ import kotlin.reflect.KClass
 annotation class PresentationScope
 
 @Module
-class ViewModelModule {
+abstract class ViewModelModule {
     @MapKey
     annotation class ViewModelKey(val value: KClass<out ViewModel>)
 
-    @Provides
+    // previously, we used @Provides, which means that we had to use method bodies
+    // @Binds methods must be abstract and thus they must go on an interface or abstract classes
+    @Binds
     @IntoMap
     @ViewModelKey(GalleryViewModel::class)
-    fun provideGalleryViewModel(getAllPhotosUseCase: GetAllPhotosUseCase): ViewModel {
-        return GalleryViewModel(getAllPhotosUseCase)
-    }
+    abstract fun provideGalleryViewModel(galleryViewModel: GalleryViewModel): ViewModel
 
-
-    @Provides
+    @Binds
     @IntoMap
     @ViewModelKey(DetailsViewModel::class)
-    fun provideDetailsViewModel(getPhotoUseCase: GetPhotoUseCase): ViewModel {
-        return DetailsViewModel(getPhotoUseCase)
-    }
+    abstract fun provideDetailsViewModel(detailsViewModel: DetailsViewModel): ViewModel
 
-    @Provides
+    @Binds
     @IntoMap
     @ViewModelKey(CollectionListViewModel::class)
-    fun provideCollectionsViewModel(getAllCollectionsUseCase: GetAllCollectionsUseCase): ViewModel {
-        return CollectionListViewModel(getAllCollectionsUseCase)
-    }
+    abstract fun provideCollectionsViewModel(collectionListViewModel: CollectionListViewModel): ViewModel
 
-    @Provides
+    @Binds
     @IntoMap
     @ViewModelKey(CollectionViewModel::class)
-    fun provideCollectionViewModel(getCollectionPhotosUseCase: GetCollectionPhotosUseCase): ViewModel {
-        return CollectionViewModel(getCollectionPhotosUseCase)
-    }
+    abstract fun provideCollectionViewModel(collectionViewModel: CollectionViewModel): ViewModel
 
-    @Provides
+    @Binds
     @IntoMap
     @ViewModelKey(SearchViewModel::class)
-    fun provideSearchPhotosViewModel(
-        searchPhotosUseCase: SearchPhotosUseCase,
-        searchCollectionsUseCase: SearchCollectionsUseCase
-    ): ViewModel {
-        return SearchViewModel(searchPhotosUseCase, searchCollectionsUseCase)
-    }
+    abstract fun provideSearchPhotosViewModel(searchViewModel: SearchViewModel): ViewModel
 }

@@ -12,8 +12,11 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.rxkotlin.plusAssign
 import io.reactivex.rxkotlin.subscribeBy
 import io.reactivex.schedulers.Schedulers
+import javax.inject.Inject
 
-class CollectionViewModel(private val getCollectionPhotosUseCase: GetCollectionPhotosUseCase): BaseViewModel() {
+class CollectionViewModel @Inject constructor(
+    private val getCollectionPhotosUseCase: GetCollectionPhotosUseCase
+) : BaseViewModel() {
 
     private val _uiState = MutableLiveData<PagingData<UnsplashPhoto>>()
     val uiState: LiveData<PagingData<UnsplashPhoto>>? get() = _uiState

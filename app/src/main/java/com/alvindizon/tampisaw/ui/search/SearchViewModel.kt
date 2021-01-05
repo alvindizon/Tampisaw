@@ -2,7 +2,6 @@ package com.alvindizon.tampisaw.ui.search
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Transformations
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import androidx.paging.rxjava2.cachedIn
@@ -15,9 +14,12 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.rxkotlin.plusAssign
 import io.reactivex.rxkotlin.subscribeBy
 import io.reactivex.schedulers.Schedulers
+import javax.inject.Inject
 
-class SearchViewModel(private val searchPhotosUseCase: SearchPhotosUseCase,
-    private val searchCollectionsUseCase: SearchCollectionsUseCase): BaseViewModel() {
+class SearchViewModel @Inject constructor(
+    private val searchPhotosUseCase: SearchPhotosUseCase,
+    private val searchCollectionsUseCase: SearchCollectionsUseCase
+) : BaseViewModel() {
 
     private val _photos = MutableLiveData<PagingData<UnsplashPhoto>>()
     val photos: LiveData<PagingData<UnsplashPhoto>>? get() = _photos
@@ -47,8 +49,8 @@ class SearchViewModel(private val searchPhotosUseCase: SearchPhotosUseCase,
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribeBy(
-                    onNext = { _collections.value = it },
-                    onError = { it.printStackTrace() }
+                onNext = { _collections.value = it },
+                onError = { it.printStackTrace() }
             )
     }
 }

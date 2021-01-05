@@ -10,8 +10,11 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.rxkotlin.plusAssign
 import io.reactivex.rxkotlin.subscribeBy
 import io.reactivex.schedulers.Schedulers
+import javax.inject.Inject
 
-class DetailsViewModel(private val getPhotoUseCase: GetPhotoUseCase): BaseViewModel() {
+class DetailsViewModel @Inject constructor(
+    private val getPhotoUseCase: GetPhotoUseCase
+) : BaseViewModel() {
 
     private val _uiState = MutableLiveData<DetailsUIState>()
     val uiState: LiveData<DetailsUIState>? get() = _uiState
