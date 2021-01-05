@@ -4,20 +4,19 @@ import android.content.Context
 import android.os.Bundle
 import android.view.View
 import androidx.core.view.isVisible
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.paging.LoadState
 import com.alvindizon.tampisaw.R
 import com.alvindizon.tampisaw.core.ViewModelFactory
+import com.alvindizon.tampisaw.core.ui.BaseFragment
 import com.alvindizon.tampisaw.core.ui.RetryAdapter
 import com.alvindizon.tampisaw.databinding.FragmentSearchCollectionListBinding
-import com.alvindizon.tampisaw.di.InjectorUtils
 import com.alvindizon.tampisaw.ui.collections.CollectionAdapter
 import com.google.android.material.snackbar.Snackbar
 import javax.inject.Inject
 
-class SearchCollectionListFragment: Fragment(R.layout.fragment_search_collection_list) {
+class SearchCollectionListFragment : BaseFragment(R.layout.fragment_search_collection_list) {
 
     private var binding: FragmentSearchCollectionListBinding? = null
 
@@ -25,14 +24,16 @@ class SearchCollectionListFragment: Fragment(R.layout.fragment_search_collection
 
     private lateinit var adapter: CollectionAdapter
 
-    @Inject lateinit var viewModelFactory: ViewModelFactory
+    @Inject
+    lateinit var viewModelFactory: ViewModelFactory
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        InjectorUtils.getPresentationComponent(requireActivity()).inject(this)
-        viewModel = ViewModelProvider(requireActivity(), viewModelFactory).get(SearchViewModel::class.java)
+        injector.inject(this)
+        viewModel =
+            ViewModelProvider(requireActivity(), viewModelFactory).get(SearchViewModel::class.java)
     }
-    
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentSearchCollectionListBinding.bind(view)
@@ -51,9 +52,12 @@ class SearchCollectionListFragment: Fragment(R.layout.fragment_search_collection
 
     private fun setupGallery() {
         // Add a click listener for each list item
-        adapter = CollectionAdapter{
-            findNavController().navigate(SearchFragmentDirections.collectionAction(
-                it.id, it.description, it.totalPhotos, it.fullname, it.title))
+        adapter = CollectionAdapter {
+            findNavController().navigate(
+                SearchFragmentDirections.collectionAction(
+                    it.id, it.description, it.totalPhotos, it.fullname, it.title
+                )
+            )
         }
 
         viewModel.collections?.observe(viewLifecycleOwner, {
@@ -85,9 +89,11 @@ class SearchCollectionListFragment: Fragment(R.layout.fragment_search_collection
                     ?: loadState.append as? LoadState.Error
                     ?: loadState.prepend as? LoadState.Error
                 errorState?.let {
-                    Snackbar.make(requireView(),
+                    Snackbar.make(
+                        requireView(),
                         "\uD83D\uDE28 Wooops ${it.error}",
-                        Snackbar.LENGTH_LONG).show()
+                        Snackbar.LENGTH_LONG
+                    ).show()
                 }
             }
         }

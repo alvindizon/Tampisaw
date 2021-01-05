@@ -1,6 +1,6 @@
 package com.alvindizon.tampisaw.di.component
 
-import androidx.fragment.app.FragmentActivity
+import androidx.appcompat.app.AppCompatActivity
 import com.alvindizon.tampisaw.di.module.ActivityModule
 import dagger.BindsInstance
 import dagger.Subcomponent
@@ -13,7 +13,7 @@ interface ActivityComponent {
     @Subcomponent.Builder
     interface Builder {
         @BindsInstance
-        fun activity(activity: FragmentActivity): Builder
+        fun activity(activity: AppCompatActivity): Builder
         fun build(): ActivityComponent
     }
 }

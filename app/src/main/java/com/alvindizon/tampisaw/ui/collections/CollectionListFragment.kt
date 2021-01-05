@@ -4,19 +4,18 @@ import android.content.Context
 import android.os.Bundle
 import android.view.View
 import androidx.core.view.isVisible
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.paging.LoadState
 import com.alvindizon.tampisaw.R
 import com.alvindizon.tampisaw.core.ViewModelFactory
+import com.alvindizon.tampisaw.core.ui.BaseFragment
 import com.alvindizon.tampisaw.core.ui.RetryAdapter
 import com.alvindizon.tampisaw.databinding.FragmentCollectionListBinding
-import com.alvindizon.tampisaw.di.InjectorUtils
 import com.google.android.material.snackbar.Snackbar
 import javax.inject.Inject
 
-class CollectionListFragment: Fragment(R.layout.fragment_collection_list) {
+class CollectionListFragment : BaseFragment(R.layout.fragment_collection_list) {
 
     private var binding: FragmentCollectionListBinding? = null
 
@@ -24,12 +23,14 @@ class CollectionListFragment: Fragment(R.layout.fragment_collection_list) {
 
     private lateinit var adapter: CollectionAdapter
 
-    @Inject lateinit var viewModelFactory: ViewModelFactory
+    @Inject
+    lateinit var viewModelFactory: ViewModelFactory
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        InjectorUtils.getPresentationComponent(requireActivity()).inject(this)
-        viewModel = ViewModelProvider(this, viewModelFactory).get(CollectionListViewModel::class.java)
+        injector.inject(this)
+        viewModel =
+            ViewModelProvider(this, viewModelFactory).get(CollectionListViewModel::class.java)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -57,8 +58,16 @@ class CollectionListFragment: Fragment(R.layout.fragment_collection_list) {
 
     private fun setupGallery() {
         // Add a click listener for each list item
-        adapter = CollectionAdapter{
-            findNavController().navigate(CollectionListFragmentDirections.collectionAction(it.id, it.description, it.totalPhotos, it.fullname, it.title))
+        adapter = CollectionAdapter {
+            findNavController().navigate(
+                CollectionListFragmentDirections.collectionAction(
+                    it.id,
+                    it.description,
+                    it.totalPhotos,
+                    it.fullname,
+                    it.title
+                )
+            )
         }
 
         viewModel.uiState?.observe(viewLifecycleOwner, {
@@ -82,7 +91,8 @@ class CollectionListFragment: Fragment(R.layout.fragment_collection_list) {
                 // Only show the list if refresh succeeds.
                 list.isVisible = loadState.source.refresh is LoadState.NotLoading
                 // Show loading spinner during initial load or refresh.
-                progressBar.isVisible = loadState.source.refresh is LoadState.Loading && !swipeLayout.isRefreshing
+                progressBar.isVisible =
+                    loadState.source.refresh is LoadState.Loading && !swipeLayout.isRefreshing
                 // Show the retry state if initial load or refresh fails.
                 retryButton.isVisible = loadState.source.refresh is LoadState.Error
 
@@ -92,9 +102,11 @@ class CollectionListFragment: Fragment(R.layout.fragment_collection_list) {
                     ?: loadState.prepend as? LoadState.Error
                 errorState?.let {
                     swipeLayout.isRefreshing = false
-                    Snackbar.make(requireView(),
+                    Snackbar.make(
+                        requireView(),
                         "\uD83D\uDE28 Wooops ${it.error}",
-                        Snackbar.LENGTH_LONG).show()
+                        Snackbar.LENGTH_LONG
+                    ).show()
                 }
             }
 

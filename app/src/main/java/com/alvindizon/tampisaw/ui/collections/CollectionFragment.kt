@@ -4,21 +4,20 @@ import android.content.Context
 import android.os.Bundle
 import android.view.View
 import androidx.core.view.isVisible
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.paging.LoadState
 import com.alvindizon.tampisaw.R
 import com.alvindizon.tampisaw.core.ViewModelFactory
+import com.alvindizon.tampisaw.core.ui.BaseFragment
 import com.alvindizon.tampisaw.core.ui.RetryAdapter
 import com.alvindizon.tampisaw.databinding.FragmentCollectionBinding
-import com.alvindizon.tampisaw.di.InjectorUtils
 import com.alvindizon.tampisaw.ui.gallery.GalleryAdapter
 import com.google.android.material.snackbar.Snackbar
 import javax.inject.Inject
 
-class CollectionFragment: Fragment(R.layout.fragment_collection) {
+class CollectionFragment : BaseFragment(R.layout.fragment_collection) {
 
     private var binding: FragmentCollectionBinding? = null
 
@@ -33,7 +32,7 @@ class CollectionFragment: Fragment(R.layout.fragment_collection) {
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        InjectorUtils.getPresentationComponent(requireActivity()).inject(this)
+        injector.inject(this)
         viewModel = ViewModelProvider(this, viewModelFactory).get(CollectionViewModel::class.java)
     }
 
@@ -61,7 +60,7 @@ class CollectionFragment: Fragment(R.layout.fragment_collection) {
 
     private fun setupGallery() {
         // Add a click listener for each list item
-        adapter = GalleryAdapter{ photo ->
+        adapter = GalleryAdapter { photo ->
             photo.id.let {
                 findNavController().navigate(CollectionFragmentDirections.detailsAction(it))
             }
@@ -96,9 +95,11 @@ class CollectionFragment: Fragment(R.layout.fragment_collection) {
                     ?: loadState.append as? LoadState.Error
                     ?: loadState.prepend as? LoadState.Error
                 errorState?.let {
-                    Snackbar.make(requireView(),
+                    Snackbar.make(
+                        requireView(),
                         "\uD83D\uDE28 Wooops ${it.error}",
-                        Snackbar.LENGTH_LONG).show()
+                        Snackbar.LENGTH_LONG
+                    ).show()
                 }
             }
 
@@ -110,7 +111,8 @@ class CollectionFragment: Fragment(R.layout.fragment_collection) {
                 description.text = it
             }
 
-            countCuratorView.text = getString(R.string.count_name, args.totalPhotos.toString(), args.name)
+            countCuratorView.text =
+                getString(R.string.count_name, args.totalPhotos.toString(), args.name)
             toolbarTitle.text = args.title
         }
     }

@@ -13,26 +13,29 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.alvindizon.tampisaw.R
 import com.alvindizon.tampisaw.core.ViewModelFactory
+import com.alvindizon.tampisaw.core.ui.BaseActivity
 import com.alvindizon.tampisaw.databinding.DialogPhotoDetailsBinding
-import com.alvindizon.tampisaw.di.InjectorUtils
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import javax.inject.Inject
 
-class InfoBottomSheet(private val tags: List<String?>?, private val listener: (String) -> Unit) : BottomSheetDialogFragment() {
+class InfoBottomSheet(private val tags: List<String?>?, private val listener: (String) -> Unit) :
+    BottomSheetDialogFragment() {
 
-    @Inject lateinit var viewModelFactory: ViewModelFactory
+    @Inject
+    lateinit var viewModelFactory: ViewModelFactory
 
     private lateinit var viewModel: DetailsViewModel
 
     private lateinit var adapter: TagAdapter
 
-    private var binding: DialogPhotoDetailsBinding? =null
+    private var binding: DialogPhotoDetailsBinding? = null
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        InjectorUtils.getPresentationComponent(requireActivity()).inject(this)
-        viewModel = ViewModelProvider(requireActivity(), viewModelFactory).get(DetailsViewModel::class.java)
+        (requireActivity() as BaseActivity).activityComponent.presentationComponent().inject(this)
+        viewModel =
+            ViewModelProvider(requireActivity(), viewModelFactory).get(DetailsViewModel::class.java)
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
@@ -63,7 +66,7 @@ class InfoBottomSheet(private val tags: List<String?>?, private val listener: (S
         super.onViewCreated(view, savedInstanceState)
 
         // Add a click listener for each list item
-        adapter = TagAdapter{ listener.invoke(it) }
+        adapter = TagAdapter { listener.invoke(it) }
 
         binding?.apply {
             viewModel = this@InfoBottomSheet.viewModel
@@ -77,6 +80,7 @@ class InfoBottomSheet(private val tags: List<String?>?, private val listener: (S
 
     companion object {
         val TAG = InfoBottomSheet::class.java.simpleName
-        fun newInstance(tags: List<String?>?, listener: (String) -> Unit) = InfoBottomSheet(tags, listener)
+        fun newInstance(tags: List<String?>?, listener: (String) -> Unit) =
+            InfoBottomSheet(tags, listener)
     }
 }

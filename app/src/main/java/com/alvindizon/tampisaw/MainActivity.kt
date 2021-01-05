@@ -1,13 +1,13 @@
 package com.alvindizon.tampisaw
 
 import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
+import com.alvindizon.tampisaw.core.ui.BaseActivity
 import com.alvindizon.tampisaw.databinding.ActivityMainBinding
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : BaseActivity() {
     private lateinit var binding: ActivityMainBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -25,7 +25,7 @@ class MainActivity : AppCompatActivity() {
         val navController = host.navController
         binding.bottomNavView.setupWithNavController(navController)
 
-        navController.addOnDestinationChangedListener{ _, dest, _ ->
+        navController.addOnDestinationChangedListener { _, dest, _ ->
             binding.bottomNavView.isVisible = dest.id != R.id.details_dest
         }
     }

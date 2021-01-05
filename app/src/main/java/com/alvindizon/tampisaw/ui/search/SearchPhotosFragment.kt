@@ -5,20 +5,19 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import androidx.core.view.isVisible
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.paging.LoadState
 import com.alvindizon.tampisaw.R
 import com.alvindizon.tampisaw.core.ViewModelFactory
+import com.alvindizon.tampisaw.core.ui.BaseFragment
 import com.alvindizon.tampisaw.core.ui.RetryAdapter
 import com.alvindizon.tampisaw.databinding.FragmentSearchPhotosBinding
-import com.alvindizon.tampisaw.di.InjectorUtils
 import com.alvindizon.tampisaw.ui.gallery.GalleryAdapter
 import com.google.android.material.snackbar.Snackbar
 import javax.inject.Inject
 
-class SearchPhotosFragment: Fragment(R.layout.fragment_search_photos) {
+class SearchPhotosFragment : BaseFragment(R.layout.fragment_search_photos) {
 
     private var binding: FragmentSearchPhotosBinding? = null
 
@@ -31,8 +30,9 @@ class SearchPhotosFragment: Fragment(R.layout.fragment_search_photos) {
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        InjectorUtils.getPresentationComponent(requireActivity()).inject(this)
-        viewModel = ViewModelProvider(requireActivity(), viewModelFactory).get(SearchViewModel::class.java)
+        injector.inject(this)
+        viewModel =
+            ViewModelProvider(requireActivity(), viewModelFactory).get(SearchViewModel::class.java)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -53,7 +53,7 @@ class SearchPhotosFragment: Fragment(R.layout.fragment_search_photos) {
 
     private fun setupGallery() {
         // Add a click listener for each list item
-        adapter = GalleryAdapter{ photo ->
+        adapter = GalleryAdapter { photo ->
             photo.id.let {
                 // TODO create activity for displaying photo details
                 findNavController().navigate(SearchFragmentDirections.detailsAction(it))
@@ -67,12 +67,12 @@ class SearchPhotosFragment: Fragment(R.layout.fragment_search_photos) {
         binding?.apply {
             // Apply the following settings to our recyclerview
             list.adapter = adapter.withLoadStateHeaderAndFooter(
-                    header = RetryAdapter {
-                        adapter.retry()
-                    },
-                    footer = RetryAdapter {
-                        adapter.retry()
-                    }
+                header = RetryAdapter {
+                    adapter.retry()
+                },
+                footer = RetryAdapter {
+                    adapter.retry()
+                }
             )
 
             // Add a listener for the current state of paging
@@ -86,13 +86,15 @@ class SearchPhotosFragment: Fragment(R.layout.fragment_search_photos) {
                 retryButton.isVisible = loadState.source.refresh is LoadState.Error
 
                 val errorState = loadState.source.append as? LoadState.Error
-                        ?: loadState.source.prepend as? LoadState.Error
-                        ?: loadState.append as? LoadState.Error
-                        ?: loadState.prepend as? LoadState.Error
+                    ?: loadState.source.prepend as? LoadState.Error
+                    ?: loadState.append as? LoadState.Error
+                    ?: loadState.prepend as? LoadState.Error
                 errorState?.let {
-                    Snackbar.make(requireView(),
-                            "\uD83D\uDE28 Wooops ${it.error}",
-                            Snackbar.LENGTH_LONG).show()
+                    Snackbar.make(
+                        requireView(),
+                        "\uD83D\uDE28 Wooops ${it.error}",
+                        Snackbar.LENGTH_LONG
+                    ).show()
                 }
             }
         }
