@@ -7,11 +7,13 @@ import dagger.Module
 import dagger.Provides
 
 @Module
-class ActivityModule(private val activity: FragmentActivity) {
+class ActivityModule {
 
     @Provides
-    fun provideFragmentManager(): FragmentManager = activity.supportFragmentManager
+    fun provideFragmentManager(activity: FragmentActivity): FragmentManager =
+        activity.supportFragmentManager
 
     @Provides
-    fun provideDialogManager(fragmentManager: FragmentManager): DialogManager = DialogManager(fragmentManager)
+    fun provideDialogManager(fragmentManager: FragmentManager): DialogManager =
+        DialogManager(fragmentManager)
 }

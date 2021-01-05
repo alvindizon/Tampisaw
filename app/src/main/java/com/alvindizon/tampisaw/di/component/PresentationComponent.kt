@@ -1,6 +1,5 @@
 package com.alvindizon.tampisaw.di.component
 
-import com.alvindizon.tampisaw.di.module.ActivityModule
 import com.alvindizon.tampisaw.di.module.ViewModelModule
 import com.alvindizon.tampisaw.ui.collections.CollectionFragment
 import com.alvindizon.tampisaw.ui.collections.CollectionListFragment
@@ -12,7 +11,7 @@ import com.alvindizon.tampisaw.ui.search.SearchFragment
 import com.alvindizon.tampisaw.ui.search.SearchPhotosFragment
 import dagger.Subcomponent
 
-@Subcomponent(modules = [ActivityModule::class, ViewModelModule::class])
+@Subcomponent(modules = [ViewModelModule::class])
 interface PresentationComponent {
     fun inject(fragment : GalleryFragment)
     fun inject(fragment: DetailsFragment)

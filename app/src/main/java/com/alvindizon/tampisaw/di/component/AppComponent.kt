@@ -11,7 +11,7 @@ import javax.inject.Singleton
 @Singleton
 interface AppComponent {
 
-    fun presentationComponent(activityModule: ActivityModule): PresentationComponent
+    fun activityComponentBuilder(): ActivityComponent.Builder
 
     @Component.Builder
     interface Builder {
