@@ -11,11 +11,12 @@ import dagger.Provides
 import javax.inject.Singleton
 
 @Module
-class AppModule (private val application: Application){
+class AppModule {
 
     @Provides
     @Singleton
-    fun provideApplicationContext(): Context = application.applicationContext
+    fun provideApplicationContext(application: Application): Context =
+        application.applicationContext
 
     @Provides
     @Singleton
@@ -29,11 +30,13 @@ class AppModule (private val application: Application){
 
     @Provides
     @Singleton
-    fun provideSharedPreferences(context: Context) = PreferenceManager.getDefaultSharedPreferences(context)
+    fun provideSharedPreferences(context: Context) =
+        PreferenceManager.getDefaultSharedPreferences(context)
 
     @Provides
     @Singleton
-    fun provideNotificationManager(context: Context): NotificationManagerCompat = NotificationManagerCompat.from(context)
+    fun provideNotificationManager(context: Context): NotificationManagerCompat =
+        NotificationManagerCompat.from(context)
 
     @Provides
     @Singleton

@@ -3,9 +3,8 @@ package com.alvindizon.tampisaw
 import android.app.Application
 import com.alvindizon.tampisaw.di.component.AppComponent
 import com.alvindizon.tampisaw.di.component.DaggerAppComponent
-import com.alvindizon.tampisaw.di.module.AppModule
 
-class TampisawApp: Application() {
+class TampisawApp : Application() {
 
     companion object {
         private var INSTANCE: TampisawApp? = null
@@ -22,6 +21,6 @@ class TampisawApp: Application() {
     override fun onCreate() {
         super.onCreate()
         INSTANCE = this
-        appComponent = DaggerAppComponent.builder().appModule(AppModule(this)).build()
+        appComponent = DaggerAppComponent.builder().application(this).build()
     }
 }
