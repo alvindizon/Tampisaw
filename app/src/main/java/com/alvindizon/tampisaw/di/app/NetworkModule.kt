@@ -1,4 +1,4 @@
-package com.alvindizon.tampisaw.di.module
+package com.alvindizon.tampisaw.di.app
 
 import com.alvindizon.tampisaw.BuildConfig
 import com.alvindizon.tampisaw.data.networking.interceptor.ConnectivityInterceptor
@@ -20,14 +20,16 @@ class NetworkModule {
     @Singleton
     fun provideHttpLoggingInterceptor(): HttpLoggingInterceptor {
         val loggingInterceptor = HttpLoggingInterceptor()
-        loggingInterceptor.level = if (BuildConfig.DEBUG) HttpLoggingInterceptor.Level.BODY else HttpLoggingInterceptor.Level.NONE
+        loggingInterceptor.level =
+            if (BuildConfig.DEBUG) HttpLoggingInterceptor.Level.BODY else HttpLoggingInterceptor.Level.NONE
         return loggingInterceptor
     }
 
     @Provides
     @Singleton
-    fun provideOkHttpClient(httpLoggingInterceptor: HttpLoggingInterceptor,
-                            connectivityInterceptor: ConnectivityInterceptor
+    fun provideOkHttpClient(
+        httpLoggingInterceptor: HttpLoggingInterceptor,
+        connectivityInterceptor: ConnectivityInterceptor
     ): OkHttpClient = OkHttpClient.Builder()
         .addInterceptor(httpLoggingInterceptor)
         .addInterceptor(connectivityInterceptor)
@@ -44,5 +46,6 @@ class NetworkModule {
 
     @Provides
     @Singleton
-    fun provideUnsplashApi(retrofit: Retrofit): UnsplashApi = retrofit.create(UnsplashApi::class.java)
+    fun provideUnsplashApi(retrofit: Retrofit): UnsplashApi =
+        retrofit.create(UnsplashApi::class.java)
 }

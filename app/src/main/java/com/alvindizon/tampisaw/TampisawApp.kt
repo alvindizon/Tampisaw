@@ -1,8 +1,8 @@
 package com.alvindizon.tampisaw
 
 import android.app.Application
-import com.alvindizon.tampisaw.di.component.AppComponent
-import com.alvindizon.tampisaw.di.component.DaggerAppComponent
+import com.alvindizon.tampisaw.di.app.AppComponent
+import com.alvindizon.tampisaw.di.app.DaggerAppComponent
 
 class TampisawApp : Application() {
 

@@ -1,8 +1,8 @@
-package com.alvindizon.tampisaw.di.component
+package com.alvindizon.tampisaw.di.app
 
 
 import android.app.Application
-import com.alvindizon.tampisaw.di.module.*
+import com.alvindizon.tampisaw.di.activity.ActivityComponent
 import dagger.BindsInstance
 import dagger.Component
 import javax.inject.Singleton

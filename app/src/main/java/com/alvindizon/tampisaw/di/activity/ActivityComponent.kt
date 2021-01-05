@@ -1,10 +1,11 @@
-package com.alvindizon.tampisaw.di.component
+package com.alvindizon.tampisaw.di.activity
 
 import androidx.appcompat.app.AppCompatActivity
-import com.alvindizon.tampisaw.di.module.ActivityModule
+import com.alvindizon.tampisaw.di.presentation.PresentationComponent
 import dagger.BindsInstance
 import dagger.Subcomponent
 
+@ActivityScope
 @Subcomponent(modules = [ActivityModule::class])
 interface ActivityComponent {
 

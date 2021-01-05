@@ -1,4 +1,4 @@
-package com.alvindizon.tampisaw.di.module
+package com.alvindizon.tampisaw.di.app
 
 import androidx.paging.ExperimentalPagingApi
 import com.alvindizon.tampisaw.data.UnsplashRepoImpl
@@ -14,6 +14,5 @@ class RepoModule {
     @ExperimentalPagingApi
     @Provides
     @Singleton
-    fun provideUnsplashRepo(unsplashApi: UnsplashApi): UnsplashRepo
-            = UnsplashRepoImpl(unsplashApi)
+    fun provideUnsplashRepo(unsplashApi: UnsplashApi): UnsplashRepo = UnsplashRepoImpl(unsplashApi)
 }

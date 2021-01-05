@@ -1,4 +1,4 @@
-package com.alvindizon.tampisaw.di.module
+package com.alvindizon.tampisaw.di.app
 
 import android.app.Application
 import android.content.Context

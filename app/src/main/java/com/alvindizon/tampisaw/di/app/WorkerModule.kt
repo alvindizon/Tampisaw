@@ -1,4 +1,4 @@
-package com.alvindizon.tampisaw.di.module
+package com.alvindizon.tampisaw.di.app
 
 import android.content.ContentResolver
 import android.content.Context
@@ -27,9 +27,11 @@ class WorkerModule {
 
     @Provides
     @Singleton
-    fun provideWorkerFactory(unsplashApi: UnsplashApi,
-                             notifsHelper: NotifsHelper,
-                             contentResolver: ContentResolver): WorkerFactory {
+    fun provideWorkerFactory(
+        unsplashApi: UnsplashApi,
+        notifsHelper: NotifsHelper,
+        contentResolver: ContentResolver
+    ): WorkerFactory {
         return AppWorkerFactory(unsplashApi, notifsHelper, contentResolver)
     }
 }
