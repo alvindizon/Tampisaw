@@ -41,4 +41,5 @@ class AppModule {
     @Provides
     @Singleton
     fun provideContentResolver(context: Context) = context.contentResolver
+
 }

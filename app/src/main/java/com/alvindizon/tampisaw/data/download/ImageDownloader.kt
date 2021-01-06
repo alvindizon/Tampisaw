@@ -10,6 +10,7 @@ import android.provider.MediaStore
 import androidx.annotation.RequiresApi
 import androidx.core.app.NotificationCompat
 import androidx.core.content.FileProvider
+import androidx.lifecycle.LiveData
 import androidx.work.*
 import com.alvindizon.tampisaw.core.ui.NotifsHelper
 import com.alvindizon.tampisaw.core.utils.FILE_PROVIDER_AUTHORITY
@@ -23,17 +24,18 @@ import okio.buffer
 import okio.sink
 import java.io.File
 import java.io.IOException
+import java.util.*
+import javax.inject.Inject
 
 class DownloadCancelledException(message: String) : IOException(message)
 
-class ImageDownloader(private val context: Context, params: WorkerParameters) :
-    RxWorker(context, params) {
-
-    lateinit var unsplashApi: UnsplashApi
-
-    lateinit var notifsHelper: NotifsHelper
-
-    lateinit var contentResolver: ContentResolver
+class ImageDownloader @Inject constructor(
+    private val unsplashApi: UnsplashApi,
+    private val notifsHelper: NotifsHelper,
+    private val contentResolver: ContentResolver,
+    private val context: Context,
+    params: WorkerParameters
+) : RxWorker(context, params) {
 
     override fun createWork(): Single<Result> {
         val url = inputData.getString(KEY_INPUT_URL) ?: return Single.just(Result.failure())
@@ -205,15 +207,25 @@ class ImageDownloader(private val context: Context, params: WorkerParameters) :
         fun enqueueDownload(
             url: String,
             fileName: String,
-            photoId: String?
-        ): OneTimeWorkRequest {
+            photoId: String?,
+            context: Context
+        ): UUID {
             val inputData = workDataOf(
                 KEY_INPUT_URL to url,
                 KEY_OUTPUT_FILE_NAME to fileName,
                 KEY_PHOTO_ID to photoId
             )
-            return OneTimeWorkRequestBuilder<ImageDownloader>()
+            val request = OneTimeWorkRequestBuilder<ImageDownloader>()
                 .setInputData(inputData).build()
+            WorkManager.getInstance(context).enqueue(request)
+            return request.id
         }
+
+        fun cancelWorkById(id: UUID, context: Context) {
+            WorkManager.getInstance(context).cancelWorkById(id)
+        }
+
+        fun getWorkInfoByIdLiveData(id: UUID, context: Context): LiveData<WorkInfo> =
+           WorkManager.getInstance(context).getWorkInfoByIdLiveData(id)
     }
 }

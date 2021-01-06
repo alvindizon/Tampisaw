@@ -21,7 +21,6 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.work.WorkInfo
-import androidx.work.WorkManager
 import com.alvindizon.tampisaw.R
 import com.alvindizon.tampisaw.core.ViewModelFactory
 import com.alvindizon.tampisaw.core.hasWritePermission
@@ -54,9 +53,6 @@ class DetailsFragment : BaseFragment(R.layout.fragment_details) {
 
     @Inject
     lateinit var activityFragmentManager: FragmentManager
-
-    @Inject
-    lateinit var workManager: WorkManager
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -142,10 +138,9 @@ class DetailsFragment : BaseFragment(R.layout.fragment_details) {
     private fun downloadPhoto(photoDetails: PhotoDetails) {
         if (requireContext().hasWritePermission()) {
             showDownloadQualityChoice(requireContext(), photoDetails) {
-                val request = ImageDownloader.enqueueDownload(
-                    it, photoDetails.fileName, photoDetails.id
+                ImageDownloader.enqueueDownload(
+                    it, photoDetails.fileName, photoDetails.id, requireContext()
                 )
-                workManager.enqueue(request)
             }
 
         } else {
@@ -212,16 +207,15 @@ class DetailsFragment : BaseFragment(R.layout.fragment_details) {
     private fun downloadWallpaper(photoDetails: PhotoDetails) {
         if (requireContext().hasWritePermission()) {
             showDownloadQualityChoice(requireContext(), photoDetails) {
-                val request = ImageDownloader.enqueueDownload(
-                    it, photoDetails.fileName, photoDetails.id
+                val requestId = ImageDownloader.enqueueDownload(
+                    it, photoDetails.fileName, photoDetails.id, requireContext()
                 )
-                workManager.enqueue(request)
 
                 binding?.root?.rootView?.let { view ->
                     snackbar =
                         Snackbar.make(view, "Setting wallpaper...", Snackbar.LENGTH_INDEFINITE)
                             .setAction(R.string.cancel) {
-                                workManager.cancelWorkById(request.id)
+                                ImageDownloader.cancelWorkById(requestId, requireContext())
                             }
                             .setActionTextColor(
                                 ContextCompat.getColor(
@@ -233,23 +227,24 @@ class DetailsFragment : BaseFragment(R.layout.fragment_details) {
                     snackbar?.show()
                 }
 
-                workManager.getWorkInfoByIdLiveData(request.id).observe(viewLifecycleOwner,
-                    { workInfo ->
-                        if (workInfo.state == WorkInfo.State.SUCCEEDED) {
-                            snackbar?.dismiss()
-                            requireContext().getUriForPhoto(photoDetails.fileName)?.let { uri ->
-                                setWallpaper(uri)
+                ImageDownloader.getWorkInfoByIdLiveData(requestId, requireContext())
+                    .observe(viewLifecycleOwner,
+                        { workInfo ->
+                            if (workInfo.state == WorkInfo.State.SUCCEEDED) {
+                                snackbar?.dismiss()
+                                requireContext().getUriForPhoto(photoDetails.fileName)?.let { uri ->
+                                    setWallpaper(uri)
+                                }
+                            } else if (workInfo.state == WorkInfo.State.FAILED) {
+                                binding?.root?.rootView?.let { view ->
+                                    Snackbar.make(
+                                        view,
+                                        "Error downloading wallpaper.",
+                                        Snackbar.LENGTH_LONG
+                                    ).show()
+                                }
                             }
-                        } else if (workInfo.state == WorkInfo.State.FAILED) {
-                            binding?.root?.rootView?.let { view ->
-                                Snackbar.make(
-                                    view,
-                                    "Error downloading wallpaper.",
-                                    Snackbar.LENGTH_LONG
-                                ).show()
-                            }
-                        }
-                    })
+                        })
             }
         } else {
             requestPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE, requestCode = 0)
