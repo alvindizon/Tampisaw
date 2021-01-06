@@ -15,6 +15,10 @@ import javax.inject.Singleton
 @Module
 class WorkerModule {
 
+    // we do not need WorkManager to be configured automatically when the app starts,
+    // so that app startup performance is improved. Thus we configure it manually for
+    // on-demand initialization + it enables us to inject it via Dagger
+    // See: https://developer.android.com/topic/libraries/architecture/workmanager/advanced/custom-configuration
     @Provides
     @Singleton
     fun provideWorkManager(context: Context, workerFactory: WorkerFactory): WorkManager {

@@ -22,8 +22,12 @@ import okio.BufferedSink
 import okio.buffer
 import okio.sink
 import java.io.File
+import java.io.IOException
 
-class ImageDownloader (private val context: Context, params: WorkerParameters): RxWorker(context, params) {
+class DownloadCancelledException(message: String) : IOException(message)
+
+class ImageDownloader(private val context: Context, params: WorkerParameters) :
+    RxWorker(context, params) {
 
     lateinit var unsplashApi: UnsplashApi
 
@@ -33,10 +37,13 @@ class ImageDownloader (private val context: Context, params: WorkerParameters): 
 
     override fun createWork(): Single<Result> {
         val url = inputData.getString(KEY_INPUT_URL) ?: return Single.just(Result.failure())
-        val fileName = inputData.getString(KEY_OUTPUT_FILE_NAME) ?: return Single.just(Result.failure())
-        val photoId = inputData.getString(KEY_PHOTO_ID)?: return Single.just(Result.failure())
+        val fileName =
+            inputData.getString(KEY_OUTPUT_FILE_NAME) ?: return Single.just(Result.failure())
+        val photoId = inputData.getString(KEY_PHOTO_ID) ?: return Single.just(Result.failure())
 
         val notificationId = id.hashCode()
+        // note: at this point, WorkManager has been manually initialized in WorkerModule,
+        // thus it is safe to call WorkManager.getInstance here
         val cancelIntent = WorkManager.getInstance(context).createCancelPendingIntent(id)
         val notificationBuilder =
             notifsHelper.getDownloadProgressNotifBuilder(fileName, cancelIntent)
@@ -47,18 +54,18 @@ class ImageDownloader (private val context: Context, params: WorkerParameters): 
                 // display notification with progress bar
                 setForegroundAsync(ForegroundInfo(notificationId, notificationBuilder.build()))
             }
-            .flatMap{
+            .flatMap {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-                    saveImage(it, fileName,  notificationId, notificationBuilder)
+                    saveImage(it, fileName, notificationId, notificationBuilder)
                 } else {
                     saveImageLegacy(it, fileName, notificationId, notificationBuilder)
                 }
             }
-            .flatMapCompletable{
+            .flatMapCompletable {
                 notifsHelper.showDownloadCompleteNotification(fileName, it)
                 unsplashApi.trackDownload(photoId)
             }
-            .toSingle{ Result.success() }
+            .toSingle { Result.success() }
             .onErrorReturn {
                 it.printStackTrace()
                 notifsHelper.showDownloadErrorNotification(fileName)
@@ -90,8 +97,12 @@ class ImageDownloader (private val context: Context, params: WorkerParameters): 
             uri?.let {
                 val complete = contentResolver.openOutputStream(uri)?.use { outputStream ->
                     responseBody.writeToSink(outputStream.sink().buffer()) {
-                        setForegroundAsync(ForegroundInfo(notificationId,
-                            notifsHelper.updateDownloadNotification(builder, it).build()))
+                        setForegroundAsync(
+                            ForegroundInfo(
+                                notificationId,
+                                notifsHelper.updateDownloadNotification(builder, it).build()
+                            )
+                        )
                     }
                 } ?: false
 
@@ -133,8 +144,12 @@ class ImageDownloader (private val context: Context, params: WorkerParameters): 
             val file = File(path, fileName)
 
             val complete = responseBody.writeToSink(file.sink().buffer()) {
-                setForegroundAsync(ForegroundInfo(notificationId,
-                    notifsHelper.updateDownloadNotification(builder, it).build()))
+                setForegroundAsync(
+                    ForegroundInfo(
+                        notificationId,
+                        notifsHelper.updateDownloadNotification(builder, it).build()
+                    )
+                )
             }
 
             if (!complete && file.exists()) {
@@ -143,8 +158,10 @@ class ImageDownloader (private val context: Context, params: WorkerParameters): 
                 return@create
             }
 
-            MediaScannerConnection.scanFile(context, arrayOf(file.absolutePath),
-                arrayOf("image/jpeg"), null)
+            MediaScannerConnection.scanFile(
+                context, arrayOf(file.absolutePath),
+                arrayOf("image/jpeg"), null
+            )
 
             // we need to use FileProvider since we're targeting >= API 24, if not then using
             // Uri.fromFile would cause FileUriExposedException
@@ -195,9 +212,8 @@ class ImageDownloader (private val context: Context, params: WorkerParameters): 
                 KEY_OUTPUT_FILE_NAME to fileName,
                 KEY_PHOTO_ID to photoId
             )
-            val request = OneTimeWorkRequestBuilder<ImageDownloader>()
+            return OneTimeWorkRequestBuilder<ImageDownloader>()
                 .setInputData(inputData).build()
-            return request
         }
     }
 }
