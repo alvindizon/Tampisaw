@@ -16,6 +16,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.view.forEach
 import androidx.core.view.isVisible
+import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
@@ -26,9 +27,9 @@ import com.alvindizon.tampisaw.core.ViewModelFactory
 import com.alvindizon.tampisaw.core.hasWritePermission
 import com.alvindizon.tampisaw.core.requestPermission
 import com.alvindizon.tampisaw.core.ui.BaseFragment
-import com.alvindizon.tampisaw.core.ui.DialogManager
 import com.alvindizon.tampisaw.core.utils.fileExists
 import com.alvindizon.tampisaw.core.utils.getUriForPhoto
+import com.alvindizon.tampisaw.core.utils.showDialogFragment
 import com.alvindizon.tampisaw.core.utils.showFileExistsDialog
 import com.alvindizon.tampisaw.data.download.ImageDownloader
 import com.alvindizon.tampisaw.databinding.FragmentDetailsBinding
@@ -52,7 +53,7 @@ class DetailsFragment : BaseFragment(R.layout.fragment_details) {
     lateinit var viewModelFactory: ViewModelFactory
 
     @Inject
-    lateinit var dialogManager: DialogManager
+    lateinit var activityFragmentManager: FragmentManager
 
     @Inject
     lateinit var workManager: WorkManager
@@ -298,7 +299,7 @@ class DetailsFragment : BaseFragment(R.layout.fragment_details) {
             }
 
             info.setOnClickListener {
-                dialogManager.showDialog(InfoBottomSheet.newInstance(photoDetails.tags) { tag ->
+                activityFragmentManager.showDialogFragment(InfoBottomSheet.newInstance(photoDetails.tags) { tag ->
                     Log.d("DetailsFragment", "tag: $tag")
                 })
             }
