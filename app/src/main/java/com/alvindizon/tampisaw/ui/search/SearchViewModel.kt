@@ -1,5 +1,6 @@
 package com.alvindizon.tampisaw.ui.search
 
+import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
@@ -14,18 +15,17 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.rxkotlin.plusAssign
 import io.reactivex.rxkotlin.subscribeBy
 import io.reactivex.schedulers.Schedulers
-import javax.inject.Inject
 
-class SearchViewModel @Inject constructor(
+class SearchViewModel @ViewModelInject constructor(
     private val searchPhotosUseCase: SearchPhotosUseCase,
     private val searchCollectionsUseCase: SearchCollectionsUseCase
 ) : BaseViewModel() {
 
     private val _photos = MutableLiveData<PagingData<UnsplashPhoto>>()
-    val photos: LiveData<PagingData<UnsplashPhoto>>? get() = _photos
+    val photos: LiveData<PagingData<UnsplashPhoto>> get() = _photos
 
     private val _collections = MutableLiveData<PagingData<UnsplashCollection>>()
-    val collections: LiveData<PagingData<UnsplashCollection>>? get() = _collections
+    val collections: LiveData<PagingData<UnsplashCollection>> get() = _collections
 
     fun updateQuery(query: String) {
         searchPhotos(query)

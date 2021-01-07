@@ -1,37 +1,26 @@
 package com.alvindizon.tampisaw.ui.collections
 
-import android.content.Context
 import android.os.Bundle
 import android.view.View
 import androidx.core.view.isVisible
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.paging.LoadState
 import com.alvindizon.tampisaw.R
-import com.alvindizon.tampisaw.core.ViewModelFactory
 import com.alvindizon.tampisaw.core.ui.BaseFragment
 import com.alvindizon.tampisaw.core.ui.RetryAdapter
 import com.alvindizon.tampisaw.databinding.FragmentCollectionListBinding
 import com.google.android.material.snackbar.Snackbar
-import javax.inject.Inject
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class CollectionListFragment : BaseFragment(R.layout.fragment_collection_list) {
 
     private var binding: FragmentCollectionListBinding? = null
 
-    private lateinit var viewModel: CollectionListViewModel
+    private val viewModel: CollectionListViewModel by viewModels()
 
     private lateinit var adapter: CollectionAdapter
-
-    @Inject
-    lateinit var viewModelFactory: ViewModelFactory
-
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        injector.inject(this)
-        viewModel =
-            ViewModelProvider(this, viewModelFactory).get(CollectionListViewModel::class.java)
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

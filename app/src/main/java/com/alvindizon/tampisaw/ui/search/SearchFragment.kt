@@ -1,37 +1,26 @@
 package com.alvindizon.tampisaw.ui.search
 
-import android.content.Context
 import android.os.Bundle
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.ViewModelProvider
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.alvindizon.tampisaw.R
-import com.alvindizon.tampisaw.core.ViewModelFactory
 import com.alvindizon.tampisaw.core.ui.BaseFragment
 import com.alvindizon.tampisaw.core.utils.hideKeyboard
 import com.alvindizon.tampisaw.databinding.FragmentSearchBinding
 import com.google.android.material.tabs.TabLayoutMediator
-import javax.inject.Inject
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class SearchFragment : BaseFragment(R.layout.fragment_search) {
 
     private var binding: FragmentSearchBinding? = null
 
-    private lateinit var viewModel: SearchViewModel
-
-    @Inject
-    lateinit var viewModelFactory: ViewModelFactory
-
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        injector.inject(this)
-        viewModel =
-            ViewModelProvider(requireActivity(), viewModelFactory).get(SearchViewModel::class.java)
-    }
+    private val viewModel: SearchViewModel by activityViewModels()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

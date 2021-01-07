@@ -1,5 +1,6 @@
 package com.alvindizon.tampisaw.ui.gallery
 
+import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
@@ -11,14 +12,13 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.rxkotlin.plusAssign
 import io.reactivex.rxkotlin.subscribeBy
 import io.reactivex.schedulers.Schedulers
-import javax.inject.Inject
 
-class GalleryViewModel @Inject constructor(
+class GalleryViewModel @ViewModelInject constructor(
     private val getAllPhotosUseCase: GetAllPhotosUseCase
 ) : BaseViewModel() {
 
     private val _uiState = MutableLiveData<PagingData<UnsplashPhoto>>()
-    val uiState: LiveData<PagingData<UnsplashPhoto>>? get() = _uiState
+    val uiState: LiveData<PagingData<UnsplashPhoto>> get() = _uiState
 
     fun getAllPhotos() {
         compositeDisposable += getAllPhotosUseCase.getAllPhotos()

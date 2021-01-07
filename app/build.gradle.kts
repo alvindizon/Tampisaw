@@ -6,6 +6,7 @@ plugins {
     kotlin(Plugins.kotlinAndroid)
     kotlin(Plugins.kapt)
     id(Plugins.kotlinNavSafeArgs)
+    id(Plugins.hilt)
 }
 
 fun getAccessKey(): String {

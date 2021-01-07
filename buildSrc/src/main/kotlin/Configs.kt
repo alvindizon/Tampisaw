@@ -11,6 +11,7 @@ object LegacyPluginClassPath {
     const val androidGradlePlugin = "com.android.tools.build:gradle:${Versions.androidGradlePlugin}"
     const val kotlinPlugin = "org.jetbrains.kotlin:kotlin-gradle-plugin:${Versions.kotlin}"
     const val safeArgs = "androidx.navigation:navigation-safe-args-gradle-plugin:${Versions.navigation}"
+    const val hiltPlugin = "com.google.dagger:hilt-android-gradle-plugin:${Versions.hilt}"
 }
 
 object Plugins {
@@ -18,6 +19,7 @@ object Plugins {
     const val kapt = "kapt"
     const val kotlinAndroid = "android"
     const val kotlinNavSafeArgs = "androidx.navigation.safeargs.kotlin"
+    const val hilt = "dagger.hilt.android.plugin"
     val gradleVersions = PluginClass("com.github.ben-manes.versions", Versions.gradleVersions)
 }
 

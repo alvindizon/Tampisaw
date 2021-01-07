@@ -17,12 +17,11 @@ import androidx.core.content.ContextCompat
 import androidx.core.view.forEach
 import androidx.core.view.isVisible
 import androidx.fragment.app.FragmentManager
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.work.WorkInfo
 import com.alvindizon.tampisaw.R
-import com.alvindizon.tampisaw.core.ViewModelFactory
 import com.alvindizon.tampisaw.core.hasWritePermission
 import com.alvindizon.tampisaw.core.requestPermission
 import com.alvindizon.tampisaw.core.ui.BaseFragment
@@ -36,30 +35,22 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
+import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
+@AndroidEntryPoint
 class DetailsFragment : BaseFragment(R.layout.fragment_details) {
 
     private var binding: FragmentDetailsBinding? = null
 
     private var snackbar: Snackbar? = null
 
-    private lateinit var viewModel: DetailsViewModel
+    private val viewModel: DetailsViewModel by activityViewModels()
 
     private val args: DetailsFragmentArgs by navArgs()
 
     @Inject
-    lateinit var viewModelFactory: ViewModelFactory
-
-    @Inject
     lateinit var activityFragmentManager: FragmentManager
-
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        injector.inject(this)
-        viewModel =
-            ViewModelProvider(requireActivity(), viewModelFactory).get(DetailsViewModel::class.java)
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

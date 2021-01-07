@@ -1,38 +1,27 @@
 package com.alvindizon.tampisaw.ui.search
 
-import android.content.Context
 import android.os.Bundle
 import android.view.View
 import androidx.core.view.isVisible
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.paging.LoadState
 import com.alvindizon.tampisaw.R
-import com.alvindizon.tampisaw.core.ViewModelFactory
 import com.alvindizon.tampisaw.core.ui.BaseFragment
 import com.alvindizon.tampisaw.core.ui.RetryAdapter
 import com.alvindizon.tampisaw.databinding.FragmentSearchCollectionListBinding
 import com.alvindizon.tampisaw.ui.collections.CollectionAdapter
 import com.google.android.material.snackbar.Snackbar
-import javax.inject.Inject
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class SearchCollectionListFragment : BaseFragment(R.layout.fragment_search_collection_list) {
 
     private var binding: FragmentSearchCollectionListBinding? = null
 
-    private lateinit var viewModel: SearchViewModel
+    private val viewModel: SearchViewModel by activityViewModels()
 
     private lateinit var adapter: CollectionAdapter
-
-    @Inject
-    lateinit var viewModelFactory: ViewModelFactory
-
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        injector.inject(this)
-        viewModel =
-            ViewModelProvider(requireActivity(), viewModelFactory).get(SearchViewModel::class.java)
-    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

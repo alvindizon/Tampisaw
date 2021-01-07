@@ -14,6 +14,7 @@ buildscript {
         classpath(LegacyPluginClassPath.androidGradlePlugin)
         classpath(LegacyPluginClassPath.kotlinPlugin)
         classpath(LegacyPluginClassPath.safeArgs)
+        classpath(LegacyPluginClassPath.hiltPlugin)
     }
 }
 

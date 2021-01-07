@@ -1,42 +1,30 @@
 package com.alvindizon.tampisaw.ui.details
 
 import android.app.Dialog
-import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
 import androidx.databinding.DataBindingUtil
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.alvindizon.tampisaw.R
-import com.alvindizon.tampisaw.core.ViewModelFactory
-import com.alvindizon.tampisaw.core.ui.BaseActivity
 import com.alvindizon.tampisaw.databinding.DialogPhotoDetailsBinding
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
-import javax.inject.Inject
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class InfoBottomSheet(private val tags: List<String?>?, private val listener: (String) -> Unit) :
     BottomSheetDialogFragment() {
 
-    @Inject
-    lateinit var viewModelFactory: ViewModelFactory
-
-    private lateinit var viewModel: DetailsViewModel
+    private val viewModel: DetailsViewModel by activityViewModels()
 
     private lateinit var adapter: TagAdapter
 
     private var binding: DialogPhotoDetailsBinding? = null
-
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        (requireActivity() as BaseActivity).activityComponent.presentationComponent().inject(this)
-        viewModel =
-            ViewModelProvider(requireActivity(), viewModelFactory).get(DetailsViewModel::class.java)
-    }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val bottomSheetDialog = super.onCreateDialog(savedInstanceState)

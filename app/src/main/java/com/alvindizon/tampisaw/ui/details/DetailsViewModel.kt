@@ -1,6 +1,7 @@
 package com.alvindizon.tampisaw.ui.details
 
 import androidx.databinding.ObservableField
+import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.alvindizon.tampisaw.core.toPhotoDetails
@@ -10,14 +11,13 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.rxkotlin.plusAssign
 import io.reactivex.rxkotlin.subscribeBy
 import io.reactivex.schedulers.Schedulers
-import javax.inject.Inject
 
-class DetailsViewModel @Inject constructor(
+class DetailsViewModel @ViewModelInject constructor(
     private val getPhotoUseCase: GetPhotoUseCase
 ) : BaseViewModel() {
 
     private val _uiState = MutableLiveData<DetailsUIState>()
-    val uiState: LiveData<DetailsUIState>? get() = _uiState
+    val uiState: LiveData<DetailsUIState> get() = _uiState
 
     val photoDetails = ObservableField<PhotoDetails>()
 

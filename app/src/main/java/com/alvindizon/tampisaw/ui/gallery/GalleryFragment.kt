@@ -1,37 +1,27 @@
 package com.alvindizon.tampisaw.ui.gallery
 
-import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import androidx.core.view.isVisible
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.paging.LoadState
 import com.alvindizon.tampisaw.R
-import com.alvindizon.tampisaw.core.ViewModelFactory
 import com.alvindizon.tampisaw.core.ui.BaseFragment
 import com.alvindizon.tampisaw.core.ui.RetryAdapter
 import com.alvindizon.tampisaw.databinding.FragmentGalleryBinding
 import com.google.android.material.snackbar.Snackbar
-import javax.inject.Inject
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class GalleryFragment : BaseFragment(R.layout.fragment_gallery) {
 
     private var binding: FragmentGalleryBinding? = null
 
-    private lateinit var viewModel: GalleryViewModel
+    private val viewModel: GalleryViewModel by viewModels()
 
     private lateinit var adapter: GalleryAdapter
-
-    @Inject
-    lateinit var viewModelFactory: ViewModelFactory
-
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        injector.inject(this)
-        viewModel = ViewModelProvider(this, viewModelFactory).get(GalleryViewModel::class.java)
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

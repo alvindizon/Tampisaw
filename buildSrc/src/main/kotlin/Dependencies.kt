@@ -34,7 +34,10 @@ object Libs {
         "androidx.work:work-runtime-ktx:${Versions.work}",
         "androidx.work:work-rxjava2:${Versions.work}",
         "com.squareup.okio:okio:${Versions.okio}",
-        "androidx.swiperefreshlayout:swiperefreshlayout:${Versions.swiperefreshlayout}"
+        "androidx.swiperefreshlayout:swiperefreshlayout:${Versions.swiperefreshlayout}",
+        "com.google.dagger:hilt-android:${Versions.hilt}",
+        "androidx.hilt:hilt-lifecycle-viewmodel:${Versions.hiltAndroidX}",
+        "androidx.hilt:hilt-work:${Versions.hiltAndroidX}"
     )
 
     val androidTestImplementations = listOf(
@@ -53,7 +56,9 @@ object Libs {
     val kaptLibs = listOf(
         "com.squareup.moshi:moshi-kotlin-codegen:${Versions.moshi}",
         "com.google.dagger:dagger-compiler:${Versions.dagger}",
-        "androidx.room:room-compiler:${Versions.room}"
+        "androidx.room:room-compiler:${Versions.room}",
+        "com.google.dagger:hilt-android-compiler:${Versions.hilt}",
+        "androidx.hilt:hilt-compiler:${Versions.hiltAndroidX}"
     )
 
 }
@@ -91,4 +96,6 @@ object Versions {
     const val gradleVersions = "0.36.0"
     const val mockk = "1.10.4"
     const val junit5 = "5.7.0"
+    const val hilt= "2.28-alpha"
+    const val hiltAndroidX = "1.0.0-alpha02"
 }

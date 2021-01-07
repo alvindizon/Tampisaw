@@ -10,6 +10,8 @@ import android.provider.MediaStore
 import androidx.annotation.RequiresApi
 import androidx.core.app.NotificationCompat
 import androidx.core.content.FileProvider
+import androidx.hilt.Assisted
+import androidx.hilt.work.WorkerInject
 import androidx.lifecycle.LiveData
 import androidx.work.*
 import com.alvindizon.tampisaw.core.ui.NotifsHelper
@@ -25,16 +27,15 @@ import okio.sink
 import java.io.File
 import java.io.IOException
 import java.util.*
-import javax.inject.Inject
 
 class DownloadCancelledException(message: String) : IOException(message)
 
-class ImageDownloader @Inject constructor(
+class ImageDownloader @WorkerInject constructor(
     private val unsplashApi: UnsplashApi,
     private val notifsHelper: NotifsHelper,
     private val contentResolver: ContentResolver,
-    private val context: Context,
-    params: WorkerParameters
+    @Assisted private val context: Context,
+    @Assisted params: WorkerParameters
 ) : RxWorker(context, params) {
 
     override fun createWork(): Single<Result> {
@@ -49,7 +50,6 @@ class ImageDownloader @Inject constructor(
         val cancelIntent = WorkManager.getInstance(context).createCancelPendingIntent(id)
         val notificationBuilder =
             notifsHelper.getDownloadProgressNotifBuilder(fileName, cancelIntent)
-
 
         return unsplashApi.downloadFile(url)
             .doOnSubscribe {
@@ -226,6 +226,6 @@ class ImageDownloader @Inject constructor(
         }
 
         fun getWorkInfoByIdLiveData(id: UUID, context: Context): LiveData<WorkInfo> =
-           WorkManager.getInstance(context).getWorkInfoByIdLiveData(id)
+            WorkManager.getInstance(context).getWorkInfoByIdLiveData(id)
     }
 }
