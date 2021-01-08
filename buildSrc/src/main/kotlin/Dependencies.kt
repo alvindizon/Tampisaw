@@ -44,7 +44,7 @@ object Libs {
     )
 
     val testImplementations = listOf(
-        "junit:junit:${Versions.junit}",
+        "org.junit.jupiter:junit-jupiter:${Versions.junit5}",
         "org.jetbrains.kotlinx:kotlinx-coroutines-test:${Versions.coroutine}",
         "androidx.arch.core:core-testing:${Versions.coreTesting}",
         "io.mockk:mockk:${Versions.mockk}"
@@ -67,7 +67,6 @@ object Versions {
     const val espresso = "3.3.0"
     const val glide = "4.11.0"
     const val dagger = "2.30.1"
-    const val junit = "4.13.1"
     const val ktx = "1.3.2"
     const val lifecycle = "2.2.0"
     const val paging = "3.0.0-alpha11"
@@ -91,4 +90,5 @@ object Versions {
     const val rxKotlin = "2.4.0"
     const val gradleVersions = "0.36.0"
     const val mockk = "1.10.4"
+    const val junit5 = "5.7.0"
 }

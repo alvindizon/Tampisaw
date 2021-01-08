@@ -1,8 +1,8 @@
 package com.alvindizon.tampisaw.ui.details
 
-import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import com.alvindizon.tampisaw.MainCoroutineRule
-import com.alvindizon.tampisaw.RxSchedulerRule
+import com.alvindizon.tampisaw.CoroutineExtension
+import com.alvindizon.tampisaw.InstantExecutorExtension
+import com.alvindizon.tampisaw.RxSchedulerExtension
 import com.alvindizon.tampisaw.core.toPhotoDetails
 import com.alvindizon.tampisaw.data.networking.model.getphoto.*
 import com.alvindizon.tampisaw.domain.GetPhotoUseCase
@@ -13,29 +13,21 @@ import io.mockk.impl.annotations.MockK
 import io.reactivex.Single
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.junit.Assert.assertEquals
-import org.junit.Before
-import org.junit.Rule
-import org.junit.Test
+import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.extension.ExtendWith
 import java.io.IOException
 
+@ExperimentalCoroutinesApi
+@ExtendWith(value = [InstantExecutorExtension::class, RxSchedulerExtension::class, CoroutineExtension::class])
 class DetailsViewModelTest {
-
-    @get:Rule
-    val taskExecutorRule = InstantTaskExecutorRule()
-
-    @get:Rule
-    val rxSchedulerRule = RxSchedulerRule()
-
-    @ExperimentalCoroutinesApi
-    @get:Rule
-    val coroutineRule = MainCoroutineRule()
 
     @MockK
     lateinit var getPhotoUseCase: GetPhotoUseCase
 
     private lateinit var SUT: DetailsViewModel
 
-    @Before
+    @BeforeEach
     fun setUp() {
         MockKAnnotations.init(this)
         SUT = DetailsViewModel(getPhotoUseCase)

@@ -1,6 +1,5 @@
 package com.alvindizon.tampisaw.ui.gallery
 
-import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.alvindizon.tampisaw.*
 import com.alvindizon.tampisaw.domain.GetAllPhotosUseCase
 import io.mockk.MockKAnnotations
@@ -10,35 +9,26 @@ import io.reactivex.Observable
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert.assertEquals
-import org.junit.Before
-import org.junit.Rule
-import org.junit.Test
+import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.extension.ExtendWith
 import java.io.IOException
 
+@ExperimentalCoroutinesApi
+@ExtendWith(value = [InstantExecutorExtension::class, RxSchedulerExtension::class, CoroutineExtension::class])
 class GalleryViewModelTest {
-
-    @get:Rule
-    val taskExecutorRule = InstantTaskExecutorRule()
-
-    @get:Rule
-    val rxSchedulerRule = RxSchedulerRule()
-
-    @ExperimentalCoroutinesApi
-    @get:Rule
-    val coroutineRule = MainCoroutineRule()
 
     @MockK
     lateinit var getAllPhotosUseCase: GetAllPhotosUseCase
 
     private lateinit var SUT: GalleryViewModel
 
-    @Before
+    @BeforeEach
     fun setUp() {
         MockKAnnotations.init(this)
         SUT = GalleryViewModel(getAllPhotosUseCase)
     }
 
-    @ExperimentalCoroutinesApi
     @Test
     fun `getAllPhotos loads correct PagingData of type UnsplashPhoto`() {
         val uiState = SUT.uiState?.testObserver()
@@ -54,7 +44,6 @@ class GalleryViewModelTest {
         }
     }
 
-    @ExperimentalCoroutinesApi
     @Test
     fun `empty paging data if error is encountered`() {
         val uiState = SUT.uiState?.testObserver()

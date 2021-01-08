@@ -1,31 +1,24 @@
 package com.alvindizon.tampisaw.ui.search
 
-import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.alvindizon.tampisaw.*
 import com.alvindizon.tampisaw.domain.SearchCollectionsUseCase
 import com.alvindizon.tampisaw.domain.SearchPhotosUseCase
-import io.mockk.*
+import io.mockk.MockKAnnotations
+import io.mockk.every
 import io.mockk.impl.annotations.MockK
+import io.mockk.verify
 import io.reactivex.Observable
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert.assertEquals
-import org.junit.Before
-import org.junit.Rule
-import org.junit.Test
+import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.extension.ExtendWith
 import java.io.IOException
 
+@ExperimentalCoroutinesApi
+@ExtendWith(value = [InstantExecutorExtension::class, RxSchedulerExtension::class, CoroutineExtension::class])
 class SearchViewModelTest {
-
-    @get:Rule
-    val taskExecutorRule = InstantTaskExecutorRule()
-
-    @get:Rule
-    val rxSchedulerRule = RxSchedulerRule()
-
-    @ExperimentalCoroutinesApi
-    @get:Rule
-    val coroutineRule = MainCoroutineRule()
 
     @MockK
     lateinit var searchPhotosUseCase: SearchPhotosUseCase
@@ -35,7 +28,7 @@ class SearchViewModelTest {
 
     private lateinit var SUT: SearchViewModel
 
-    @Before
+    @BeforeEach
     fun setUp() {
         MockKAnnotations.init(this)
         SUT = SearchViewModel(searchPhotosUseCase, searchCollectionsUseCase)
@@ -58,7 +51,6 @@ class SearchViewModelTest {
         assertEquals(querySlots[1], testQuery)
     }
 
-    @ExperimentalCoroutinesApi
     @Test
     fun `searchCollections loads correct PagingData of type UnsplashCollection`() {
         val uiState = SUT.collections?.testObserver()
@@ -76,7 +68,6 @@ class SearchViewModelTest {
         }
     }
 
-    @ExperimentalCoroutinesApi
     @Test
     fun `searchPhotos loads correct PagingData of type UnsplashPhoto`() {
         val uiState = SUT.photos?.testObserver()
@@ -92,7 +83,6 @@ class SearchViewModelTest {
         }
     }
 
-    @ExperimentalCoroutinesApi
     @Test
     fun `empty paging data if error is encountered on getAllPhotos`() {
         val uiState = SUT.photos?.testObserver()
@@ -104,7 +94,6 @@ class SearchViewModelTest {
         uiState?.observedValues?.isEmpty()?.let { assert(it) }
     }
 
-    @ExperimentalCoroutinesApi
     @Test
     fun `empty paging data if error is encountered on getAllCollections`() {
         val uiState = SUT.collections?.testObserver()
