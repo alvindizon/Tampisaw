@@ -20,9 +20,18 @@ private val dcb = object : DifferCallback {
 suspend fun <T : Any> PagingData<T>.collectData(): List<T> {
     val items = mutableListOf<T>()
     val dif = object : PagingDataDiffer<T>(dcb, TestCoroutineDispatcher()) {
-        override suspend fun presentNewList(previousList: NullPaddedList<T>, newList: NullPaddedList<T>, newCombinedLoadStates: CombinedLoadStates, lastAccessedIndex: Int): Int? {
+
+        override suspend fun presentNewList(
+            previousList: NullPaddedList<T>,
+            newList: NullPaddedList<T>,
+            newCombinedLoadStates: CombinedLoadStates,
+            lastAccessedIndex: Int,
+            onListPresentable: () -> Unit
+        ): Int? {
             for (idx in 0 until newList.size)
                 items.add(newList.getFromStorage(idx))
+            // we need to call onListPresentable to prevent an IllegalStateException (See PagingDataDiffer source code)
+            onListPresentable()
             return null
         }
     }

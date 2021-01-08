@@ -3,6 +3,9 @@ package com.alvindizon.tampisaw.ui.collections
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.alvindizon.tampisaw.*
 import com.alvindizon.tampisaw.domain.GetCollectionPhotosUseCase
+import io.mockk.MockKAnnotations
+import io.mockk.every
+import io.mockk.impl.annotations.MockK
 import io.reactivex.Observable
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.runBlocking
@@ -10,16 +13,9 @@ import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
-import org.mockito.Mock
-import org.mockito.Mockito.`when`
-import org.mockito.junit.MockitoJUnit
-import org.mockito.junit.MockitoRule
 import java.io.IOException
 
 class CollectionViewModelTest {
-
-    @get:Rule
-    val mockitoRule: MockitoRule = MockitoJUnit.rule()
 
     @get:Rule
     val taskExecutorRule = InstantTaskExecutorRule()
@@ -31,12 +27,14 @@ class CollectionViewModelTest {
     @get:Rule
     val coroutineRule = MainCoroutineRule()
 
-    @Mock lateinit var getCollectionPhotoUseCase: GetCollectionPhotosUseCase
+    @MockK
+    lateinit var getCollectionPhotoUseCase: GetCollectionPhotosUseCase
 
     private lateinit var SUT: CollectionViewModel
 
     @Before
     fun setUp() {
+        MockKAnnotations.init(this)
         SUT = CollectionViewModel(getCollectionPhotoUseCase)
     }
 
@@ -45,7 +43,9 @@ class CollectionViewModelTest {
     fun `getAllPhotos load correct PagingData of type UnsplashPhoto`() {
         val uiState = SUT.uiState?.testObserver()
 
-        `when`(getCollectionPhotoUseCase.getCollectionPhotos(testId)).thenReturn(Observable.just(TestConstants.photoPagingData))
+        every { getCollectionPhotoUseCase.getCollectionPhotos(testId) } returns Observable.just(
+            TestConstants.photoPagingData
+        )
 
         SUT.getAllPhotos(testId)
 
@@ -62,7 +62,9 @@ class CollectionViewModelTest {
     fun `empty paging data if error is encountered`() {
         val uiState = SUT.uiState?.testObserver()
 
-        `when`(getCollectionPhotoUseCase.getCollectionPhotos(testId)).thenReturn(Observable.error(IOException()))
+        every { getCollectionPhotoUseCase.getCollectionPhotos(testId) } returns Observable.error(
+            IOException()
+        )
 
         SUT.getAllPhotos(testId)
 

@@ -3,27 +3,22 @@ package com.alvindizon.tampisaw.ui.details
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.alvindizon.tampisaw.MainCoroutineRule
 import com.alvindizon.tampisaw.RxSchedulerRule
-import com.alvindizon.tampisaw.any
 import com.alvindizon.tampisaw.core.toPhotoDetails
 import com.alvindizon.tampisaw.data.networking.model.getphoto.*
 import com.alvindizon.tampisaw.domain.GetPhotoUseCase
 import com.alvindizon.tampisaw.testObserver
+import io.mockk.MockKAnnotations
+import io.mockk.every
+import io.mockk.impl.annotations.MockK
 import io.reactivex.Single
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
-import org.mockito.Mock
-import org.mockito.Mockito.`when`
-import org.mockito.junit.MockitoJUnit
-import org.mockito.junit.MockitoRule
 import java.io.IOException
 
 class DetailsViewModelTest {
-
-    @get:Rule
-    val mockitoRule: MockitoRule = MockitoJUnit.rule()
 
     @get:Rule
     val taskExecutorRule = InstantTaskExecutorRule()
@@ -35,12 +30,14 @@ class DetailsViewModelTest {
     @get:Rule
     val coroutineRule = MainCoroutineRule()
 
-    @Mock lateinit var getPhotoUseCase: GetPhotoUseCase
+    @MockK
+    lateinit var getPhotoUseCase: GetPhotoUseCase
 
     private lateinit var SUT: DetailsViewModel
 
     @Before
     fun setUp() {
+        MockKAnnotations.init(this)
         SUT = DetailsViewModel(getPhotoUseCase)
     }
 
@@ -48,7 +45,7 @@ class DetailsViewModelTest {
     fun `observe correct states when getPhotos is successful`() {
         val uiStatus = SUT.uiState?.testObserver()
 
-        `when`(getPhotoUseCase.getPhoto(any())).thenReturn(Single.just(getPhotoResponse))
+        every { getPhotoUseCase.getPhoto(any()) } returns Single.just(getPhotoResponse)
 
         SUT.getPhoto("ID")
         val observedValues = uiStatus?.observedValues
@@ -60,7 +57,7 @@ class DetailsViewModelTest {
     fun `observe correct states when getPhotos is not successful`() {
         val uiStatus = SUT.uiState?.testObserver()
 
-        `when`(getPhotoUseCase.getPhoto(any())).thenReturn(Single.error(IOException("erreur")))
+        every { getPhotoUseCase.getPhoto(any()) } returns Single.error(IOException("erreur"))
 
         SUT.getPhoto("ID")
         val observedValues = uiStatus?.observedValues
@@ -87,7 +84,20 @@ class DetailsViewModelTest {
             null,
             Urls("raw", "full", "regular", "small", "thumb"),
             Links(),
-            User("user_id", "updated-at", "username", "name", null, null, "location", 69, 69, 69, UserLinks("self", "html", "photos", "likes", "portfolio"), null)
+            User(
+                "user_id",
+                "updated-at",
+                "username",
+                "name",
+                null,
+                null,
+                "location",
+                69,
+                69,
+                69,
+                UserLinks("self", "html", "photos", "likes", "portfolio"),
+                null
+            )
         )
 
     }

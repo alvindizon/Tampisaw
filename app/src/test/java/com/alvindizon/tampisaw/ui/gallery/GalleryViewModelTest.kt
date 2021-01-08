@@ -3,6 +3,9 @@ package com.alvindizon.tampisaw.ui.gallery
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.alvindizon.tampisaw.*
 import com.alvindizon.tampisaw.domain.GetAllPhotosUseCase
+import io.mockk.MockKAnnotations
+import io.mockk.every
+import io.mockk.impl.annotations.MockK
 import io.reactivex.Observable
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.runBlocking
@@ -10,16 +13,9 @@ import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
-import org.mockito.Mock
-import org.mockito.Mockito.`when`
-import org.mockito.junit.MockitoJUnit
-import org.mockito.junit.MockitoRule
 import java.io.IOException
 
 class GalleryViewModelTest {
-
-    @get:Rule
-    val mockitoRule: MockitoRule = MockitoJUnit.rule()
 
     @get:Rule
     val taskExecutorRule = InstantTaskExecutorRule()
@@ -31,12 +27,14 @@ class GalleryViewModelTest {
     @get:Rule
     val coroutineRule = MainCoroutineRule()
 
-    @Mock lateinit var getAllPhotosUseCase: GetAllPhotosUseCase
+    @MockK
+    lateinit var getAllPhotosUseCase: GetAllPhotosUseCase
 
     private lateinit var SUT: GalleryViewModel
 
     @Before
     fun setUp() {
+        MockKAnnotations.init(this)
         SUT = GalleryViewModel(getAllPhotosUseCase)
     }
 
@@ -45,7 +43,7 @@ class GalleryViewModelTest {
     fun `getAllPhotos loads correct PagingData of type UnsplashPhoto`() {
         val uiState = SUT.uiState?.testObserver()
 
-        `when`(getAllPhotosUseCase.getAllPhotos()).thenReturn(Observable.just(TestConstants.photoPagingData))
+        every { getAllPhotosUseCase.getAllPhotos() } returns Observable.just(TestConstants.photoPagingData)
 
         SUT.getAllPhotos()
 
@@ -61,7 +59,7 @@ class GalleryViewModelTest {
     fun `empty paging data if error is encountered`() {
         val uiState = SUT.uiState?.testObserver()
 
-        `when`(getAllPhotosUseCase.getAllPhotos()).thenReturn(Observable.error(IOException()))
+        every { getAllPhotosUseCase.getAllPhotos() } returns Observable.error(IOException())
 
         SUT.getAllPhotos()
 

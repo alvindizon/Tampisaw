@@ -2,27 +2,20 @@ package com.alvindizon.tampisaw.ui.collections
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.alvindizon.tampisaw.*
-import com.alvindizon.tampisaw.TestConstants
 import com.alvindizon.tampisaw.domain.GetAllCollectionsUseCase
-import com.alvindizon.tampisaw.domain.GetCollectionPhotosUseCase
+import io.mockk.MockKAnnotations
+import io.mockk.every
+import io.mockk.impl.annotations.MockK
 import io.reactivex.Observable
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.runBlocking
+import org.junit.Assert.assertEquals
 import org.junit.Before
-
-import org.junit.Assert.*
 import org.junit.Rule
 import org.junit.Test
-import org.mockito.Mock
-import org.mockito.Mockito.`when`
-import org.mockito.junit.MockitoJUnit
-import org.mockito.junit.MockitoRule
 import java.io.IOException
 
 class CollectionListViewModelTest {
-
-    @get:Rule
-    val mockitoRule: MockitoRule = MockitoJUnit.rule()
 
     @get:Rule
     val taskExecutorRule = InstantTaskExecutorRule()
@@ -34,12 +27,14 @@ class CollectionListViewModelTest {
     @get:Rule
     val coroutineRule = MainCoroutineRule()
 
-    @Mock lateinit var getAllCollectionsUseCase: GetAllCollectionsUseCase
+    @MockK
+    lateinit var getAllCollectionsUseCase: GetAllCollectionsUseCase
 
     private lateinit var SUT: CollectionListViewModel
 
     @Before
     fun setUp() {
+        MockKAnnotations.init(this)
         SUT = CollectionListViewModel(getAllCollectionsUseCase)
     }
 
@@ -48,7 +43,7 @@ class CollectionListViewModelTest {
     fun `getAllCollections loads correct PagingData of type UnsplashCollection`() {
         val uiState = SUT.uiState?.testObserver()
 
-        `when`(getAllCollectionsUseCase.getAllCollections()).thenReturn(Observable.just(TestConstants.collectionsPagingData))
+        every { getAllCollectionsUseCase.getAllCollections() } returns Observable.just(TestConstants.collectionsPagingData)
 
         SUT.getAllCollections()
 
@@ -64,9 +59,7 @@ class CollectionListViewModelTest {
     fun `empty paging data if error is encountered`() {
         val uiState = SUT.uiState?.testObserver()
 
-        `when`(getAllCollectionsUseCase.getAllCollections()).thenReturn(Observable.error(
-            IOException()
-        ))
+        every { getAllCollectionsUseCase.getAllCollections() } returns Observable.error(IOException())
 
         SUT.getAllCollections()
 

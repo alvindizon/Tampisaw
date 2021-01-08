@@ -40,16 +40,14 @@ object Libs {
     val androidTestImplementations = listOf(
         "androidx.test.ext:junit:${Versions.testExtJunit}",
         "androidx.test.espresso:espresso-core:${Versions.espresso}",
-        "androidx.arch.core:core-testing:${Versions.coreTesting}",
-        "org.mockito:mockito-android:${Versions.mockito}"
+        "androidx.arch.core:core-testing:${Versions.coreTesting}"
     )
 
     val testImplementations = listOf(
         "junit:junit:${Versions.junit}",
-        "org.mockito:mockito-core:${Versions.mockito}", 
         "org.jetbrains.kotlinx:kotlinx-coroutines-test:${Versions.coroutine}",
         "androidx.arch.core:core-testing:${Versions.coreTesting}",
-        "com.nhaarman.mockitokotlin2:mockito-kotlin:${Versions.mockitoKotlin}"
+        "io.mockk:mockk:${Versions.mockk}"
     )
 
     val kaptLibs = listOf(
@@ -87,11 +85,10 @@ object Versions {
     const val work = "2.4.0"
     const val okio = "2.9.0"
     const val swiperefreshlayout = "1.1.0"
-    const val mockito = "3.6.28"
     const val coreTesting = "2.1.0"
     const val coroutine = "1.4.2"
-    const val mockitoKotlin = "2.2.0"
     const val rxAndroid = "2.1.1"
     const val rxKotlin = "2.4.0"
     const val gradleVersions = "0.36.0"
+    const val mockk = "1.10.4"
 }
