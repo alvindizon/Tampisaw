@@ -25,16 +25,16 @@ class DetailsViewModel @ViewModelInject constructor(
         compositeDisposable += getPhotoUseCase.getPhoto(id)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
-            .doOnSubscribe { _uiState.value = LOADING }
+            .doOnSubscribe { _uiState.value = DetailsUIState.LOADING }
             .subscribeBy(
                 onSuccess = {
-                    _uiState.value = SUCCESS(it.toPhotoDetails())
+                    _uiState.value = DetailsUIState.SUCCESS(it.toPhotoDetails())
                     photoDetails.set(it.toPhotoDetails())
                 },
                 onError = { error ->
                     error.printStackTrace()
                     _uiState.value = error.message?.let {
-                        ERROR(it)
+                        DetailsUIState.ERROR(it)
                     }
                 }
             )

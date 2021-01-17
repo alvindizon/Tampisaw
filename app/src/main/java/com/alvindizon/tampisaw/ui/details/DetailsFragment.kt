@@ -39,7 +39,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class DetailsFragment : BaseFragment(R.layout.fragment_details) {
+class DetailsFragment : BaseFragment(R.layout.fragment_details), DetailsView {
 
     private var binding: FragmentDetailsBinding? = null
 
@@ -54,22 +54,7 @@ class DetailsFragment : BaseFragment(R.layout.fragment_details) {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewModel.uiState?.observe(this, {
-            binding?.progressBar?.isVisible = it is LOADING
-            binding?.image?.isVisible = it is SUCCESS
-            if (it is SUCCESS) {
-                binding?.image?.let { imgView ->
-                    Glide.with(requireContext())
-                        .load(it.photoDetails.regularUrl)
-                        .transition(DrawableTransitionOptions.withCrossFade())
-                        .error(R.drawable.ic_error)
-                        .into(imgView)
-
-                    setupFabOptions(it.photoDetails)
-                    setupToolbar(it.photoDetails)
-                }
-            }
-        })
+        viewModel.uiState.observe(this, this::render)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -83,11 +68,8 @@ class DetailsFragment : BaseFragment(R.layout.fragment_details) {
         }
 
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, callback)
-
         viewLifecycleOwner.lifecycle.addObserver(viewModel)
-
         viewModel.getPhoto(args.url)
-
     }
 
     override fun onDestroyView() {
@@ -95,7 +77,25 @@ class DetailsFragment : BaseFragment(R.layout.fragment_details) {
         super.onDestroyView()
     }
 
-    private fun setupFabOptions(photoDetails: PhotoDetails) {
+    override fun showLoading(isVisible: Boolean) {
+        binding?.progressBar?.isVisible = isVisible
+    }
+
+    override fun loadImage(photoDetails: PhotoDetails) {
+        binding?.image?.let { imgView ->
+            Glide.with(requireContext())
+                .load(photoDetails.regularUrl)
+                .transition(DrawableTransitionOptions.withCrossFade())
+                .error(R.drawable.ic_error)
+                .into(imgView)
+        }
+    }
+
+    override fun showError(errorMessage: String) {
+        binding?.errorMsg?.text = errorMessage
+    }
+
+    override fun setupFabOptions(photoDetails: PhotoDetails) {
         binding?.apply {
             fabLayout.forEach { item ->
                 item.setOnClickListener {
@@ -125,6 +125,57 @@ class DetailsFragment : BaseFragment(R.layout.fragment_details) {
             }
         }
     }
+
+    override fun setupToolbar(photoDetails: PhotoDetails) {
+        binding?.apply {
+            val activity = requireActivity() as AppCompatActivity
+            toolbar.setBackgroundColor(
+                ContextCompat.getColor(
+                    requireContext(),
+                    R.color.toolbar_color
+                )
+            )
+            activity.setSupportActionBar(toolbar)
+            activity.supportActionBar?.setDisplayShowTitleEnabled(false)
+
+            upBtn.setOnClickListener {
+                findNavController().navigateUp()
+            }
+
+            Glide.with(avatar)
+                .load(photoDetails.profileImageUrl)
+                .placeholder(R.drawable.ic_user)
+                .circleCrop()
+                .transition(DrawableTransitionOptions.withCrossFade())
+                .into(avatar)
+                .clearOnDetach()
+
+            toolbarTitle.text = photoDetails.username
+
+            // show/hide toolbar and FAB on click anywhere on screen
+            layout.setOnClickListener {
+                activity.supportActionBar?.apply {
+                    if (isShowing) {
+                        hide()
+                    } else {
+                        show()
+                    }
+                }
+                if (fab.visibility == View.VISIBLE) {
+                    fab.hide()
+                } else {
+                    fab.show()
+                }
+            }
+
+            info.setOnClickListener {
+                activityFragmentManager.showDialogFragment(InfoBottomSheet.newInstance(photoDetails.tags) { tag ->
+                    Log.d("DetailsFragment", "tag: $tag")
+                })
+            }
+        }
+    }
+
 
     private fun downloadPhoto(photoDetails: PhotoDetails) {
         if (requireContext().hasWritePermission()) {
@@ -241,55 +292,4 @@ class DetailsFragment : BaseFragment(R.layout.fragment_details) {
             requestPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE, requestCode = 0)
         }
     }
-
-    private fun setupToolbar(photoDetails: PhotoDetails) {
-        binding?.apply {
-            val activity = requireActivity() as AppCompatActivity
-            toolbar.setBackgroundColor(
-                ContextCompat.getColor(
-                    requireContext(),
-                    R.color.toolbar_color
-                )
-            )
-            activity.setSupportActionBar(toolbar)
-            activity.supportActionBar?.setDisplayShowTitleEnabled(false)
-
-            upBtn.setOnClickListener {
-                findNavController().navigateUp()
-            }
-
-            Glide.with(avatar)
-                .load(photoDetails.profileImageUrl)
-                .placeholder(R.drawable.ic_user)
-                .circleCrop()
-                .transition(DrawableTransitionOptions.withCrossFade())
-                .into(avatar)
-                .clearOnDetach()
-
-            toolbarTitle.text = photoDetails.username
-
-            // show/hide toolbar and FAB on click anywhere on screen
-            layout.setOnClickListener {
-                activity.supportActionBar?.apply {
-                    if (isShowing) {
-                        hide()
-                    } else {
-                        show()
-                    }
-                }
-                if (fab.visibility == View.VISIBLE) {
-                    fab.hide()
-                } else {
-                    fab.show()
-                }
-            }
-
-            info.setOnClickListener {
-                activityFragmentManager.showDialogFragment(InfoBottomSheet.newInstance(photoDetails.tags) { tag ->
-                    Log.d("DetailsFragment", "tag: $tag")
-                })
-            }
-        }
-    }
-
 }
