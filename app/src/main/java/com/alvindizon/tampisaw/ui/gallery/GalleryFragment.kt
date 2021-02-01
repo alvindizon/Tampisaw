@@ -1,12 +1,10 @@
 package com.alvindizon.tampisaw.ui.gallery
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
-import androidx.paging.LoadState
 import com.alvindizon.tampisaw.R
 import com.alvindizon.tampisaw.core.ui.BaseFragment
 import com.alvindizon.tampisaw.core.ui.RetryAdapter
@@ -21,8 +19,6 @@ class GalleryFragment : BaseFragment(R.layout.fragment_gallery) {
 
     private val viewModel: GalleryViewModel by viewModels()
 
-    private lateinit var adapter: GalleryAdapter
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -36,32 +32,16 @@ class GalleryFragment : BaseFragment(R.layout.fragment_gallery) {
 
         viewLifecycleOwner.lifecycle.addObserver(viewModel)
 
-        setupGallery()
-
-        setupRetryButton()
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        binding = null
-    }
-
-    private fun setupGallery() {
-        // Add a click listener for each list item
-        adapter = GalleryAdapter { photo ->
-            photo.id.let {
-                findNavController().navigate(GalleryFragmentDirections.detailsAction(it))
+        binding?.run {
+            val owner = this@GalleryFragment
+            viewModel = owner.viewModel
+            lifecycleOwner = owner
+            val adapter = GalleryAdapter { photo ->
+                photo.id.let {
+                    findNavController().navigate(GalleryFragmentDirections.detailsAction(it))
+                }
             }
-        }
-
-        viewModel.uiState?.observe(viewLifecycleOwner, {
-            binding?.swipeLayout?.isRefreshing = false
-            adapter.submitData(lifecycle, it)
-        })
-
-        binding?.apply {
-            // Apply the following settings to our recyclerview
-            list.adapter = adapter.withLoadStateHeaderAndFooter(
+            adapter.withLoadStateHeaderAndFooter(
                 header = RetryAdapter {
                     adapter.retry()
                 },
@@ -69,46 +49,51 @@ class GalleryFragment : BaseFragment(R.layout.fragment_gallery) {
                     adapter.retry()
                 }
             )
+            list.adapter = adapter
 
-            // Add a listener for the current state of paging
-            adapter.addLoadStateListener { loadState ->
-                Log.d("GalleryFragment", "LoadState: " + loadState.source.refresh.toString())
-                // Only show the list if refresh succeeds.
-                list.isVisible = loadState.source.refresh is LoadState.NotLoading
-                // Show loading spinner during initial load or refresh.
-                progressBar.isVisible =
-                    loadState.source.refresh is LoadState.Loading && !swipeLayout.isRefreshing
-                // Show the retry state if initial load or refresh fails.
-                retryButton.isVisible = loadState.source.refresh is LoadState.Error
+            retryButton.setOnClickListener { adapter.retry() }
 
-                val errorState = loadState.source.append as? LoadState.Error
-                    ?: loadState.source.prepend as? LoadState.Error
-                    ?: loadState.append as? LoadState.Error
-                    ?: loadState.prepend as? LoadState.Error
-                errorState?.let {
-                    swipeLayout.isRefreshing = false
-                    Snackbar.make(
-                        requireView(),
-                        "\uD83D\uDE28 Wooops ${it.error}",
-                        Snackbar.LENGTH_LONG
-                    ).show()
+            owner.viewModel.uiState.observe(viewLifecycleOwner) { uiState ->
+                when (uiState) {
+                    is GalleryUIState.DataLoaded -> {
+                        adapter.submitData(lifecycle, uiState.pagingData)
+                    }
+                    is GalleryUIState.Error -> {
+                        swipeLayout.isRefreshing = false
+                        Snackbar.make(
+                            requireView(),
+                            uiState.message,
+                            Snackbar.LENGTH_LONG
+                        ).show()
+                    }
+                    GalleryUIState.GalleryVisible -> {
+                        swipeLayout.isRefreshing = false
+                        list.isVisible = true
+                        progressBar.isVisible = false
+                        retryButton.isVisible = false
+                    }
+                    GalleryUIState.Loading -> {
+                        progressBar.isVisible = true
+                        list.isVisible = false
+                        retryButton.isVisible = false
+                    }
+                    GalleryUIState.Retry -> {
+                        retryButton.isVisible = true
+                        progressBar.isVisible = false
+                        list.isVisible = false
+                    }
+                    GalleryUIState.Refresh -> {
+                        swipeLayout.isRefreshing = true
+                        owner.viewModel.getAllPhotos()
+                    }
                 }
             }
 
-            swipeLayout.apply {
-                setOnRefreshListener {
-                    isRefreshing = true
-                    viewModel.getAllPhotos()
-                }
-            }
         }
-
-
     }
 
-    private fun setupRetryButton() {
-        binding?.retryButton?.setOnClickListener {
-            adapter.retry()
-        }
+    override fun onDestroyView() {
+        super.onDestroyView()
+        binding = null
     }
 }

@@ -31,27 +31,29 @@ class GalleryViewModelTest {
 
     @Test
     fun `getAllPhotos loads correct PagingData of type UnsplashPhoto`() {
-        val uiState = SUT.uiState?.testObserver()
+        val uiState = SUT.uiState.testObserver()
 
         every { getAllPhotosUseCase.getAllPhotos() } returns Observable.just(TestConstants.photoPagingData)
 
         SUT.getAllPhotos()
 
         runBlocking {
-            val photoList = uiState?.observedValues?.get(0)?.collectData()
-            assertEquals(TestConstants.unsplashPhoto, photoList?.get(0))
-            assertEquals(TestConstants.unsplashPhoto2, photoList?.get(1))
+            val pagingData = uiState.observedValues[0] as GalleryUIState.DataLoaded
+            val photoList = pagingData.pagingData.collectData()
+            assertEquals(TestConstants.unsplashPhoto, photoList[0])
+            assertEquals(TestConstants.unsplashPhoto2, photoList[1])
         }
     }
 
     @Test
     fun `empty paging data if error is encountered`() {
-        val uiState = SUT.uiState?.testObserver()
+        val uiState = SUT.uiState.testObserver()
 
         every { getAllPhotosUseCase.getAllPhotos() } returns Observable.error(IOException())
 
         SUT.getAllPhotos()
 
-        uiState?.observedValues?.isEmpty()?.let { assert(it) }
+        val errorState = uiState.observedValues[0] as GalleryUIState.Error
+        assertEquals("error", errorState.message)
     }
 }
