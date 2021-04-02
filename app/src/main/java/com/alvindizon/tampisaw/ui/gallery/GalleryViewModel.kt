@@ -1,7 +1,8 @@
 package com.alvindizon.tampisaw.ui.gallery
 
-import androidx.hilt.lifecycle.ViewModelInject
+import android.util.Log
 import androidx.databinding.ObservableBoolean
+import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
@@ -40,16 +41,16 @@ class GalleryViewModel @ViewModelInject constructor(
     }
 
     fun getLoadStateListener(): LoadStateListener {
+        Log.d("Gallery", "getLoadStateListener")
+
         return { loadState ->
-            if (loadState.source.refresh is LoadState.NotLoading) {
-                _uiState.value = GalleryUIState.GalleryVisible
-            }
-            if (loadState.source.refresh is LoadState.Loading && !isRefreshing.get()) {
-                _uiState.value = GalleryUIState.Loading
-            }
-            if (loadState.source.refresh is LoadState.Error) {
-                _uiState.value = GalleryUIState.Retry
-            }
+            Log.d("Gallery", "loadState - source.refresh: ${loadState.source.refresh}")
+            Log.d("Gallery", "loadState - $loadState")
+            _uiState.value =
+                GalleryUIState.GalleryVisible(loadState.source.refresh is LoadState.NotLoading)
+            _uiState.value =
+                GalleryUIState.Loading(loadState.source.refresh is LoadState.Loading && !isRefreshing.get())
+            _uiState.value = GalleryUIState.Retry(loadState.source.refresh is LoadState.Error)
 
             val errorState = loadState.source.append as? LoadState.Error
                 ?: loadState.source.prepend as? LoadState.Error
@@ -65,5 +66,4 @@ class GalleryViewModel @ViewModelInject constructor(
     fun onLayoutRefresh() {
         _uiState.value = GalleryUIState.Refresh
     }
-
 }

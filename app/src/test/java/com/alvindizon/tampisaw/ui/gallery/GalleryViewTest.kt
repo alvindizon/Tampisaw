@@ -139,4 +139,7 @@ class SpyableGalleryView : GalleryView {
 
     override fun loadPhotos() {
     }
+
+    override fun showInitialState() {
+    }
 }

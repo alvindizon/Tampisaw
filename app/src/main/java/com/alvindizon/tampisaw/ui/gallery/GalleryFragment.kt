@@ -1,6 +1,7 @@
 package com.alvindizon.tampisaw.ui.gallery
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
@@ -27,7 +28,6 @@ class GalleryFragment : BaseFragment(R.layout.fragment_gallery), GalleryView {
 
         // display all photos, sorted by latest
         viewModel.getAllPhotos()
-        viewModel.uiState.observe(this, this::render)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -39,17 +39,22 @@ class GalleryFragment : BaseFragment(R.layout.fragment_gallery), GalleryView {
         setupAdapter()
 
         binding?.run {
+            Log.d("bindng","run")
             val owner = this@GalleryFragment
             viewModel = owner.viewModel
-            lifecycleOwner = owner
+            lifecycleOwner = viewLifecycleOwner
             list.adapter = adapter
             retryButton.setOnClickListener { adapter.retry() }
         }
+
+        viewModel.getLoadStateListener()
+
+        viewModel.uiState.observe(viewLifecycleOwner, this::render)
     }
 
     override fun onDestroyView() {
-        super.onDestroyView()
         binding = null
+        super.onDestroyView()
     }
 
     private fun setupAdapter() {
@@ -68,10 +73,12 @@ class GalleryFragment : BaseFragment(R.layout.fragment_gallery), GalleryView {
         )
     }
 
-    override fun dataLoaded(pagingData: PagingData<UnsplashPhoto>) =
+    override fun dataLoaded(pagingData: PagingData<UnsplashPhoto>) {
         adapter.submitData(lifecycle, pagingData)
+    }
 
     override fun showList(isListVisible: Boolean) {
+        Log.d("Gallery", "list isVisible = $isListVisible")
         binding?.list?.isVisible = isListVisible
     }
 
@@ -80,10 +87,12 @@ class GalleryFragment : BaseFragment(R.layout.fragment_gallery), GalleryView {
     }
 
     override fun showProgressBar(isProgressBarVisible: Boolean) {
+        Log.d("Gallery", "progressBar isVisible = $isProgressBarVisible")
         binding?.progressBar?.isVisible = isProgressBarVisible
     }
 
     override fun showRetryButton(isRetryBtnVisible: Boolean) {
+        Log.d("Gallery", "RETRY isVisible = $isRetryBtnVisible")
         binding?.retryButton?.isVisible = isRetryBtnVisible
     }
 

@@ -1,6 +1,7 @@
 package com.alvindizon.tampisaw.ui.collections
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
@@ -41,6 +42,7 @@ class CollectionListFragment : BaseFragment(R.layout.fragment_collection_list) {
     }
 
     override fun onDestroyView() {
+        Log.d("CollectionList", "onDestroyView")
         binding = null
         super.onDestroyView()
     }
@@ -77,6 +79,11 @@ class CollectionListFragment : BaseFragment(R.layout.fragment_collection_list) {
 
             // Add a listener for the current state of paging
             adapter.addLoadStateListener { loadState ->
+                Log.d("CollectionList", "loadState - source.refresh: ${loadState.source.refresh}")
+                Log.d("CollectionList", "loadState - $loadState")
+                Log.d("CollectionList", "list isVisible - ${list.isVisible}")
+                Log.d("CollectionList", "progressBar isVisible - ${progressBar.isVisible}")
+                Log.d("CollectionList", "RETRY isVisible - ${retryButton.isVisible}")
                 // Only show the list if refresh succeeds.
                 list.isVisible = loadState.source.refresh is LoadState.NotLoading
                 // Show loading spinner during initial load or refresh.
@@ -101,6 +108,8 @@ class CollectionListFragment : BaseFragment(R.layout.fragment_collection_list) {
 
             swipeLayout.apply {
                 setOnRefreshListener {
+                    Log.d("CollectionList", "refreshing")
+
                     isRefreshing = true
                     viewModel.getAllCollections()
                 }

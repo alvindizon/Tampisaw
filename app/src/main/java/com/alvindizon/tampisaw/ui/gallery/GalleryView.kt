@@ -6,10 +6,10 @@ import androidx.paging.PagingData
 typealias LoadStateListener = (CombinedLoadStates) -> Unit
 
 sealed class GalleryUIState {
-    object Loading : GalleryUIState()
-    object Retry : GalleryUIState()
+    data class Loading(val isVisible: Boolean) : GalleryUIState()
+    data class Retry(val isVisible: Boolean) : GalleryUIState()
     object Refresh : GalleryUIState()
-    object GalleryVisible : GalleryUIState()
+    data class GalleryVisible(val isVisible: Boolean) : GalleryUIState()
     data class DataLoaded(var pagingData: PagingData<UnsplashPhoto>) : GalleryUIState()
     data class Error(var message: String) : GalleryUIState()
 }
@@ -17,19 +17,18 @@ sealed class GalleryUIState {
 interface GalleryView {
     fun render(state: GalleryUIState) {
         when (state) {
-            is GalleryUIState.DataLoaded -> dataLoaded(state.pagingData)
-            GalleryUIState.GalleryVisible -> showGallery()
+            is GalleryUIState.DataLoaded -> setData(state.pagingData)
+            is GalleryUIState.GalleryVisible -> showList(state.isVisible)
             is GalleryUIState.Error -> showError(state.message)
-            GalleryUIState.Retry -> showRetry()
+            is GalleryUIState.Retry -> showRetryButton(state.isVisible)
             GalleryUIState.Refresh -> showRefresh()
-            GalleryUIState.Loading -> showLoading()
+            is GalleryUIState.Loading -> showProgressBar(state.isVisible)
         }
     }
 
-    fun showLoading() {
-        showProgressBar(true)
-        showList(false)
-        showRetryButton(false)
+    fun setData(pagingData: PagingData<UnsplashPhoto>) {
+        setSwipeLayoutState(false)
+        dataLoaded(pagingData)
     }
 
     fun showRefresh() {
@@ -37,22 +36,9 @@ interface GalleryView {
         loadPhotos()
     }
 
-    fun showRetry() {
-        showProgressBar(false)
-        showList(false)
-        showRetryButton(true)
-    }
-
     fun showError(message: String) {
         setSwipeLayoutState(false)
         showErrorMessage(message)
-    }
-
-    fun showGallery() {
-        showRetryButton(false)
-        showProgressBar(false)
-        setSwipeLayoutState(false)
-        showList(true)
     }
 
     fun dataLoaded(pagingData: PagingData<UnsplashPhoto>)
