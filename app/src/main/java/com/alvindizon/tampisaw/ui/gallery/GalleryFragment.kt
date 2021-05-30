@@ -13,7 +13,9 @@ import com.alvindizon.tampisaw.core.ui.RetryAdapter
 import com.alvindizon.tampisaw.databinding.FragmentGalleryBinding
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 
+@ExperimentalCoroutinesApi
 @AndroidEntryPoint
 class GalleryFragment : BaseFragment(R.layout.fragment_gallery) {
 
@@ -54,7 +56,7 @@ class GalleryFragment : BaseFragment(R.layout.fragment_gallery) {
             }
         }
 
-        viewModel.uiState?.observe(viewLifecycleOwner, {
+        viewModel.uiState.observe(viewLifecycleOwner, {
             binding?.swipeLayout?.isRefreshing = false
             adapter.submitData(lifecycle, it)
         })

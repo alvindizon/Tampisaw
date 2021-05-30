@@ -62,7 +62,7 @@ class SearchViewModelTest {
         SUT.searchCollections(testQuery)
 
         runBlocking {
-            val collectionsList = uiState?.observedValues?.get(0)?.collectData()
+            val collectionsList = uiState.observedValues?.get(0)?.collectData()
             assertEquals(TestConstants.unsplashCollection, collectionsList?.get(0))
             assertEquals(TestConstants.unsplashCollection2, collectionsList?.get(1))
         }
@@ -77,7 +77,7 @@ class SearchViewModelTest {
         SUT.searchPhotos(testQuery)
 
         runBlocking {
-            val photoList = uiState?.observedValues?.get(0)?.collectData()
+            val photoList = uiState.observedValues?.get(0)?.collectData()
             assertEquals(TestConstants.unsplashPhoto, photoList?.get(0))
             assertEquals(TestConstants.unsplashPhoto2, photoList?.get(1))
         }
@@ -91,7 +91,7 @@ class SearchViewModelTest {
 
         SUT.searchPhotos(testQuery)
 
-        uiState?.observedValues?.isEmpty()?.let { assert(it) }
+        uiState.observedValues?.isEmpty()?.let { assert(it) }
     }
 
     @Test
@@ -104,7 +104,7 @@ class SearchViewModelTest {
 
         SUT.searchCollections(testQuery)
 
-        uiState?.observedValues?.isEmpty()?.let { assert(it) }
+        uiState.observedValues?.isEmpty()?.let { assert(it) }
     }
 
     companion object {

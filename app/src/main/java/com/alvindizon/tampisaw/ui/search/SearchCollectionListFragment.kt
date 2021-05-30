@@ -13,7 +13,9 @@ import com.alvindizon.tampisaw.databinding.FragmentSearchCollectionListBinding
 import com.alvindizon.tampisaw.ui.collections.CollectionAdapter
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 
+@ExperimentalCoroutinesApi
 @AndroidEntryPoint
 class SearchCollectionListFragment : BaseFragment(R.layout.fragment_search_collection_list) {
 
@@ -49,7 +51,7 @@ class SearchCollectionListFragment : BaseFragment(R.layout.fragment_search_colle
             )
         }
 
-        viewModel.collections?.observe(viewLifecycleOwner, {
+        viewModel.collections.observe(viewLifecycleOwner, {
             adapter.submitData(lifecycle, it)
         })
 

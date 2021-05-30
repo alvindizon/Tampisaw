@@ -14,7 +14,9 @@ import com.alvindizon.tampisaw.databinding.FragmentCollectionBinding
 import com.alvindizon.tampisaw.ui.gallery.GalleryAdapter
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 
+@ExperimentalCoroutinesApi
 @AndroidEntryPoint
 class CollectionFragment : BaseFragment(R.layout.fragment_collection) {
 
@@ -56,7 +58,7 @@ class CollectionFragment : BaseFragment(R.layout.fragment_collection) {
             }
         }
 
-        viewModel.uiState?.observe(viewLifecycleOwner, {
+        viewModel.uiState.observe(viewLifecycleOwner, {
             adapter.submitData(lifecycle, it)
         })
 

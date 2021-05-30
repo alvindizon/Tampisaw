@@ -54,7 +54,7 @@ class DetailsFragment : BaseFragment(R.layout.fragment_details) {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewModel.uiState?.observe(this, {
+        viewModel.uiState.observe(this, {
             binding?.progressBar?.isVisible = it is LOADING
             binding?.image?.isVisible = it is SUCCESS
             if (it is SUCCESS) {

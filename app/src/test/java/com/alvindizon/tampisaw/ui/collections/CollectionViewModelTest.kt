@@ -31,7 +31,7 @@ class CollectionViewModelTest {
 
     @Test
     fun `getAllPhotos load correct PagingData of type UnsplashPhoto`() {
-        val uiState = SUT.uiState?.testObserver()
+        val uiState = SUT.uiState.testObserver()
 
         every { getCollectionPhotoUseCase.getCollectionPhotos(testId) } returns Observable.just(
             TestConstants.photoPagingData
@@ -40,7 +40,7 @@ class CollectionViewModelTest {
         SUT.getAllPhotos(testId)
 
         runBlocking {
-            val photoList = uiState?.observedValues?.get(0)?.collectData()
+            val photoList = uiState.observedValues[0]?.collectData()
             assertEquals(TestConstants.unsplashPhoto, photoList?.get(0))
             assertEquals(TestConstants.unsplashPhoto2, photoList?.get(1))
         }
@@ -49,7 +49,7 @@ class CollectionViewModelTest {
 
     @Test
     fun `empty paging data if error is encountered`() {
-        val uiState = SUT.uiState?.testObserver()
+        val uiState = SUT.uiState.testObserver()
 
         every { getCollectionPhotoUseCase.getCollectionPhotos(testId) } returns Observable.error(
             IOException()
@@ -57,7 +57,7 @@ class CollectionViewModelTest {
 
         SUT.getAllPhotos(testId)
 
-        uiState?.observedValues?.isEmpty()?.let { assert(it) }
+        uiState.observedValues.isEmpty().let { assert(it) }
     }
 
     companion object {

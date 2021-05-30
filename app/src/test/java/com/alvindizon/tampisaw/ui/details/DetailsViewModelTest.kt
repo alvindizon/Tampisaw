@@ -35,26 +35,26 @@ class DetailsViewModelTest {
 
     @Test
     fun `observe correct states when getPhotos is successful`() {
-        val uiStatus = SUT.uiState?.testObserver()
+        val uiStatus = SUT.uiState.testObserver()
 
         every { getPhotoUseCase.getPhoto(any()) } returns Single.just(getPhotoResponse)
 
         SUT.getPhoto("ID")
-        val observedValues = uiStatus?.observedValues
-        assertEquals(observedValues?.get(0), LOADING)
-        assertEquals(observedValues?.get(1), SUCCESS(getPhotoResponse.toPhotoDetails()))
+        val observedValues = uiStatus.observedValues
+        assertEquals(observedValues[0], LOADING)
+        assertEquals(observedValues[1], SUCCESS(getPhotoResponse.toPhotoDetails()))
     }
 
     @Test
     fun `observe correct states when getPhotos is not successful`() {
-        val uiStatus = SUT.uiState?.testObserver()
+        val uiStatus = SUT.uiState.testObserver()
 
         every { getPhotoUseCase.getPhoto(any()) } returns Single.error(IOException("erreur"))
 
         SUT.getPhoto("ID")
-        val observedValues = uiStatus?.observedValues
-        assertEquals(observedValues?.get(0), LOADING)
-        assertEquals(observedValues?.get(1), ERROR("erreur"))
+        val observedValues = uiStatus.observedValues
+        assertEquals(observedValues[0], LOADING)
+        assertEquals(observedValues[1], ERROR("erreur"))
     }
 
     companion object {

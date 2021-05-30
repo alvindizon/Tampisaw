@@ -1,9 +1,11 @@
 package com.alvindizon.tampisaw.data.paging
 
+import androidx.paging.PagingState
 import androidx.paging.rxjava2.RxPagingSource
 import com.alvindizon.tampisaw.core.Const
 import com.alvindizon.tampisaw.core.toUnsplashPhoto
 import com.alvindizon.tampisaw.data.networking.api.UnsplashApi
+import com.alvindizon.tampisaw.ui.collections.UnsplashCollection
 import com.alvindizon.tampisaw.ui.gallery.UnsplashPhoto
 import io.reactivex.Single
 import io.reactivex.schedulers.Schedulers
@@ -16,6 +18,10 @@ class UnsplashPagingSource (private val unsplashApi: UnsplashApi,
     enum class GetPhotosType {
         Gallery,
         Collection
+    }
+
+    override fun getRefreshKey(state: PagingState<Int, UnsplashPhoto>): Int? {
+        return state.anchorPosition
     }
 
     override fun loadSingle(params: LoadParams<Int>): Single<LoadResult<Int, UnsplashPhoto>> {

@@ -8,7 +8,7 @@ plugins {
 buildscript {
     repositories {
         google()
-        jcenter()
+        mavenCentral()
     }
     dependencies {
         classpath(LegacyPluginClassPath.androidGradlePlugin)
@@ -21,7 +21,7 @@ buildscript {
 allprojects {
     repositories {
         google()
-        jcenter()
+        mavenCentral()
     }
 }
 

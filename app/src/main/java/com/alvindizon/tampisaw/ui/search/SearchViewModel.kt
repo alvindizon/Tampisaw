@@ -1,6 +1,5 @@
 package com.alvindizon.tampisaw.ui.search
 
-import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
@@ -11,12 +10,17 @@ import com.alvindizon.tampisaw.domain.SearchCollectionsUseCase
 import com.alvindizon.tampisaw.domain.SearchPhotosUseCase
 import com.alvindizon.tampisaw.ui.collections.UnsplashCollection
 import com.alvindizon.tampisaw.ui.gallery.UnsplashPhoto
+import dagger.hilt.android.lifecycle.HiltViewModel
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.rxkotlin.plusAssign
 import io.reactivex.rxkotlin.subscribeBy
 import io.reactivex.schedulers.Schedulers
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import javax.inject.Inject
 
-class SearchViewModel @ViewModelInject constructor(
+@ExperimentalCoroutinesApi
+@HiltViewModel
+class SearchViewModel @Inject constructor(
     private val searchPhotosUseCase: SearchPhotosUseCase,
     private val searchCollectionsUseCase: SearchCollectionsUseCase
 ) : BaseViewModel() {

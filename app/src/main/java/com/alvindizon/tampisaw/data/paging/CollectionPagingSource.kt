@@ -1,5 +1,6 @@
 package com.alvindizon.tampisaw.data.paging
 
+import androidx.paging.PagingState
 import androidx.paging.rxjava2.RxPagingSource
 import com.alvindizon.tampisaw.core.Const
 import com.alvindizon.tampisaw.core.toUnsplashCollection
@@ -12,6 +13,10 @@ import io.reactivex.schedulers.Schedulers
 // TODO think of a way to make a generic paging source
 class CollectionPagingSource (private val unsplashApi: UnsplashApi)
     : RxPagingSource<Int, UnsplashCollection>(){
+
+    override fun getRefreshKey(state: PagingState<Int, UnsplashCollection>): Int? {
+        return state.anchorPosition
+    }
 
     override fun loadSingle(params: LoadParams<Int>): Single<LoadResult<Int, UnsplashCollection>> {
         val id = params.key ?: Const.PAGE_NUM

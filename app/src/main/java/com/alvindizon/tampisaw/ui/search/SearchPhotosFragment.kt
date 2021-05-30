@@ -14,7 +14,9 @@ import com.alvindizon.tampisaw.databinding.FragmentSearchPhotosBinding
 import com.alvindizon.tampisaw.ui.gallery.GalleryAdapter
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 
+@ExperimentalCoroutinesApi
 @AndroidEntryPoint
 class SearchPhotosFragment : BaseFragment(R.layout.fragment_search_photos) {
 
@@ -49,7 +51,7 @@ class SearchPhotosFragment : BaseFragment(R.layout.fragment_search_photos) {
             }
         }
 
-        viewModel.photos?.observe(viewLifecycleOwner, {
+        viewModel.photos.observe(viewLifecycleOwner, {
             adapter.submitData(lifecycle, it)
         })
 

@@ -12,7 +12,9 @@ import com.alvindizon.tampisaw.core.ui.RetryAdapter
 import com.alvindizon.tampisaw.databinding.FragmentCollectionListBinding
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 
+@ExperimentalCoroutinesApi
 @AndroidEntryPoint
 class CollectionListFragment : BaseFragment(R.layout.fragment_collection_list) {
 
@@ -59,7 +61,7 @@ class CollectionListFragment : BaseFragment(R.layout.fragment_collection_list) {
             )
         }
 
-        viewModel.uiState?.observe(viewLifecycleOwner, {
+        viewModel.uiState.observe(viewLifecycleOwner, {
             binding?.swipeLayout?.isRefreshing = false
             adapter.submitData(lifecycle, it)
         })

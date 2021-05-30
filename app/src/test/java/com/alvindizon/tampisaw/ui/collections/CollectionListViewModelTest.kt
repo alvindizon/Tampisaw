@@ -31,14 +31,14 @@ class CollectionListViewModelTest {
 
     @Test
     fun `getAllCollections loads correct PagingData of type UnsplashCollection`() {
-        val uiState = SUT.uiState?.testObserver()
+        val uiState = SUT.uiState.testObserver()
 
         every { getAllCollectionsUseCase.getAllCollections() } returns Observable.just(TestConstants.collectionsPagingData)
 
         SUT.getAllCollections()
 
         runBlocking {
-            val collectionsList = uiState?.observedValues?.get(0)?.collectData()
+            val collectionsList = uiState.observedValues?.get(0)?.collectData()
             assertEquals(TestConstants.unsplashCollection, collectionsList?.get(0))
             assertEquals(TestConstants.unsplashCollection2, collectionsList?.get(1))
         }
@@ -46,12 +46,12 @@ class CollectionListViewModelTest {
 
     @Test
     fun `empty paging data if error is encountered`() {
-        val uiState = SUT.uiState?.testObserver()
+        val uiState = SUT.uiState.testObserver()
 
         every { getAllCollectionsUseCase.getAllCollections() } returns Observable.error(IOException())
 
         SUT.getAllCollections()
 
-        uiState?.observedValues?.isEmpty()?.let { assert(it) }
+        uiState.observedValues?.isEmpty()?.let { assert(it) }
     }
 }

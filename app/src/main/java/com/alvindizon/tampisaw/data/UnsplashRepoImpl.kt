@@ -17,7 +17,9 @@ import com.alvindizon.tampisaw.ui.collections.UnsplashCollection
 import com.alvindizon.tampisaw.ui.gallery.UnsplashPhoto
 import io.reactivex.Observable
 import io.reactivex.Single
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 
+@ExperimentalCoroutinesApi
 @ExperimentalPagingApi
 class UnsplashRepoImpl(private val unsplashApi: UnsplashApi): UnsplashRepo {
 

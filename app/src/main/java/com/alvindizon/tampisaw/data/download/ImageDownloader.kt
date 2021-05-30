@@ -10,8 +10,7 @@ import android.provider.MediaStore
 import androidx.annotation.RequiresApi
 import androidx.core.app.NotificationCompat
 import androidx.core.content.FileProvider
-import androidx.hilt.Assisted
-import androidx.hilt.work.WorkerInject
+import androidx.hilt.work.HiltWorker
 import androidx.lifecycle.LiveData
 import androidx.work.*
 import com.alvindizon.tampisaw.core.ui.NotifsHelper
@@ -19,6 +18,8 @@ import com.alvindizon.tampisaw.core.utils.FILE_PROVIDER_AUTHORITY
 import com.alvindizon.tampisaw.core.utils.TAMPISAW_LEGACY_PATH
 import com.alvindizon.tampisaw.core.utils.TAMPISAW_RELATIVE_PATH
 import com.alvindizon.tampisaw.data.networking.api.UnsplashApi
+import dagger.assisted.Assisted
+import dagger.assisted.AssistedInject
 import io.reactivex.Single
 import okhttp3.ResponseBody
 import okio.BufferedSink
@@ -30,7 +31,8 @@ import java.util.*
 
 class DownloadCancelledException(message: String) : IOException(message)
 
-class ImageDownloader @WorkerInject constructor(
+@HiltWorker
+class ImageDownloader @AssistedInject constructor(
     private val unsplashApi: UnsplashApi,
     private val notifsHelper: NotifsHelper,
     private val contentResolver: ContentResolver,
