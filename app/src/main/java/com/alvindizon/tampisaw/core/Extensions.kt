@@ -4,21 +4,9 @@ import android.Manifest
 import android.content.Context
 import android.content.pm.PackageManager
 import android.os.Build
-import androidx.annotation.IntRange
 import androidx.core.content.ContextCompat
-import androidx.fragment.app.Fragment
-import com.alvindizon.tampisaw.data.networking.model.getphoto.GetPhotoResponse
-import com.alvindizon.tampisaw.data.networking.model.listphotos.ListPhotosResponse
-import com.alvindizon.tampisaw.data.networking.model.listphotos.Urls
-import com.alvindizon.tampisaw.data.networking.model.listphotos.User
-import com.alvindizon.tampisaw.ui.details.PhotoDetails
-import com.alvindizon.tampisaw.ui.gallery.UnsplashPhoto
-import com.alvindizon.tampisaw.ui.gallery.UnsplashPhotoUrls
-import com.alvindizon.tampisaw.ui.gallery.UnsplashUser
-import java.util.*
 import kotlin.math.ln
 import kotlin.math.pow
-
 
 
 fun Int.toCompactFormat(): String {
@@ -35,12 +23,10 @@ fun Context.hasWritePermission(): Boolean {
 fun Context.hasPermission(vararg permissions: String): Boolean {
     return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
         permissions.all { singlePermission ->
-            ContextCompat.checkSelfPermission(this, singlePermission) == PackageManager.PERMISSION_GRANTED
+            ContextCompat.checkSelfPermission(
+                this,
+                singlePermission
+            ) == PackageManager.PERMISSION_GRANTED
         }
     else true
 }
-
-fun Fragment.requestPermission(vararg permissions: String, @IntRange(from = 0) requestCode: Int) =
-    requestPermissions(permissions, requestCode)
-
-

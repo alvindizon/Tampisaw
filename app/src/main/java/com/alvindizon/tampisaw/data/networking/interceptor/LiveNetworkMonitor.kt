@@ -10,6 +10,7 @@ import javax.inject.Singleton
 class LiveNetworkMonitor @Inject constructor(private val connectivityManager: ConnectivityManager)
     : NetworkMonitor {
 
+    @Suppress("DEPRECATION")
     override fun isConnected(): Boolean {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             val capabilities = connectivityManager.getNetworkCapabilities(connectivityManager.activeNetwork)

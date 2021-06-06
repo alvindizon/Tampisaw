@@ -33,7 +33,7 @@ class CollectionAdapter(val listener: (UnsplashCollection) -> Unit)
         RecyclerView.ViewHolder(binding.root) {
 
         @SuppressLint("SetTextI18n")
-        fun bind(collection: UnsplashCollection, position: Int) {
+        fun bind(collection: UnsplashCollection) {
 
             binding.imageView.background = ColorDrawable(Color.parseColor(collection.color))
 
@@ -72,7 +72,7 @@ class CollectionAdapter(val listener: (UnsplashCollection) -> Unit)
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         getItem(position)?.let { item ->
-            holder.bind(item, position)
+            holder.bind(item)
             holder.itemView.setOnClickListener {
                 listener(item)
             }

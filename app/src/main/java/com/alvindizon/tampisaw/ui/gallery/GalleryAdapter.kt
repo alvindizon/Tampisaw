@@ -31,7 +31,7 @@ class GalleryAdapter(val listener: (UnsplashPhoto) -> Unit)
     inner class ViewHolder(private val binding: ItemGalleryBinding):
         RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(photo: UnsplashPhoto, position: Int) {
+        fun bind(photo: UnsplashPhoto) {
 
             binding.imageView.background = ColorDrawable(Color.parseColor(photo.color))
 
@@ -69,7 +69,7 @@ class GalleryAdapter(val listener: (UnsplashPhoto) -> Unit)
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         getItem(position)?.let { item ->
-            holder.bind(item, position)
+            holder.bind(item)
             holder.itemView.setOnClickListener {
                 listener(item)
             }

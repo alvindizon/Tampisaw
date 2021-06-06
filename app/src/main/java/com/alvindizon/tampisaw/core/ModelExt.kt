@@ -40,8 +40,8 @@ fun GetPhotoResponse.getLocationString(): String = when {
 fun GetPhotoResponse.getCamera(): String {
     return exif.run {
         model?.apply{
-            val makeList = make?.split(" ")?.map { it.trim().toLowerCase(Locale.ROOT) }
-            val modelList = model.split(" ").map { it.trim().toLowerCase(Locale.ROOT) }
+            val makeList = make?.split(" ")?.map { it.trim().lowercase(Locale.ROOT) }
+            val modelList = model.split(" ").map { it.trim().lowercase(Locale.ROOT) }
 
             if(makeList?.intersect(modelList)?.isEmpty() == true) {
                 "${makeList.first()} $model"

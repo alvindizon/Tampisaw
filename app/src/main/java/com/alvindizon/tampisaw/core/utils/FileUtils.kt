@@ -18,6 +18,7 @@ const val FILE_PROVIDER_AUTHORITY = "${BuildConfig.APPLICATION_ID}.fileprovider"
 
 val TAMPISAW_RELATIVE_PATH = "${Environment.DIRECTORY_PICTURES}${File.separator}$TAMPISAW_DIRECTORY"
 
+@Suppress("DEPRECATION")
 val TAMPISAW_LEGACY_PATH = "${Environment.getExternalStoragePublicDirectory(
     Environment.DIRECTORY_PICTURES)}${File.separator}$TAMPISAW_DIRECTORY"
 

@@ -17,7 +17,7 @@ class TagAdapter(private val listener: (String) -> Unit): ListAdapter<String, Ta
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         getItem(position)?.let { item ->
-            holder.bind(item, position)
+            holder.bind(item)
             holder.itemView.setOnClickListener {
                 listener.invoke(item)
             }
@@ -25,7 +25,7 @@ class TagAdapter(private val listener: (String) -> Unit): ListAdapter<String, Ta
     }
 
     inner class ViewHolder(private val binding: ItemPhotoTagBinding): RecyclerView.ViewHolder(binding.root) {
-        fun bind(title: String, position: Int) {
+        fun bind(title: String) {
             binding.tagChip.text = title
         }
     }

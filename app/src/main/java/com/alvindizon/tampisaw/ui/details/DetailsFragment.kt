@@ -12,6 +12,7 @@ import android.provider.MediaStore
 import android.util.Log
 import android.view.View
 import androidx.activity.OnBackPressedCallback
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.view.forEach
@@ -23,7 +24,6 @@ import androidx.navigation.fragment.navArgs
 import androidx.work.WorkInfo
 import com.alvindizon.tampisaw.R
 import com.alvindizon.tampisaw.core.hasWritePermission
-import com.alvindizon.tampisaw.core.requestPermission
 import com.alvindizon.tampisaw.core.ui.BaseFragment
 import com.alvindizon.tampisaw.core.utils.fileExists
 import com.alvindizon.tampisaw.core.utils.getUriForPhoto
@@ -48,6 +48,11 @@ class DetailsFragment : BaseFragment(R.layout.fragment_details) {
     private val viewModel: DetailsViewModel by activityViewModels()
 
     private val args: DetailsFragmentArgs by navArgs()
+
+    private val permissionsLauncher =
+        registerForActivityResult(ActivityResultContracts.RequestPermission()) {
+            // do nothing
+        }
 
     @Inject
     lateinit var activityFragmentManager: FragmentManager
@@ -135,7 +140,7 @@ class DetailsFragment : BaseFragment(R.layout.fragment_details) {
             }
 
         } else {
-            requestPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE, requestCode = 0)
+            permissionsLauncher.launch(Manifest.permission.WRITE_EXTERNAL_STORAGE)
         }
     }
 
@@ -162,6 +167,7 @@ class DetailsFragment : BaseFragment(R.layout.fragment_details) {
             .show()
     }
 
+    @Suppress("DEPRECATION")
     private fun setWallpaper(uri: Uri) {
         try {
             startActivity(
@@ -238,7 +244,7 @@ class DetailsFragment : BaseFragment(R.layout.fragment_details) {
                         })
             }
         } else {
-            requestPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE, requestCode = 0)
+            permissionsLauncher.launch(Manifest.permission.WRITE_EXTERNAL_STORAGE)
         }
     }
 
