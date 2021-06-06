@@ -25,7 +25,7 @@ class CollectionViewModel @Inject constructor(
     private val _uiState = MutableLiveData<PagingData<UnsplashPhoto>>()
     val uiState: LiveData<PagingData<UnsplashPhoto>> get() = _uiState
 
-    fun getAllPhotos(id: Int) {
+    fun getAllPhotos(id: String) {
         compositeDisposable += getCollectionPhotosUseCase.getCollectionPhotos(id)
             .cachedIn(viewModelScope)
             .subscribeOn(Schedulers.io())

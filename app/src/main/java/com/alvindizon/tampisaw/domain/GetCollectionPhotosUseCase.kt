@@ -7,5 +7,6 @@ import javax.inject.Inject
 
 class GetCollectionPhotosUseCase @Inject constructor(private val unsplashRepo: UnsplashRepo) {
 
-    fun getCollectionPhotos(id: Int): Observable<PagingData<UnsplashPhoto>> = unsplashRepo.getCollectionPhotos(id)
+    fun getCollectionPhotos(id: String): Observable<PagingData<UnsplashPhoto>> =
+        unsplashRepo.getCollectionPhotos(id)
 }

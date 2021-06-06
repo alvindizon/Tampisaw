@@ -61,6 +61,6 @@ class CollectionViewModelTest {
     }
 
     companion object {
-        private const val testId = 123
+        private const val testId = "123"
     }
 }

@@ -41,7 +41,7 @@ class UnsplashRepoImpl(private val unsplashApi: UnsplashApi): UnsplashRepo {
         pagingSourceFactory = { CollectionPagingSource(unsplashApi) }
     ).observable
 
-    override fun getCollectionPhotos(id: Int): Observable<PagingData<UnsplashPhoto>> = Pager(
+    override fun getCollectionPhotos(id: String): Observable<PagingData<UnsplashPhoto>> = Pager(
         config = PagingConfig(Const.PAGE_SIZE),
         remoteMediator = null,
         pagingSourceFactory = { UnsplashPagingSource(unsplashApi, UnsplashPagingSource.GetPhotosType.Collection, id) }

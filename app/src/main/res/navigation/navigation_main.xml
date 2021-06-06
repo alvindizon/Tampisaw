@@ -39,7 +39,7 @@
             app:destination="@id/collection_dest" >
             <argument
                 android:name="id"
-                app:argType="integer" />
+                app:argType="string" />
             <argument
                 android:name="description"
                 app:argType="string"
@@ -76,7 +76,7 @@
             app:destination="@id/collection_dest" >
             <argument
                 android:name="id"
-                app:argType="integer" />
+                app:argType="string" />
             <argument
                 android:name="description"
                 app:argType="string"
@@ -101,7 +101,7 @@
         android:label="fragment_collection">
         <argument
             android:name="id"
-            app:argType="integer" />
+            app:argType="string" />
 
         <argument
             android:name="description"

@@ -2,7 +2,7 @@ package com.alvindizon.tampisaw.ui.collections
 
 
 data class UnsplashCollection(
-    val id: Int,
+    val id: String,
     val title: String,
     val description: String?,
     val fullname: String?,

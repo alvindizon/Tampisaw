@@ -36,7 +36,7 @@ internal object TestConstants {
     val unsplashPhotos = mutableListOf(unsplashPhoto, unsplashPhoto2)
     val photoPagingData = PagingData.from(unsplashPhotos)
     val unsplashCollection = UnsplashCollection(
-        123,
+        "123",
         "collection",
         "wala lang",
         "eh",
@@ -51,7 +51,7 @@ internal object TestConstants {
         45
     )
     val unsplashCollection2 = UnsplashCollection(
-        124,
+        "124",
         "collection2",
         "wala lang din",
         "oh",

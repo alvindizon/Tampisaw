@@ -7,7 +7,7 @@ import com.squareup.moshi.JsonClass
 @JsonClass(generateAdapter = true)
 data class GetCollectionsResponse(
     @Json(name = "id")
-    val id: Int,
+    val id: String,
     @Json(name = "title")
     val title: String,
     @Json(name = "description")

@@ -51,7 +51,7 @@ interface UnsplashApi {
     @Headers("Accept-Version: v1", "Authorization: Client-ID $ACCESS_KEY")
     @GET("collections/{id}/photos")
     fun getCollectionPhotos(
-        @Path("id") id: Int,
+        @Path("id") id: String,
         @Query("page") page: Int,
         @Query("per_page") itemsPerPage: Int
     ): Single<List<ListPhotosResponse>>
