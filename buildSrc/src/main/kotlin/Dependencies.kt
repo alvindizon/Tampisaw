@@ -36,7 +36,8 @@ object Libs {
         "com.squareup.okio:okio:${Versions.okio}",
         "androidx.swiperefreshlayout:swiperefreshlayout:${Versions.swiperefreshlayout}",
         "com.google.dagger:hilt-android:${Versions.hilt}",
-        "androidx.hilt:hilt-work:${Versions.hiltAndroidX}"
+        "androidx.hilt:hilt-work:${Versions.hiltAndroidX}",
+        "com.jakewharton.timber:timber:${Versions.timber}"
     )
 
     val androidTestImplementations = listOf(
@@ -97,4 +98,5 @@ object Versions {
     const val junit5 = "5.7.2"
     const val hilt= "2.36"
     const val hiltAndroidX = "1.0.0"
+    const val timber = "4.7.1"
 }
