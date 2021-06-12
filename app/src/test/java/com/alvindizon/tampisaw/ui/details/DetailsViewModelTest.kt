@@ -41,8 +41,8 @@ class DetailsViewModelTest {
 
         SUT.getPhoto("ID")
         val observedValues = uiStatus.observedValues
-        assertEquals(observedValues[0], LOADING)
-        assertEquals(observedValues[1], SUCCESS(getPhotoResponse.toPhotoDetails()))
+        assertEquals(observedValues[0], Loading)
+        assertEquals(observedValues[1], GetDetailSuccess(getPhotoResponse.toPhotoDetails()))
     }
 
     @Test
@@ -53,8 +53,8 @@ class DetailsViewModelTest {
 
         SUT.getPhoto("ID")
         val observedValues = uiStatus.observedValues
-        assertEquals(observedValues[0], LOADING)
-        assertEquals(observedValues[1], ERROR("erreur"))
+        assertEquals(observedValues[0], Loading)
+        assertEquals(observedValues[1], Error("erreur"))
     }
 
     companion object {
