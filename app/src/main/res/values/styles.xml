@@ -15,21 +15,14 @@
 
         <item name="colorPrimaryDark">?colorPrimaryVariant</item>
         <item name="colorAccent">?colorSecondary</item>
+        <item name="fontFamily">@font/noto_sans</item>
+        <item name="android:fontFamily">@font/noto_sans</item>
     </style>
 
     <style name="ImageCardViewStyle" parent="Widget.MaterialComponents.CardView">
         <item name="android:layout_marginLeft">@dimen/margin_1</item>
         <item name="android:layout_marginTop">@dimen/margin_1</item>
         <item name="android:layout_marginRight">@dimen/margin_1</item>
-    </style>
-
-    <style name="ToolbarTitleStyle">
-        <item name="android:textSize">14sp</item>
-        <item name="android:textColor">?attr/colorOnPrimary</item>
-    </style>
-
-    <style name="ToolbarTitleStyle.Dark">
-        <item name="android:textColor">?attr/colorOnBackground</item>
     </style>
 
     <!-- Bottom Sheets -->
@@ -46,5 +39,36 @@
         <item name="shapeAppearanceOverlay">?shapeAppearanceLargeComponent</item>
     </style>
 
+    <!-- Text styles -->
+    <style name="ToolbarTitleStyle">
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">?attr/colorOnPrimary</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="ToolbarTitleStyle.Dark">
+        <item name="android:textColor">?attr/colorOnBackground</item>
+    </style>
+
+    <style name="GalleryTextStyle">
+        <item name="android:textColor">?attr/colorOnSurface</item>
+    </style>
+
+    <style name="GalleryTextStyle.Title" parent="GalleryTextStyle">
+        <item name="android:textSize">16sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="CollectionListTextStyle">
+        <item name="android:textColor">?attr/colorOnPrimary</item>
+        <item name="android:textAlignment">viewStart</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:translationZ">1dp</item>
+    </style>
+
+    <style name="CollectionListTextStyle.Title" parent="CollectionListTextStyle">
+        <item name="android:textSize">20sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
 
 </resources>

@@ -24,6 +24,7 @@
         tools:ignore="ContentDescription" />
 
     <TextView
+        style="@style/GalleryTextStyle.Title"
         android:id="@+id/username"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -35,6 +36,7 @@
         tools:text="Alvin Dizon" />
 
     <TextView
+        style="@style/GalleryTextStyle"
         android:id="@+id/handle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -54,11 +56,7 @@
         android:layout_marginEnd="@dimen/margin_1"
         android:ellipsize="end"
         android:maxLines="1"
-        android:textAlignment="viewStart"
-        android:textColor="@android:color/white"
-        android:translationZ="1dp"
-        android:textSize="20sp"
-        android:textStyle="bold"
+        style="@style/CollectionListTextStyle.Title"
         app:layout_constraintBottom_toTopOf="@id/photo_count"
         app:layout_constraintEnd_toStartOf="@id/lock_icon"
         app:layout_constrainedWidth="true"
@@ -85,10 +83,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/margin_2"
-        android:textColor="@android:color/white"
-        android:translationZ="1dp"
-        android:textAlignment="viewStart"
-        android:textSize="18sp"
+        style="@style/CollectionListTextStyle"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="@id/img_card_view"
