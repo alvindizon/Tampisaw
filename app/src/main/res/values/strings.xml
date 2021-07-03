@@ -22,7 +22,7 @@
     <string name="home">Home</string>
     <string name="collections">Collections</string>
     <string name="search">Search</string>
-    <string name="count_name" translatable="false">%s photos \u2022 %s</string>
+    <string name="count_name" translatable="false">%s photos curated by %s</string>
     <string name="photos">Photos</string>
     <string name="wallpaper_setting_download">Downloading started…</string>
     <string name="wallpaper_setting_success">Wallpaper set successfully</string>

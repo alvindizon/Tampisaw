@@ -99,8 +99,9 @@ class CollectionFragment : BaseFragment(R.layout.fragment_collection) {
                 findNavController().navigateUp()
             }
 
-            args.description?.let {
-                description.text = it
+            if(args.description != null) {
+                description.isVisible = true
+                description.text = args.description
             }
 
             countCuratorView.text =

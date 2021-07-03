@@ -19,6 +19,7 @@
             app:contentScrim="?attr/colorSurface"
             app:expandedTitleGravity="top"
             app:layout_scrollFlags="scroll|exitUntilCollapsed|snap"
+            app:scrimAnimationDuration="0"
             app:titleEnabled="false">
 
             <LinearLayout
@@ -33,27 +34,26 @@
                 app:layout_collapseParallaxMultiplier="0.5">
 
                 <TextView
-                    android:id="@+id/description"
+                    android:id="@+id/count_curator_view"
+                    style="@style/CollectionCaptionStyle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/margin_3"
                     android:layout_marginEnd="@dimen/margin_3"
-                    android:textAlignment="center"
-                    tools:text="A collection that has beautiful photos in it, curated by someone who has good taste." />
+                    android:singleLine="true"
+                    tools:text="69 Photos \u2022 Alvin Dizon" />
 
                 <TextView
-                    android:id="@+id/count_curator_view"
+                    android:id="@+id/description"
+                    style="@style/CollectionCaptionStyle.Description"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/margin_3"
                     android:layout_marginTop="@dimen/margin_5"
                     android:layout_marginEnd="@dimen/margin_3"
-                    android:fontFamily="sans-serif-medium"
-                    android:singleLine="true"
-                    android:textAlignment="center"
-                    android:textColor="@color/color_on_surface_secondary"
-                    android:textSize="13sp"
-                    tools:text="69 Photos \u2022 Alvin Dizon" />
+                    android:visibility="gone"
+                    tools:text="A collection that has beautiful photos in it, curated by someone who has good taste." />
+
             </LinearLayout>
 
             <androidx.appcompat.widget.Toolbar
@@ -81,13 +81,13 @@
                         android:id="@+id/toolbar_title"
                         style="@style/ToolbarTitleStyle.Dark"
                         android:layout_width="0dp"
-                        android:layout_height="match_parent"
+                        android:layout_height="wrap_content"
                         android:layout_weight=".90"
                         android:ellipsize="end"
                         android:gravity="fill"
                         android:maxLines="1"
-                        android:paddingStart="16dp"
-                        android:paddingEnd="8dp"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginEnd="8dp"
                         tools:text="Collection #1" />
 
                 </LinearLayout>
