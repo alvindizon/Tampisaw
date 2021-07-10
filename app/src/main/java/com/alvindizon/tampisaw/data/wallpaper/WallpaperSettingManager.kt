@@ -33,7 +33,10 @@ class WallpaperSettingManagerImpl(
         fileName: String,
         id: String,
         context: Context,
-    ): UUID = ImageDownloader.enqueueDownload(quality, fileName, id, context)
+    ): UUID  {
+        val workData = ImageDownloader.createInputData(quality, fileName, id)
+        return ImageDownloader.enqueueDownload(workData, context)
+    }
 
     override fun cancelDownload(uuid: UUID, context: Context) {
         ImageDownloader.cancelWorkById(uuid, context)

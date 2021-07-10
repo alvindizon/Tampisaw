@@ -206,19 +206,22 @@ class ImageDownloader @AssistedInject constructor(
         const val KEY_OUTPUT_FILE_NAME = "KEY_OUTPUT_FILE_NAME"
         const val KEY_PHOTO_ID = "KEY_PHOTO_ID"
 
-        fun enqueueDownload(
+        fun createInputData(
             url: String,
             fileName: String,
             photoId: String?,
+        ): Data = workDataOf(
+            KEY_INPUT_URL to url,
+            KEY_OUTPUT_FILE_NAME to fileName,
+            KEY_PHOTO_ID to photoId
+        )
+
+        fun enqueueDownload(
+            workData: Data,
             context: Context
         ): UUID {
-            val inputData = workDataOf(
-                KEY_INPUT_URL to url,
-                KEY_OUTPUT_FILE_NAME to fileName,
-                KEY_PHOTO_ID to photoId
-            )
             val request = OneTimeWorkRequestBuilder<ImageDownloader>()
-                .setInputData(inputData).build()
+                .setInputData(workData).build()
             WorkManager.getInstance(context).enqueue(request)
             return request.id
         }
