@@ -1,9 +1,7 @@
 package com.alvindizon.tampisaw.ui.details
 
 import android.Manifest
-import android.app.WallpaperManager
 import android.content.Context
-import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import androidx.activity.OnBackPressedCallback
@@ -27,7 +25,6 @@ import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
-import timber.log.Timber
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -53,11 +50,19 @@ class DetailsFragment : BaseFragment(R.layout.fragment_details) {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewModel.uiState.observe(this) { uiState ->
-            binding?.progressBar?.isVisible = uiState is Loading
-            binding?.image?.isVisible = uiState !is Loading
+            binding?.run {
+                progressBar.isVisible = uiState is Loading
+                image.isVisible = uiState !is Loading
+                handleUiState(uiState, this)
+            }
+        }
+    }
+
+    private fun handleUiState(uiState: DetailsUIState?, binding: FragmentDetailsBinding) {
+        with(binding) {
             when (uiState) {
                 is GetDetailSuccess -> {
-                    binding?.image?.let { imgView ->
+                    image.let { imgView ->
                         Glide.with(requireContext())
                             .load(uiState.photoDetails.regularUrl)
                             .transition(DrawableTransitionOptions.withCrossFade())
@@ -67,8 +72,33 @@ class DetailsFragment : BaseFragment(R.layout.fragment_details) {
                         setupToolbar(uiState.photoDetails)
                     }
                 }
-                is Error -> {
-                    binding?.root?.rootView?.showSnackbar(uiState.message, Snackbar.LENGTH_SHORT)
+                is Error -> root.rootView.showSnackbar(uiState.message, Snackbar.LENGTH_SHORT)
+                DownloadSuccess -> {
+                    root.rootView.showSnackbar(
+                        getString(R.string.download_complete),
+                        Snackbar.LENGTH_SHORT,
+                        null,
+                        null,
+                        fab
+                    )
+                }
+                SettingWallpaper -> {
+                    root.rootView.showSnackbar(
+                        getString(R.string.wallpaper_setting_ongoing),
+                        Snackbar.LENGTH_INDEFINITE,
+                        null,
+                        null,
+                        fab
+                    )
+                }
+                SetWallpaperSuccess -> {
+                    root.rootView.showSnackbar(
+                        getString(R.string.wallpaper_setting_success),
+                        Snackbar.LENGTH_SHORT,
+                        null,
+                        null,
+                        fab
+                    )
                 }
                 else -> Unit
             }
@@ -105,22 +135,22 @@ class DetailsFragment : BaseFragment(R.layout.fragment_details) {
                         requireActivity().run {
                             if (fileExists(photoDetails.fileName)) {
                                 showFileExistsDialog(this) {
-                                    downloadPhoto(this, photoDetails, false)
+                                    downloadPhoto(this, photoDetails)
                                 }
                             } else {
-                                downloadPhoto(this, photoDetails, false)
+                                downloadPhoto(this, photoDetails)
                             }
                         }
-                    } else if(it.id == R.id.set_wallpaper_option) {
+                    } else if (it.id == R.id.set_wallpaper_option) {
                         requireActivity().run {
                             if (fileExists(photoDetails.fileName)) {
                                 getUriForPhoto(photoDetails.fileName)?.also { uri ->
-                                    wallpaperSettingManager.setWallpaperByUri(uri)
+                                    viewModel.setWallpaper(uri)
                                 } ?: run {
-                                    downloadPhoto(this, photoDetails, true)
+                                    setWallpaper(this, photoDetails)
                                 }
                             } else {
-                                downloadPhoto(this, photoDetails, true)
+                                setWallpaper(this, photoDetails)
                             }
                         }
                     }
@@ -129,15 +159,31 @@ class DetailsFragment : BaseFragment(R.layout.fragment_details) {
         }
     }
 
-    private fun downloadPhoto(context: Context, photoDetails: PhotoDetails, setWallpaper: Boolean) {
+    private fun downloadPhoto(context: Context, photoDetails: PhotoDetails) {
         if (context.hasWritePermission()) {
             showDownloadQualityChoice(context, photoDetails) {
-                wallpaperSettingManager.enqueueDownload(
+                viewModel.downloadPhoto(
                     it,
                     photoDetails.fileName,
                     photoDetails.id,
                     context,
-                    setWallpaper
+                    viewLifecycleOwner
+                )
+            }
+        } else {
+            permissionsLauncher.launch(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+        }
+    }
+
+    private fun setWallpaper(context: Context, photoDetails: PhotoDetails) {
+        if (context.hasWritePermission()) {
+            showDownloadQualityChoice(context, photoDetails) {
+                viewModel.downloadAndSetWallpaper(
+                    it,
+                    photoDetails.fileName,
+                    photoDetails.id,
+                    context,
+                    viewLifecycleOwner
                 )
             }
         } else {

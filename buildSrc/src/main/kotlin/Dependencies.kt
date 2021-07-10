@@ -37,7 +37,8 @@ object Libs {
         "androidx.swiperefreshlayout:swiperefreshlayout:${Versions.swiperefreshlayout}",
         "com.google.dagger:hilt-android:${Versions.hilt}",
         "androidx.hilt:hilt-work:${Versions.hiltAndroidX}",
-        "com.jakewharton.timber:timber:${Versions.timber}"
+        "com.jakewharton.timber:timber:${Versions.timber}",
+        "androidx.lifecycle:lifecycle-reactivestreams-ktx:${Versions.lifecycle}"
     )
 
     val androidTestImplementations = listOf(
