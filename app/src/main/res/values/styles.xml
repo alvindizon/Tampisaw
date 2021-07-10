@@ -23,6 +23,7 @@
         <item name="android:layout_marginLeft">@dimen/margin_1</item>
         <item name="android:layout_marginTop">@dimen/margin_1</item>
         <item name="android:layout_marginRight">@dimen/margin_1</item>
+        <item name="cardElevation">@dimen/margin_1</item>
     </style>
 
     <!-- Bottom Sheets -->
@@ -64,7 +65,8 @@
         <item name="android:textColor">?attr/colorOnPrimary</item>
         <item name="android:textAlignment">viewStart</item>
         <item name="android:textSize">18sp</item>
-        <item name="android:translationZ">1dp</item>
+        <!-- always + margin_1 + 1dp-->
+        <item name="android:translationZ">9dp</item>
     </style>
 
     <style name="CollectionListTextStyle.Title" parent="CollectionListTextStyle">
