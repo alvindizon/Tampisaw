@@ -100,4 +100,5 @@ object Versions {
     const val hilt= "2.36"
     const val hiltAndroidX = "1.0.0"
     const val timber = "4.7.1"
+    const val detekt = "1.17.1"
 }

@@ -21,6 +21,7 @@ object Plugins {
     const val kotlinNavSafeArgs = "androidx.navigation.safeargs.kotlin"
     const val hilt = "dagger.hilt.android.plugin"
     val gradleVersions = PluginClass("com.github.ben-manes.versions", Versions.gradleVersions)
+    val detekt = PluginClass("io.gitlab.arturbosch.detekt", Versions.detekt)
 }
 
 data class PluginClass(val name: String, val version: String)
