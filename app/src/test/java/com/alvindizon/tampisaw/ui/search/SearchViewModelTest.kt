@@ -53,7 +53,7 @@ class SearchViewModelTest {
 
     @Test
     fun `searchCollections loads correct PagingData of type UnsplashCollection`() {
-        val uiState = SUT.collections?.testObserver()
+        val uiState = SUT.collections.testObserver()
 
         every { searchCollectionsUseCase.searchCollections(testQuery) } returns Observable.just(
             TestConstants.collectionsPagingData
@@ -62,7 +62,7 @@ class SearchViewModelTest {
         SUT.searchCollections(testQuery)
 
         runBlocking {
-            val collectionsList = uiState.observedValues?.get(0)?.collectData()
+            val collectionsList = uiState.observedValues[0]?.collectData()
             assertEquals(TestConstants.unsplashCollection, collectionsList?.get(0))
             assertEquals(TestConstants.unsplashCollection2, collectionsList?.get(1))
         }
@@ -70,14 +70,14 @@ class SearchViewModelTest {
 
     @Test
     fun `searchPhotos loads correct PagingData of type UnsplashPhoto`() {
-        val uiState = SUT.photos?.testObserver()
+        val uiState = SUT.photos.testObserver()
 
         every { searchPhotosUseCase.searchPhotos(testQuery) } returns Observable.just(TestConstants.photoPagingData)
 
         SUT.searchPhotos(testQuery)
 
         runBlocking {
-            val photoList = uiState.observedValues?.get(0)?.collectData()
+            val photoList = uiState.observedValues[0]?.collectData()
             assertEquals(TestConstants.unsplashPhoto, photoList?.get(0))
             assertEquals(TestConstants.unsplashPhoto2, photoList?.get(1))
         }
@@ -85,18 +85,18 @@ class SearchViewModelTest {
 
     @Test
     fun `empty paging data if error is encountered on getAllPhotos`() {
-        val uiState = SUT.photos?.testObserver()
+        val uiState = SUT.photos.testObserver()
 
         every { searchPhotosUseCase.searchPhotos(testQuery) } returns Observable.error(IOException())
 
         SUT.searchPhotos(testQuery)
 
-        uiState.observedValues?.isEmpty()?.let { assert(it) }
+        uiState.observedValues.isEmpty().let { assert(it) }
     }
 
     @Test
     fun `empty paging data if error is encountered on getAllCollections`() {
-        val uiState = SUT.collections?.testObserver()
+        val uiState = SUT.collections.testObserver()
 
         every { searchCollectionsUseCase.searchCollections(testQuery) } returns Observable.error(
             IOException()
@@ -104,7 +104,7 @@ class SearchViewModelTest {
 
         SUT.searchCollections(testQuery)
 
-        uiState.observedValues?.isEmpty()?.let { assert(it) }
+        uiState.observedValues.isEmpty().let { assert(it) }
     }
 
     companion object {

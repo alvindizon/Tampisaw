@@ -28,4 +28,5 @@
     <string name="wallpaper_setting_success">Wallpaper set successfully</string>
     <string name="wallpaper_setting_ongoing">Setting wallpaper…</string>
     <string name="wallpaper_download_error">Error downloading wallpaper.</string>
+    <string name="empty_search">No results here, try searching for something else.</string>
 </resources>

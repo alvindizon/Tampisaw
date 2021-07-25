@@ -1,7 +1,6 @@
 package com.alvindizon.tampisaw.ui.search
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
@@ -68,9 +67,10 @@ class SearchPhotosFragment : BaseFragment(R.layout.fragment_search_photos) {
 
             // Add a listener for the current state of paging
             adapter.addLoadStateListener { loadState ->
-                Log.d("GalleryFragment", "LoadState: " + loadState.source.refresh.toString())
-                // Only show the list if refresh succeeds.
-                list.isVisible = loadState.source.refresh is LoadState.NotLoading
+                // Show empty view if adapter itemCount is zero
+                emptyView.isVisible = adapter.itemCount == 0 && loadState.source.refresh !is LoadState.Loading && loadState.source.refresh !is LoadState.Error
+                // Only show the list if refresh succeeds and itemCount > 0
+                list.isVisible = loadState.source.refresh is LoadState.NotLoading && adapter.itemCount > 0
                 // Show loading spinner during initial load or refresh.
                 progressBar.isVisible = loadState.source.refresh is LoadState.Loading
                 // Show the retry state if initial load or refresh fails.
