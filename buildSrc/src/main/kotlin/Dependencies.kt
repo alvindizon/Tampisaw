@@ -65,7 +65,7 @@ object Libs {
 }
 
 object Versions {
-    const val androidGradlePlugin = "4.1.1"
+    const val androidGradlePlugin = "7.0.0"
     const val kotlin = "1.5.10"
     const val navigation = "2.3.5"
     const val appCompat = "1.3.0"
