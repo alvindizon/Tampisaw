@@ -1,8 +1,7 @@
 package com.alvindizon.tampisaw.domain
 
 import androidx.paging.PagingData
-import com.alvindizon.tampisaw.ui.collections.UnsplashCollection
-import com.alvindizon.tampisaw.ui.gallery.UnsplashPhoto
+import com.alvindizon.tampisaw.features.collections.UnsplashCollection
 import io.reactivex.Observable
 import javax.inject.Inject
 

@@ -1,10 +1,10 @@
 package com.alvindizon.tampisaw
 
 import androidx.paging.PagingData
-import com.alvindizon.tampisaw.ui.collections.UnsplashCollection
-import com.alvindizon.tampisaw.ui.gallery.UnsplashPhoto
-import com.alvindizon.tampisaw.ui.gallery.UnsplashPhotoUrls
-import com.alvindizon.tampisaw.ui.gallery.UnsplashUser
+import com.alvindizon.tampisaw.features.collections.UnsplashCollection
+import com.alvindizon.tampisaw.features.gallery.UnsplashPhoto
+import com.alvindizon.tampisaw.features.gallery.UnsplashPhotoUrls
+import com.alvindizon.tampisaw.features.gallery.UnsplashUser
 
 internal object TestConstants {
     val unsplashUser = UnsplashUser(

@@ -5,11 +5,11 @@ import com.alvindizon.tampisaw.data.networking.model.getphoto.GetPhotoResponse
 import com.alvindizon.tampisaw.data.networking.model.listphotos.ListPhotosResponse
 import com.alvindizon.tampisaw.data.networking.model.listphotos.Urls
 import com.alvindizon.tampisaw.data.networking.model.listphotos.User
-import com.alvindizon.tampisaw.ui.collections.UnsplashCollection
-import com.alvindizon.tampisaw.ui.details.PhotoDetails
-import com.alvindizon.tampisaw.ui.gallery.UnsplashPhoto
-import com.alvindizon.tampisaw.ui.gallery.UnsplashPhotoUrls
-import com.alvindizon.tampisaw.ui.gallery.UnsplashUser
+import com.alvindizon.tampisaw.features.collections.UnsplashCollection
+import com.alvindizon.tampisaw.features.details.PhotoDetails
+import com.alvindizon.tampisaw.features.gallery.UnsplashPhoto
+import com.alvindizon.tampisaw.features.gallery.UnsplashPhotoUrls
+import com.alvindizon.tampisaw.features.gallery.UnsplashUser
 import java.util.*
 
 fun ListPhotosResponse.toUnsplashPhoto() = UnsplashPhoto(

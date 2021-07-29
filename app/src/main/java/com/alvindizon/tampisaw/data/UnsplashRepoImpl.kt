@@ -13,8 +13,8 @@ import com.alvindizon.tampisaw.data.paging.SearchCollectionsPagingSource
 import com.alvindizon.tampisaw.data.paging.SearchPhotosPagingSource
 import com.alvindizon.tampisaw.data.paging.UnsplashPagingSource
 import com.alvindizon.tampisaw.domain.UnsplashRepo
-import com.alvindizon.tampisaw.ui.collections.UnsplashCollection
-import com.alvindizon.tampisaw.ui.gallery.UnsplashPhoto
+import com.alvindizon.tampisaw.features.collections.UnsplashCollection
+import com.alvindizon.tampisaw.features.gallery.UnsplashPhoto
 import io.reactivex.Observable
 import io.reactivex.Single
 import kotlinx.coroutines.ExperimentalCoroutinesApi

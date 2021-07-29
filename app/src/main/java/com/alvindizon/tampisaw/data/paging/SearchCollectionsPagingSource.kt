@@ -5,7 +5,7 @@ import androidx.paging.rxjava2.RxPagingSource
 import com.alvindizon.tampisaw.core.Const
 import com.alvindizon.tampisaw.core.toUnsplashCollection
 import com.alvindizon.tampisaw.data.networking.api.UnsplashApi
-import com.alvindizon.tampisaw.ui.collections.UnsplashCollection
+import com.alvindizon.tampisaw.features.collections.UnsplashCollection
 import io.reactivex.Single
 import io.reactivex.schedulers.Schedulers
 
