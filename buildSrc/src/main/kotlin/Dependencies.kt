@@ -56,7 +56,6 @@ object Libs {
 
     val kaptLibs = listOf(
         "com.squareup.moshi:moshi-kotlin-codegen:${Versions.moshi}",
-        "com.google.dagger:dagger-compiler:${Versions.dagger}",
         "androidx.room:room-compiler:${Versions.room}",
         "com.google.dagger:hilt-android-compiler:${Versions.hilt}",
         "androidx.hilt:hilt-compiler:${Versions.hiltAndroidX}"
@@ -97,7 +96,7 @@ object Versions {
     const val gradleVersions = "0.36.0"
     const val mockk = "1.11.0"
     const val junit5 = "5.7.2"
-    const val hilt= "2.36"
+    const val hilt= "2.38.1"
     const val hiltAndroidX = "1.0.0"
     const val timber = "4.7.1"
     const val detekt = "1.17.1"
