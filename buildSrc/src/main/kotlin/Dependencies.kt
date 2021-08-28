@@ -38,7 +38,8 @@ object Libs {
         "com.google.dagger:hilt-android:${Versions.hilt}",
         "androidx.hilt:hilt-work:${Versions.hiltAndroidX}",
         "com.jakewharton.timber:timber:${Versions.timber}",
-        "androidx.lifecycle:lifecycle-reactivestreams-ktx:${Versions.lifecycle}"
+        "androidx.lifecycle:lifecycle-reactivestreams-ktx:${Versions.lifecycle}",
+        "androidx.core:core-splashscreen:${Versions.splashScreen}"
     )
 
     val androidTestImplementations = listOf(
@@ -100,4 +101,5 @@ object Versions {
     const val hiltAndroidX = "1.0.0"
     const val timber = "4.7.1"
     const val detekt = "1.17.1"
+    const val splashScreen = "1.0.0-alpha01"
 }

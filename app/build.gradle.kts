@@ -30,6 +30,7 @@ android {
         versionName = Configs.versionName
         testInstrumentationRunner = Configs.testInstrumentationRunner
         buildConfigField ("String", "ACCESS_KEY", "\"${getAccessKey()}\"")
+        vectorDrawables.useSupportLibrary = true
     }
     buildTypes {
         getByName("release") {
