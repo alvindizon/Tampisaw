@@ -7,7 +7,7 @@ import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.reactivex.Observable
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.test.runBlockingTest
 import org.junit.Assert.assertEquals
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -37,7 +37,7 @@ class CollectionListViewModelTest {
 
         SUT.getAllCollections()
 
-        runBlocking {
+        runBlockingTest {
             val collectionsList = uiState.observedValues[0]?.collectData()
             assertEquals(TestConstants.unsplashCollection, collectionsList?.get(0))
             assertEquals(TestConstants.unsplashCollection2, collectionsList?.get(1))

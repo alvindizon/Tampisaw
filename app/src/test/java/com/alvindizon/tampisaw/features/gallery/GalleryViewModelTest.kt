@@ -7,7 +7,7 @@ import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.reactivex.Observable
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.test.runBlockingTest
 import org.junit.Assert.assertEquals
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -37,7 +37,7 @@ class GalleryViewModelTest {
 
         SUT.getAllPhotos()
 
-        runBlocking {
+        runBlockingTest {
             val photoList = uiState.observedValues.get(0)?.collectData()
             assertEquals(TestConstants.unsplashPhoto, photoList?.get(0))
             assertEquals(TestConstants.unsplashPhoto2, photoList?.get(1))
