@@ -253,8 +253,12 @@ class DetailsFragment : BaseFragment(R.layout.fragment_details) {
             }
 
             info.setOnClickListener {
-                activityFragmentManager.showDialogFragment(InfoBottomSheet.newInstance(photoDetails.tags) {
-                })
+                activityFragmentManager.run {
+                    showDialogFragment(InfoBottomSheet.newInstance(photoDetails.tags) {
+                        dismissCurrentDialog()
+                        findNavController().navigate(DetailsFragmentDirections.searchAction(it))
+                    })
+                }
             }
         }
     }

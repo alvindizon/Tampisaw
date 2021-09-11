@@ -27,6 +27,16 @@
             app:argType="string"
             android:defaultValue="" />
 
+        <action
+            android:id="@+id/searchAction"
+            app:destination="@id/search_dest">
+
+            <argument
+                android:name="query"
+                app:argType="string"/>
+
+        </action>
+
     </fragment>
 
     <fragment
@@ -61,6 +71,12 @@
         android:id="@+id/search_dest"
         android:name="com.alvindizon.tampisaw.features.search.SearchFragment"
         android:label="fragment_search">
+
+        <argument
+            android:name="query"
+            app:argType="string"
+            app:nullable="true"
+            android:defaultValue="@null"/>
 
         <action
             android:id="@+id/detailsAction"

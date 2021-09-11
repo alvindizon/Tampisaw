@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Lifecycle
+import androidx.navigation.fragment.navArgs
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.alvindizon.tampisaw.R
 import com.alvindizon.tampisaw.core.ui.BaseFragment
@@ -24,6 +25,8 @@ class SearchFragment : BaseFragment(R.layout.fragment_search) {
 
     private val viewModel: SearchViewModel by activityViewModels()
 
+    private val args: SearchFragmentArgs by navArgs()
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentSearchBinding.bind(view)
@@ -36,9 +39,14 @@ class SearchFragment : BaseFragment(R.layout.fragment_search) {
             }.attach()
 
             searchText.run {
+                // search for query if chip was clicked from details screen
+                args.query?.let {
+                    setText(it)
+                    viewModel.updateQuery(it)
+                }
                 setOnEditorActionListener { _, actionId, _ ->
                     if (actionId == EditorInfo.IME_ACTION_SEARCH) {
-                        viewModel.updateQuery(this.text.toString())
+                        viewModel.updateQuery(text.toString())
                         requireActivity().currentFocus?.hideKeyboard()
                         return@setOnEditorActionListener true
                     }
