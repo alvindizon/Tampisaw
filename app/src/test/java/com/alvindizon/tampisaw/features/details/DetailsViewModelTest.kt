@@ -195,25 +195,11 @@ class DetailsViewModelTest {
             false,
             "desc",
             Exif(),
-            Location("city", "country", Position(6.0, 7.0)),
+            Location("city", "country"),
             listOf(Tag("shit"), Tag("garbage")),
-            null,
             Urls("raw", "full", "regular", "small", "thumb"),
             Links(),
-            User(
-                "user_id",
-                "updated-at",
-                "username",
-                "name",
-                null,
-                null,
-                "location",
-                69,
-                69,
-                69,
-                UserLinks("self", "html", "photos", "likes", "portfolio"),
-                null
-            )
+            User("user_id", "name", null)
         )
         private val quality = "full"
         private val fileName = "fileName"
