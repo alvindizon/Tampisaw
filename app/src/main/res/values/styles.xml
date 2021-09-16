@@ -1,7 +1,7 @@
 <resources>
     <style name="SplashTheme" parent="Theme.SplashScreen">
         <item name="windowSplashScreenBackground">@color/color_on_primary</item>
-        <item name="windowSplashScreenAnimatedIcon">@mipmap/ic_launcher</item>
+        <item name="windowSplashScreenAnimatedIcon">@drawable/vd_logo</item>
         <item name="postSplashScreenTheme">@style/AppTheme</item>
     </style>
     <!-- Base application theme. -->
