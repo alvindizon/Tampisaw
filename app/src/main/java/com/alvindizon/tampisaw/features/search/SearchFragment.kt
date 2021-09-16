@@ -27,6 +27,14 @@ class SearchFragment : BaseFragment(R.layout.fragment_search) {
 
     private val args: SearchFragmentArgs by navArgs()
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        // search for query if chip was clicked from details screen
+        args.query?.let {
+            viewModel.updateQuery(it)
+        }
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentSearchBinding.bind(view)
@@ -39,11 +47,7 @@ class SearchFragment : BaseFragment(R.layout.fragment_search) {
             }.attach()
 
             searchText.run {
-                // search for query if chip was clicked from details screen
-                args.query?.let {
-                    setText(it)
-                    viewModel.updateQuery(it)
-                }
+                args.query?.let { setText(it) }
                 setOnEditorActionListener { _, actionId, _ ->
                     if (actionId == EditorInfo.IME_ACTION_SEARCH) {
                         viewModel.updateQuery(text.toString())
