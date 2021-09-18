@@ -12,7 +12,14 @@ import androidx.core.app.NotificationCompat
 import androidx.core.content.FileProvider
 import androidx.hilt.work.HiltWorker
 import androidx.lifecycle.LiveData
-import androidx.work.*
+import androidx.work.Data
+import androidx.work.ForegroundInfo
+import androidx.work.OneTimeWorkRequestBuilder
+import androidx.work.RxWorker
+import androidx.work.WorkInfo
+import androidx.work.WorkManager
+import androidx.work.WorkerParameters
+import androidx.work.workDataOf
 import com.alvindizon.tampisaw.core.ui.NotifsHelper
 import com.alvindizon.tampisaw.core.utils.FILE_PROVIDER_AUTHORITY
 import com.alvindizon.tampisaw.core.utils.TAMPISAW_LEGACY_PATH
@@ -41,10 +48,11 @@ class ImageDownloader @AssistedInject constructor(
 ) : RxWorker(context, params) {
 
     override fun createWork(): Single<Result> {
-        val url = inputData.getString(KEY_INPUT_URL) ?: return Single.just(Result.failure())
-        val fileName =
-            inputData.getString(KEY_OUTPUT_FILE_NAME) ?: return Single.just(Result.failure())
-        val photoId = inputData.getString(KEY_PHOTO_ID) ?: return Single.just(Result.failure())
+        val url = inputData.getString(KEY_INPUT_URL)
+        val fileName = inputData.getString(KEY_OUTPUT_FILE_NAME)
+        val photoId = inputData.getString(KEY_PHOTO_ID)
+
+        if (url == null || fileName == null || photoId == null) return Single.just(Result.failure())
 
         val notificationId = id.hashCode()
         // note: at this point, WorkManager has been manually initialized in WorkerModule,
@@ -90,7 +98,7 @@ class ImageDownloader @AssistedInject constructor(
                 put(MediaStore.Images.Media.DISPLAY_NAME, fileName)
                 put(MediaStore.Images.Media.TITLE, fileName)
                 put(MediaStore.Images.Media.MIME_TYPE, "image/jpeg")
-                put(MediaStore.Images.Media.DATE_ADDED, System.currentTimeMillis() / 1000)
+                put(MediaStore.Images.Media.DATE_ADDED, System.currentTimeMillis() / MILLIS)
                 put(MediaStore.Images.Media.SIZE, responseBody.contentLength())
                 put(MediaStore.Images.Media.RELATIVE_PATH, TAMPISAW_RELATIVE_PATH)
                 put(MediaStore.Images.Media.IS_PENDING, 1)
@@ -186,12 +194,12 @@ class ImageDownloader @AssistedInject constructor(
 
         while (true) {
             if (isStopped) return false
-            val readCount = source().read(sink.buffer, 8192L)
-            if (readCount == -1L) break
+            val readCount = source().read(sink.buffer, MAX_BYTE)
+            if (readCount == END) break
             sink.emit()
             totalBytesRead += readCount
-            val progress = (100.0 * totalBytesRead / fileSize)
-            if (progress - progressToReport >= 10) {
+            val progress = (MAX_PROGRESS * totalBytesRead / fileSize)
+            if (progress - progressToReport >= MIN_PROGRESS_TO_REPORT) {
                 progressToReport = progress.toInt()
                 onProgress?.invoke(progressToReport)
             }
@@ -205,6 +213,11 @@ class ImageDownloader @AssistedInject constructor(
         const val KEY_INPUT_URL = "KEY_INPUT_URL"
         const val KEY_OUTPUT_FILE_NAME = "KEY_OUTPUT_FILE_NAME"
         const val KEY_PHOTO_ID = "KEY_PHOTO_ID"
+        private const val END = -1L
+        private const val MAX_BYTE = 8192L
+        private const val MAX_PROGRESS = 100.0
+        private const val MIN_PROGRESS_TO_REPORT = 10
+        private const val MILLIS = 1000
 
         fun createInputData(
             url: String,

@@ -3,11 +3,11 @@ package com.alvindizon.tampisaw.features.gallery
 import android.os.Bundle
 import android.view.View
 import androidx.core.view.isVisible
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.paging.LoadState
 import com.alvindizon.tampisaw.R
-import com.alvindizon.tampisaw.core.ui.BaseFragment
 import com.alvindizon.tampisaw.core.ui.RetryAdapter
 import com.alvindizon.tampisaw.databinding.FragmentGalleryBinding
 import com.google.android.material.snackbar.Snackbar
@@ -16,7 +16,7 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 
 @ExperimentalCoroutinesApi
 @AndroidEntryPoint
-class GalleryFragment : BaseFragment(R.layout.fragment_gallery) {
+class GalleryFragment : Fragment(R.layout.fragment_gallery) {
 
     private var binding: FragmentGalleryBinding? = null
 

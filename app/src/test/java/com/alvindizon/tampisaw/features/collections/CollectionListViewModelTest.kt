@@ -1,7 +1,12 @@
 package com.alvindizon.tampisaw.features.collections
 
-import com.alvindizon.tampisaw.*
+import com.alvindizon.tampisaw.CoroutineExtension
+import com.alvindizon.tampisaw.InstantExecutorExtension
+import com.alvindizon.tampisaw.RxSchedulerExtension
+import com.alvindizon.tampisaw.TestConstants
+import com.alvindizon.tampisaw.collectData
 import com.alvindizon.tampisaw.domain.GetAllCollectionsUseCase
+import com.alvindizon.tampisaw.testObserver
 import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
@@ -33,7 +38,9 @@ class CollectionListViewModelTest {
     fun `getAllCollections loads correct PagingData of type UnsplashCollection`() {
         val uiState = SUT.uiState.testObserver()
 
-        every { getAllCollectionsUseCase.getAllCollections() } returns Observable.just(TestConstants.collectionsPagingData)
+        every {
+            getAllCollectionsUseCase.getAllCollections()
+        } returns Observable.just(TestConstants.collectionsPagingData)
 
         SUT.getAllCollections()
 

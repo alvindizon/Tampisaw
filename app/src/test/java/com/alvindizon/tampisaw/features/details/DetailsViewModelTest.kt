@@ -201,8 +201,8 @@ class DetailsViewModelTest {
             Links(),
             User("user_id", "name", null)
         )
-        private val quality = "full"
-        private val fileName = "fileName"
-        private val id = "id"
+        private const val quality = "full"
+        private const val fileName = "fileName"
+        private const val id = "id"
     }
 }

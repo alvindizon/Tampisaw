@@ -10,7 +10,6 @@ import androidx.lifecycle.Lifecycle
 import androidx.navigation.fragment.navArgs
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.alvindizon.tampisaw.R
-import com.alvindizon.tampisaw.core.ui.BaseFragment
 import com.alvindizon.tampisaw.core.utils.hideKeyboard
 import com.alvindizon.tampisaw.databinding.FragmentSearchBinding
 import com.google.android.material.tabs.TabLayoutMediator
@@ -19,7 +18,7 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 
 @ExperimentalCoroutinesApi
 @AndroidEntryPoint
-class SearchFragment : BaseFragment(R.layout.fragment_search) {
+class SearchFragment : Fragment(R.layout.fragment_search) {
 
     private var binding: FragmentSearchBinding? = null
 

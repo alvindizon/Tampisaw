@@ -8,7 +8,6 @@ import androidx.work.WorkInfo
 import com.alvindizon.tampisaw.core.utils.getUriForPhoto
 import com.alvindizon.tampisaw.data.download.ImageDownloader
 import com.alvindizon.tampisaw.data.wallpaper.WallpaperSettingManager
-import com.alvindizon.tampisaw.domain.exceptions.SetWallpaperError
 import io.reactivex.Completable
 import io.reactivex.Flowable
 import javax.inject.Inject
@@ -61,3 +60,5 @@ class SetWallpaperUseCase @Inject constructor(private val wallpaperSettingManage
         }
     }
 }
+
+class SetWallpaperError: Exception()

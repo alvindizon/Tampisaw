@@ -7,5 +7,6 @@ import javax.inject.Inject
 
 class SearchCollectionsUseCase @Inject constructor(private val unsplashRepo: UnsplashRepo) {
 
-    fun searchCollections(query: String): Observable<PagingData<UnsplashCollection>> = unsplashRepo.searchCollections(query)
+    fun searchCollections(query: String): Observable<PagingData<UnsplashCollection>> =
+        unsplashRepo.searchCollections(query)
 }

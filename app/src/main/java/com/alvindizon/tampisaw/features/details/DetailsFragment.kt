@@ -10,14 +10,19 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.view.forEach
 import androidx.core.view.isVisible
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.alvindizon.tampisaw.R
 import com.alvindizon.tampisaw.core.hasWritePermission
-import com.alvindizon.tampisaw.core.ui.BaseFragment
-import com.alvindizon.tampisaw.core.utils.*
+import com.alvindizon.tampisaw.core.utils.dismissCurrentDialog
+import com.alvindizon.tampisaw.core.utils.fileExists
+import com.alvindizon.tampisaw.core.utils.getUriForPhoto
+import com.alvindizon.tampisaw.core.utils.showDialogFragment
+import com.alvindizon.tampisaw.core.utils.showFileExistsDialog
+import com.alvindizon.tampisaw.core.utils.showSnackbar
 import com.alvindizon.tampisaw.data.wallpaper.WallpaperSettingManager
 import com.alvindizon.tampisaw.databinding.FragmentDetailsBinding
 import com.bumptech.glide.Glide
@@ -28,7 +33,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class DetailsFragment : BaseFragment(R.layout.fragment_details) {
+class DetailsFragment : Fragment(R.layout.fragment_details) {
 
     private var binding: FragmentDetailsBinding? = null
 
@@ -197,20 +202,16 @@ class DetailsFragment : BaseFragment(R.layout.fragment_details) {
         url: ((String) -> Unit)?
     ) {
         val items = arrayOf("Raw", "Regular", "Full", "Small", "Thumb")
+        val urls = listOf(
+            photoDetails.rawUrl,
+            photoDetails.regularUrl,
+            photoDetails.fullUrl,
+            photoDetails.smallUrl,
+            photoDetails.thumbUrl
+        )
         MaterialAlertDialogBuilder(context)
             .setTitle(R.string.title_photo_quality)
-            .setItems(items) { _, which ->
-                url?.invoke(
-                    when (which) {
-                        0 -> photoDetails.rawUrl
-                        1 -> photoDetails.regularUrl
-                        2 -> photoDetails.fullUrl
-                        3 -> photoDetails.smallUrl
-                        4 -> photoDetails.thumbUrl
-                        else -> photoDetails.regularUrl
-                    }
-                )
-            }
+            .setItems(items) { _, index -> url?.invoke(urls[index]) }
             .show()
     }
 

@@ -39,8 +39,8 @@ class NotifsHelper @Inject constructor(private val context: Context,
         builder: NotificationCompat.Builder,
         progress: Int
     ) = builder.apply {
-        setProgress(100, progress, false)
-        if (progress == 100) setSmallIcon(android.R.drawable.stat_sys_download_done)
+        setProgress(MAX_PROGRESS, progress, false)
+        if (progress == MAX_PROGRESS) setSmallIcon(android.R.drawable.stat_sys_download_done)
     }
 
     fun showDownloadCompleteNotification(fileName: String, uri: Uri) {
@@ -83,6 +83,7 @@ class NotifsHelper @Inject constructor(private val context: Context,
 
     companion object {
         private const val DOWNLOADS_CHANNEL_ID = "downloads_channel_id"
+        private const val MAX_PROGRESS = 100
     }
 
 }

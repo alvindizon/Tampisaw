@@ -3,11 +3,11 @@ package com.alvindizon.tampisaw.features.search
 import android.os.Bundle
 import android.view.View
 import androidx.core.view.isVisible
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.paging.LoadState
 import com.alvindizon.tampisaw.R
-import com.alvindizon.tampisaw.core.ui.BaseFragment
 import com.alvindizon.tampisaw.core.ui.RetryAdapter
 import com.alvindizon.tampisaw.databinding.FragmentSearchPhotosBinding
 import com.alvindizon.tampisaw.features.gallery.GalleryAdapter
@@ -17,7 +17,7 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 
 @ExperimentalCoroutinesApi
 @AndroidEntryPoint
-class SearchPhotosFragment : BaseFragment(R.layout.fragment_search_photos) {
+class SearchPhotosFragment : Fragment(R.layout.fragment_search_photos) {
 
     private var binding: FragmentSearchPhotosBinding? = null
 
@@ -69,7 +69,9 @@ class SearchPhotosFragment : BaseFragment(R.layout.fragment_search_photos) {
             adapter.addLoadStateListener { loadState ->
                 // Show empty view if adapter itemCount is zero
                 emptyView.isVisible =
-                    adapter.itemCount == 0 && loadState.source.refresh !is LoadState.Loading && loadState.source.refresh !is LoadState.Error
+                    adapter.itemCount == 0 &&
+                            loadState.source.refresh !is LoadState.Loading &&
+                            loadState.source.refresh !is LoadState.Error
                 // Only show the list if refresh succeeds and itemCount > 0
                 list.isVisible =
                     loadState.source.refresh is LoadState.NotLoading && adapter.itemCount > 0

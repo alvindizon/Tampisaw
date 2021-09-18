@@ -15,7 +15,7 @@ data class GetCollectionsResponse(
     @Json(name = "total_photos")
     val totalPhotos: Int,
     @Json(name = "private")
-    val `private`: Boolean? = null,
+    val isPrivate: Boolean? = null,
     @Json(name = "user")
     val user: User,
     @Json(name = "cover_photo")

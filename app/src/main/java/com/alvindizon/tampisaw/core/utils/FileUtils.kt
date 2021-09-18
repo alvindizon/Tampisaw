@@ -19,12 +19,15 @@ const val FILE_PROVIDER_AUTHORITY = "${BuildConfig.APPLICATION_ID}.fileprovider"
 val TAMPISAW_RELATIVE_PATH = "${Environment.DIRECTORY_PICTURES}${File.separator}$TAMPISAW_DIRECTORY"
 
 @Suppress("DEPRECATION")
-val TAMPISAW_LEGACY_PATH = "${Environment.getExternalStoragePublicDirectory(
-    Environment.DIRECTORY_PICTURES)}${File.separator}$TAMPISAW_DIRECTORY"
+val TAMPISAW_LEGACY_PATH = "${
+    Environment.getExternalStoragePublicDirectory(
+        Environment.DIRECTORY_PICTURES
+    )
+}${File.separator}$TAMPISAW_DIRECTORY"
 
 
 fun Context.fileExists(fileName: String): Boolean {
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+    return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
         val projection = arrayOf(MediaStore.MediaColumns.DISPLAY_NAME)
         val selection = "${MediaStore.MediaColumns.RELATIVE_PATH} like ? and " +
                 "${MediaStore.MediaColumns.DISPLAY_NAME} = ?"
@@ -34,16 +37,16 @@ fun Context.fileExists(fileName: String): Boolean {
         val uri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI
 
         contentResolver.query(uri, projection, selection, selectionArgs, null)?.use {
-            return it.count > 0
-        } ?: return false
+            it.count > 0
+        } ?: false
     } else {
-        return File(TAMPISAW_LEGACY_PATH, fileName).exists()
+        File(TAMPISAW_LEGACY_PATH, fileName).exists()
     }
 
 }
 
 fun Context.getUriForPhoto(fileName: String): Uri? {
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+    return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
         val projection = arrayOf(MediaStore.MediaColumns._ID)
         val selection = "${MediaStore.MediaColumns.RELATIVE_PATH} like ? and " +
                 "${MediaStore.MediaColumns.DISPLAY_NAME} = ?"
@@ -53,18 +56,20 @@ fun Context.getUriForPhoto(fileName: String): Uri? {
         val uri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI
 
         contentResolver.query(uri, projection, selection, selectionArgs, null)?.use {
-            return if (it.moveToFirst()) {
-                ContentUris.withAppendedId(uri, it.getLong(
-                    it.getColumnIndexOrThrow(MediaStore.MediaColumns._ID)))
+            if (it.moveToFirst()) {
+                ContentUris.withAppendedId(
+                    uri, it.getLong(
+                        it.getColumnIndexOrThrow(MediaStore.MediaColumns._ID)
+                    )
+                )
             } else {
                 null
             }
-        } ?: return null
+        }
     } else {
         val file = File(TAMPISAW_LEGACY_PATH, fileName)
-        return FileProvider.getUriForFile(this, FILE_PROVIDER_AUTHORITY, file)
+        FileProvider.getUriForFile(this, FILE_PROVIDER_AUTHORITY, file)
     }
-
 }
 
 fun showFileExistsDialog(context: Context, action: () -> Unit) {

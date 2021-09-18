@@ -9,7 +9,12 @@ import com.alvindizon.tampisaw.data.networking.model.search.SearchPhotosResponse
 import io.reactivex.Completable
 import io.reactivex.Single
 import okhttp3.ResponseBody
-import retrofit2.http.*
+import retrofit2.http.GET
+import retrofit2.http.Headers
+import retrofit2.http.Path
+import retrofit2.http.Query
+import retrofit2.http.Streaming
+import retrofit2.http.Url
 
 interface UnsplashApi {
 
@@ -59,14 +64,14 @@ interface UnsplashApi {
     @Headers("Accept-Version: v1", "Authorization: Client-ID $ACCESS_KEY")
     @GET("search/photos")
     fun searchPhotos(
-            @Query("query") query: String,
-            @Query("page") page: Int,
-            @Query("per_page") itemsPerPage: Int,
-            @Query("order_by") order_by: String?,
-            @Query("collections") collections: String?,
-            @Query("content_filter") contentFilter: String?,
-            @Query("color") color: String?,
-            @Query("orientation") orientation: String?
+        @Query("query") query: String,
+        @Query("page") page: Int,
+        @Query("per_page") itemsPerPage: Int,
+        @Query("order_by") orderBy: String?,
+        @Query("collections") collections: String?,
+        @Query("content_filter") contentFilter: String?,
+        @Query("color") color: String?,
+        @Query("orientation") orientation: String?
     ): Single<SearchPhotosResponse>
 
     @Headers("Accept-Version: v1", "Authorization: Client-ID $ACCESS_KEY")

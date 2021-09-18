@@ -3,12 +3,12 @@ package com.alvindizon.tampisaw.features.collections
 import android.os.Bundle
 import android.view.View
 import androidx.core.view.isVisible
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.paging.LoadState
 import com.alvindizon.tampisaw.R
-import com.alvindizon.tampisaw.core.ui.BaseFragment
 import com.alvindizon.tampisaw.core.ui.RetryAdapter
 import com.alvindizon.tampisaw.databinding.FragmentCollectionBinding
 import com.alvindizon.tampisaw.features.gallery.GalleryAdapter
@@ -18,7 +18,7 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 
 @ExperimentalCoroutinesApi
 @AndroidEntryPoint
-class CollectionFragment : BaseFragment(R.layout.fragment_collection) {
+class CollectionFragment : Fragment(R.layout.fragment_collection) {
 
     private var binding: FragmentCollectionBinding? = null
 
