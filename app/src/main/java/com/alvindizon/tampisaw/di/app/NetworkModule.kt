@@ -2,6 +2,7 @@ package com.alvindizon.tampisaw.di.app
 
 import com.alvindizon.tampisaw.BuildConfig
 import com.alvindizon.tampisaw.data.networking.api.UnsplashApi
+import com.alvindizon.tampisaw.data.networking.interceptor.AuthorizationInterceptor
 import com.alvindizon.tampisaw.data.networking.interceptor.ConnectivityInterceptor
 import com.squareup.moshi.Moshi
 import dagger.Module
@@ -30,18 +31,25 @@ class NetworkModule {
 
     @Provides
     @Singleton
+    fun provideAuthorizationInterceptor(): AuthorizationInterceptor =
+        AuthorizationInterceptor(BuildConfig.ACCESS_KEY)
+
+    @Provides
+    @Singleton
     fun provideOkHttpClient(
         httpLoggingInterceptor: HttpLoggingInterceptor,
-        connectivityInterceptor: ConnectivityInterceptor
+        connectivityInterceptor: ConnectivityInterceptor,
+        authorizationInterceptor: AuthorizationInterceptor
     ): OkHttpClient = OkHttpClient.Builder()
         .addInterceptor(httpLoggingInterceptor)
         .addInterceptor(connectivityInterceptor)
+        .addInterceptor(authorizationInterceptor)
         .build()
 
     @Provides
     @Singleton
     fun provideRetrofit(okHttpClient: OkHttpClient, moshi: Moshi): Retrofit = Retrofit.Builder()
-        .baseUrl(UnsplashApi.API_URL)
+        .baseUrl(API_URL)
         .addConverterFactory(MoshiConverterFactory.create(moshi))
         .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
         .client(okHttpClient)
@@ -51,4 +59,9 @@ class NetworkModule {
     @Singleton
     fun provideUnsplashApi(retrofit: Retrofit): UnsplashApi =
         retrofit.create(UnsplashApi::class.java)
+
+    companion object {
+        const val API_URL = "https://api.unsplash.com/"
+        const val ACCESS_KEY = BuildConfig.ACCESS_KEY
+    }
 }
