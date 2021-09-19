@@ -52,6 +52,9 @@ android {
     testOptions {
         unitTests.all {
             it.useJUnitPlatform()
+            it.testLogging {
+                events("passed", "skipped", "failed")
+            }
         }
     }
 }
