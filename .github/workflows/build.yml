@@ -34,7 +34,7 @@ jobs:
           ACCESS_KEY: ${{ secrets.ACCESS_KEY }}
         run: echo ACCESS_KEY=$ACCESS_KEY > ./local.properties
       - name: Test
-        run: ./gradlew test
+        run: ./gradlew testDebugUnitTest
   detekt:
     runs-on: macos-latest
     steps:
