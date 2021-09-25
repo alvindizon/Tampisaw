@@ -7,7 +7,9 @@ import androidx.paging.PagingData
 import androidx.paging.rxjava2.observable
 import com.alvindizon.tampisaw.core.Const
 import com.alvindizon.tampisaw.data.networking.api.UnsplashApi
+import com.alvindizon.tampisaw.data.networking.model.getcollections.GetCollectionsResponse
 import com.alvindizon.tampisaw.data.networking.model.getphoto.GetPhotoResponse
+import com.alvindizon.tampisaw.data.networking.model.listphotos.ListPhotosResponse
 import com.alvindizon.tampisaw.data.paging.CollectionPagingSource
 import com.alvindizon.tampisaw.data.paging.SearchCollectionsPagingSource
 import com.alvindizon.tampisaw.data.paging.SearchPhotosPagingSource
@@ -23,7 +25,7 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 @ExperimentalPagingApi
 class UnsplashRepoImpl(private val unsplashApi: UnsplashApi): UnsplashRepo {
 
-    override fun getAllPhotos(): Observable<PagingData<UnsplashPhoto>> = Pager(
+    override fun getAllPhotos(): Observable<PagingData<ListPhotosResponse>> = Pager(
         config = PagingConfig(Const.PAGE_SIZE),
         remoteMediator = null,
         // Always create a new UnsplashPagingSource object. Failure to do so would result in a
@@ -35,25 +37,25 @@ class UnsplashRepoImpl(private val unsplashApi: UnsplashApi): UnsplashRepo {
 
     override fun getPhoto(id: String): Single<GetPhotoResponse> = unsplashApi.getPhoto(id)
 
-    override fun getAllCollections(): Observable<PagingData<UnsplashCollection>> = Pager(
+    override fun getAllCollections(): Observable<PagingData<GetCollectionsResponse>> = Pager(
         config = PagingConfig(Const.PAGE_SIZE),
         remoteMediator = null,
         pagingSourceFactory = { CollectionPagingSource(unsplashApi) }
     ).observable
 
-    override fun getCollectionPhotos(id: String): Observable<PagingData<UnsplashPhoto>> = Pager(
+    override fun getCollectionPhotos(id: String): Observable<PagingData<ListPhotosResponse>> = Pager(
         config = PagingConfig(Const.PAGE_SIZE),
         remoteMediator = null,
         pagingSourceFactory = { UnsplashPagingSource(unsplashApi, UnsplashPagingSource.GetPhotosType.Collection, id) }
     ).observable
 
-    override fun searchPhotos(query: String): Observable<PagingData<UnsplashPhoto>> = Pager(
+    override fun searchPhotos(query: String): Observable<PagingData<ListPhotosResponse>> = Pager(
             config = PagingConfig(Const.PAGE_SIZE),
             remoteMediator = null,
             pagingSourceFactory = { SearchPhotosPagingSource(unsplashApi, query)}
     ).observable
 
-    override fun searchCollections(query: String): Observable<PagingData<UnsplashCollection>> = Pager(
+    override fun searchCollections(query: String): Observable<PagingData<GetCollectionsResponse>> = Pager(
             config = PagingConfig(Const.PAGE_SIZE),
             remoteMediator = null,
             pagingSourceFactory = { SearchCollectionsPagingSource(unsplashApi, query)}
