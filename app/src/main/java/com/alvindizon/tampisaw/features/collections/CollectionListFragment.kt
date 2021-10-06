@@ -6,10 +6,10 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
-import androidx.paging.LoadState
 import androidx.paging.PagingDataAdapter
 import com.alvindizon.tampisaw.R
 import com.alvindizon.tampisaw.core.ui.RetryAdapter
+import com.alvindizon.tampisaw.core.utils.setLoadStateListener
 import com.alvindizon.tampisaw.databinding.FragmentCollectionListBinding
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
@@ -71,28 +71,22 @@ class CollectionListFragment : Fragment(R.layout.fragment_collection_list) {
             )
 
             // Add a listener for the current state of paging
-            adapter.addLoadStateListener { loadState ->
+            adapter.setLoadStateListener(
                 // Only show the list if refresh succeeds.
-                list.isVisible = loadState.source.refresh is LoadState.NotLoading
+                isNotLoading = { list.isVisible = it },
                 // Show loading spinner during initial load or refresh.
-                progressBar.isVisible =
-                    loadState.source.refresh is LoadState.Loading && !swipeLayout.isRefreshing
+                isLoading = { progressBar.isVisible = it && !swipeLayout.isRefreshing },
                 // Show the retry state if initial load or refresh fails.
-                retryButton.isVisible = loadState.source.refresh is LoadState.Error
-
-                val errorState = loadState.source.append as? LoadState.Error
-                    ?: loadState.source.prepend as? LoadState.Error
-                    ?: loadState.append as? LoadState.Error
-                    ?: loadState.prepend as? LoadState.Error
-                errorState?.let {
+                isLoadStateError = { retryButton.isVisible = it },
+                errorListener = {
                     swipeLayout.isRefreshing = false
                     Snackbar.make(
                         requireView(),
-                        "\uD83D\uDE28 Wooops ${it.error}",
+                        "\uD83D\uDE28 Wooops $it",
                         Snackbar.LENGTH_LONG
                     ).show()
                 }
-            }
+            )
 
             swipeLayout.apply {
                 setOnRefreshListener {
@@ -105,7 +99,7 @@ class CollectionListFragment : Fragment(R.layout.fragment_collection_list) {
         setupRetryButton(adapter)
     }
 
-    private fun setupRetryButton(adapter: PagingDataAdapter<*,*>) {
+    private fun setupRetryButton(adapter: PagingDataAdapter<*, *>) {
         binding?.retryButton?.setOnClickListener {
             adapter.retry()
         }
