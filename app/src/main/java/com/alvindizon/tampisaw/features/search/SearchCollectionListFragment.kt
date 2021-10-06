@@ -6,10 +6,10 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
-import androidx.paging.LoadState
 import androidx.paging.PagingDataAdapter
 import com.alvindizon.tampisaw.R
 import com.alvindizon.tampisaw.core.ui.RetryAdapter
+import com.alvindizon.tampisaw.core.utils.setLoadStateListener
 import com.alvindizon.tampisaw.databinding.FragmentSearchCollectionListBinding
 import com.alvindizon.tampisaw.features.collections.CollectionAdapter
 import com.google.android.material.snackbar.Snackbar
@@ -64,32 +64,25 @@ class SearchCollectionListFragment : Fragment(R.layout.fragment_search_collectio
             )
 
             // Add a listener for the current state of paging
-            adapter.addLoadStateListener { loadState ->
-                // Show empty view if adapter itemCount is zero
-                emptyView.isVisible =
-                    adapter.itemCount == 0 &&
-                            loadState.source.refresh !is LoadState.Loading &&
-                            loadState.source.refresh !is LoadState.Error
-                // Only show the list if refresh succeeds and itemCount > 0
-                list.isVisible =
-                    loadState.source.refresh is LoadState.NotLoading && adapter.itemCount > 0
+            adapter.setLoadStateListener(
+                isNotLoading = {
+                    // Show empty view if adapter itemCount is zero
+                    emptyView.isVisible = adapter.itemCount == 0 && it
+                    // Only show the list if refresh succeeds and itemCount > 0
+                    list.isVisible = adapter.itemCount > 0 && it
+                },
                 // Show loading spinner during initial load or refresh.
-                progressBar.isVisible = loadState.source.refresh is LoadState.Loading
+                isLoading = { progressBar.isVisible = it },
                 // Show the retry state if initial load or refresh fails.
-                retryButton.isVisible = loadState.source.refresh is LoadState.Error
-
-                val errorState = loadState.source.append as? LoadState.Error
-                    ?: loadState.source.prepend as? LoadState.Error
-                    ?: loadState.append as? LoadState.Error
-                    ?: loadState.prepend as? LoadState.Error
-                errorState?.let {
+                isLoadStateError = { retryButton.isVisible = it },
+                errorListener = {
                     Snackbar.make(
                         requireView(),
-                        "\uD83D\uDE28 Wooops ${it.error}",
+                        "\uD83D\uDE28 Wooops $it",
                         Snackbar.LENGTH_LONG
                     ).show()
                 }
-            }
+            )
         }
 
         setupRetryButton(adapter)
