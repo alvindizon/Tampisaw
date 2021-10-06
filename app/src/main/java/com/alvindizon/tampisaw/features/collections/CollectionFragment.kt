@@ -8,6 +8,7 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.paging.LoadState
+import androidx.paging.PagingDataAdapter
 import com.alvindizon.tampisaw.R
 import com.alvindizon.tampisaw.core.ui.RetryAdapter
 import com.alvindizon.tampisaw.databinding.FragmentCollectionBinding
@@ -24,8 +25,6 @@ class CollectionFragment : Fragment(R.layout.fragment_collection) {
 
     private val viewModel: CollectionViewModel by viewModels()
 
-    private lateinit var adapter: GalleryAdapter
-
     private val args: CollectionFragmentArgs by navArgs()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -41,8 +40,6 @@ class CollectionFragment : Fragment(R.layout.fragment_collection) {
         viewLifecycleOwner.lifecycle.addObserver(viewModel)
 
         setupGallery()
-
-        setupRetryButton()
     }
 
     override fun onDestroyView() {
@@ -52,14 +49,14 @@ class CollectionFragment : Fragment(R.layout.fragment_collection) {
 
     private fun setupGallery() {
         // Add a click listener for each list item
-        adapter = GalleryAdapter { photo ->
+        val adapter = GalleryAdapter { photo ->
             photo.id.let {
                 findNavController().navigate(CollectionFragmentDirections.detailsAction(it))
             }
         }
 
         viewModel.uiState.observe(viewLifecycleOwner, {
-            adapter.submitData(lifecycle, it)
+            adapter.submitData(viewLifecycleOwner.lifecycle, it)
         })
 
         binding?.apply {
@@ -108,9 +105,11 @@ class CollectionFragment : Fragment(R.layout.fragment_collection) {
                 getString(R.string.count_name, args.totalPhotos.toString(), args.name)
             toolbarTitle.text = args.title
         }
+
+        setupRetryButton(adapter)
     }
 
-    private fun setupRetryButton() {
+    private fun setupRetryButton(adapter: PagingDataAdapter<*, *>) {
         binding?.retryButton?.setOnClickListener {
             adapter.retry()
         }
