@@ -62,6 +62,8 @@ object Libs {
         "androidx.hilt:hilt-compiler:${Versions.hiltAndroidX}"
     )
 
+    const val leakCanary = "com.squareup.leakcanary:leakcanary-android:${Versions.leakCanary}"
+
 }
 
 object Versions {
@@ -102,4 +104,5 @@ object Versions {
     const val timber = "4.7.1"
     const val detekt = "1.17.1"
     const val splashScreen = "1.0.0-alpha01"
+    const val leakCanary = "2.7"
 }

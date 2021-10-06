@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.paging.LoadState
+import androidx.paging.PagingDataAdapter
 import com.alvindizon.tampisaw.R
 import com.alvindizon.tampisaw.core.ui.RetryAdapter
 import com.alvindizon.tampisaw.databinding.FragmentCollectionListBinding
@@ -22,8 +23,6 @@ class CollectionListFragment : Fragment(R.layout.fragment_collection_list) {
 
     private val viewModel: CollectionListViewModel by viewModels()
 
-    private lateinit var adapter: CollectionAdapter
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -38,8 +37,6 @@ class CollectionListFragment : Fragment(R.layout.fragment_collection_list) {
         viewLifecycleOwner.lifecycle.addObserver(viewModel)
 
         setupGallery()
-
-        setupRetryButton()
     }
 
     override fun onDestroyView() {
@@ -49,7 +46,7 @@ class CollectionListFragment : Fragment(R.layout.fragment_collection_list) {
 
     private fun setupGallery() {
         // Add a click listener for each list item
-        adapter = CollectionAdapter {
+        val adapter = CollectionAdapter {
             findNavController().navigate(
                 CollectionListFragmentDirections.collectionAction(
                     it.id,
@@ -61,20 +58,16 @@ class CollectionListFragment : Fragment(R.layout.fragment_collection_list) {
             )
         }
 
-        viewModel.uiState.observe(viewLifecycleOwner, {
+        viewModel.uiState.observe(viewLifecycleOwner) {
             binding?.swipeLayout?.isRefreshing = false
-            adapter.submitData(lifecycle, it)
-        })
+            adapter.submitData(viewLifecycleOwner.lifecycle, it)
+        }
 
         binding?.apply {
             // Apply the following settings to our recyclerview
             list.adapter = adapter.withLoadStateHeaderAndFooter(
-                header = RetryAdapter {
-                    adapter.retry()
-                },
-                footer = RetryAdapter {
-                    adapter.retry()
-                }
+                header = RetryAdapter { adapter.retry() },
+                footer = RetryAdapter { adapter.retry() }
             )
 
             // Add a listener for the current state of paging
@@ -108,9 +101,11 @@ class CollectionListFragment : Fragment(R.layout.fragment_collection_list) {
                 }
             }
         }
+
+        setupRetryButton(adapter)
     }
 
-    private fun setupRetryButton() {
+    private fun setupRetryButton(adapter: PagingDataAdapter<*,*>) {
         binding?.retryButton?.setOnClickListener {
             adapter.retry()
         }

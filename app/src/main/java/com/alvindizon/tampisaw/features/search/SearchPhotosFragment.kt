@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.paging.LoadState
+import androidx.paging.PagingDataAdapter
 import com.alvindizon.tampisaw.R
 import com.alvindizon.tampisaw.core.ui.RetryAdapter
 import com.alvindizon.tampisaw.databinding.FragmentSearchPhotosBinding
@@ -23,8 +24,6 @@ class SearchPhotosFragment : Fragment(R.layout.fragment_search_photos) {
 
     private val viewModel: SearchViewModel by activityViewModels()
 
-    private lateinit var adapter: GalleryAdapter
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentSearchPhotosBinding.bind(view)
@@ -32,8 +31,6 @@ class SearchPhotosFragment : Fragment(R.layout.fragment_search_photos) {
         viewLifecycleOwner.lifecycle.addObserver(viewModel)
 
         setupGallery()
-
-        setupRetryButton()
     }
 
     override fun onDestroyView() {
@@ -43,26 +40,21 @@ class SearchPhotosFragment : Fragment(R.layout.fragment_search_photos) {
 
     private fun setupGallery() {
         // Add a click listener for each list item
-        adapter = GalleryAdapter { photo ->
+        val adapter = GalleryAdapter { photo ->
             photo.id.let {
-                // TODO create activity for displaying photo details
                 findNavController().navigate(SearchFragmentDirections.detailsAction(it))
             }
         }
 
-        viewModel.photos.observe(viewLifecycleOwner, {
-            adapter.submitData(lifecycle, it)
-        })
+        viewModel.photos.observe(viewLifecycleOwner) {
+            adapter.submitData(viewLifecycleOwner.lifecycle, it)
+        }
 
         binding?.apply {
             // Apply the following settings to our recyclerview
             list.adapter = adapter.withLoadStateHeaderAndFooter(
-                header = RetryAdapter {
-                    adapter.retry()
-                },
-                footer = RetryAdapter {
-                    adapter.retry()
-                }
+                header = RetryAdapter { adapter.retry() },
+                footer = RetryAdapter { adapter.retry() }
             )
 
             // Add a listener for the current state of paging
@@ -93,9 +85,11 @@ class SearchPhotosFragment : Fragment(R.layout.fragment_search_photos) {
                 }
             }
         }
+
+        setupRetryButton(adapter)
     }
 
-    private fun setupRetryButton() {
+    private fun setupRetryButton(adapter: PagingDataAdapter<*, *>) {
         binding?.retryButton?.setOnClickListener {
             adapter.retry()
         }

@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.paging.LoadState
+import androidx.paging.PagingDataAdapter
 import com.alvindizon.tampisaw.R
 import com.alvindizon.tampisaw.core.ui.RetryAdapter
 import com.alvindizon.tampisaw.databinding.FragmentSearchCollectionListBinding
@@ -23,8 +24,6 @@ class SearchCollectionListFragment : Fragment(R.layout.fragment_search_collectio
 
     private val viewModel: SearchViewModel by activityViewModels()
 
-    private lateinit var adapter: CollectionAdapter
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentSearchCollectionListBinding.bind(view)
@@ -32,8 +31,6 @@ class SearchCollectionListFragment : Fragment(R.layout.fragment_search_collectio
         viewLifecycleOwner.lifecycle.addObserver(viewModel)
 
         setupGallery()
-
-        setupRetryButton()
     }
 
     override fun onDestroyView() {
@@ -43,7 +40,7 @@ class SearchCollectionListFragment : Fragment(R.layout.fragment_search_collectio
 
     private fun setupGallery() {
         // Add a click listener for each list item
-        adapter = CollectionAdapter {
+        val adapter = CollectionAdapter {
             findNavController().navigate(
                 SearchFragmentDirections.collectionAction(
                     it.id, it.description, it.totalPhotos, it.fullname, it.title
@@ -51,9 +48,9 @@ class SearchCollectionListFragment : Fragment(R.layout.fragment_search_collectio
             )
         }
 
-        viewModel.collections.observe(viewLifecycleOwner, {
-            adapter.submitData(lifecycle, it)
-        })
+        viewModel.collections.observe(viewLifecycleOwner) {
+            adapter.submitData(viewLifecycleOwner.lifecycle, it)
+        }
 
         binding?.apply {
             // Apply the following settings to our recyclerview
@@ -94,9 +91,11 @@ class SearchCollectionListFragment : Fragment(R.layout.fragment_search_collectio
                 }
             }
         }
+
+        setupRetryButton(adapter)
     }
 
-    private fun setupRetryButton() {
+    private fun setupRetryButton(adapter: PagingDataAdapter<*, *>) {
         binding?.retryButton?.setOnClickListener {
             adapter.retry()
         }
