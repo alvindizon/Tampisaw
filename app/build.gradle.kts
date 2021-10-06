@@ -77,4 +77,6 @@ dependencies {
     }
 
     api(Libs.dagger)
+
+    debugImplementation(Libs.leakCanary)
 }
