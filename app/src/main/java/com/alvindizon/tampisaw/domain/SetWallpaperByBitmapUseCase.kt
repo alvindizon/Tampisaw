@@ -1,19 +1,18 @@
 package com.alvindizon.tampisaw.domain
 
-import android.app.Activity
 import android.net.Uri
 import com.alvindizon.tampisaw.data.wallpaper.WallpaperSettingManager
 import io.reactivex.Completable
 import javax.inject.Inject
 
-class SetWallpaperUseCase @Inject constructor(
+class SetWallpaperByBitmapUseCase @Inject constructor(
     private val wallpaperSettingManager: WallpaperSettingManager
 ) {
 
-    fun setWallpaper(uri: Uri, activity: Activity): Completable {
+    fun setWallpaperByBitmap(uri: Uri): Completable {
         return Completable.create { emitter ->
             try {
-                wallpaperSettingManager.setWallpaper(uri, activity)
+                wallpaperSettingManager.setWallpaperByBitmap(uri)
                 emitter.onComplete()
             } catch (e: Exception) {
                 emitter.tryOnError(e)

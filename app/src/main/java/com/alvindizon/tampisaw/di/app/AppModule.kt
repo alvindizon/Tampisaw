@@ -2,13 +2,10 @@ package com.alvindizon.tampisaw.di.app
 
 import android.app.Application
 import android.app.WallpaperManager
-import android.content.ContentResolver
 import android.content.Context
 import android.net.ConnectivityManager
 import androidx.core.app.NotificationManagerCompat
 import androidx.preference.PreferenceManager
-import com.alvindizon.tampisaw.data.wallpaper.WallpaperSettingManager
-import com.alvindizon.tampisaw.data.wallpaper.WallpaperSettingManagerImpl
 import com.squareup.moshi.Moshi
 import dagger.Module
 import dagger.Provides
@@ -52,13 +49,4 @@ class AppModule {
     @Provides
     @Singleton
     fun provideWallpaperManager(context: Context) = WallpaperManager.getInstance(context)
-
-    @Provides
-    @Singleton
-    fun provideWallpaperSettingManager(
-        contentResolver: ContentResolver,
-        wallpaperManager: WallpaperManager
-    ): WallpaperSettingManager =
-        WallpaperSettingManagerImpl(contentResolver, wallpaperManager)
-
 }

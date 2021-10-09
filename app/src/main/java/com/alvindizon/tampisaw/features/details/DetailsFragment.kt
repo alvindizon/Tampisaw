@@ -12,7 +12,7 @@ import androidx.core.view.forEach
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
-import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.alvindizon.tampisaw.R
@@ -37,7 +37,7 @@ class DetailsFragment : Fragment(R.layout.fragment_details) {
 
     private var binding: FragmentDetailsBinding? = null
 
-    private val viewModel: DetailsViewModel by activityViewModels()
+    private val viewModel: DetailsViewModel by viewModels()
 
     private val args: DetailsFragmentArgs by navArgs()
 
@@ -45,6 +45,8 @@ class DetailsFragment : Fragment(R.layout.fragment_details) {
         registerForActivityResult(ActivityResultContracts.RequestPermission()) {
             // do nothing
         }
+
+    private var snackbar: Snackbar? = null
 
     @Inject
     lateinit var activityFragmentManager: FragmentManager
@@ -77,9 +79,15 @@ class DetailsFragment : Fragment(R.layout.fragment_details) {
                         setupToolbar(uiState.photoDetails)
                     }
                 }
-                is Error -> root.rootView.showSnackbar(uiState.message, Snackbar.LENGTH_SHORT)
+                is Error -> {
+                    snackbar = root.rootView.showSnackbar(
+                        uiState.message,
+                        Snackbar.LENGTH_SHORT,
+                        anchorView = fab
+                    )
+                }
                 DownloadSuccess -> {
-                    root.rootView.showSnackbar(
+                    snackbar = root.rootView.showSnackbar(
                         getString(R.string.download_complete),
                         Snackbar.LENGTH_SHORT,
                         null,
@@ -88,7 +96,7 @@ class DetailsFragment : Fragment(R.layout.fragment_details) {
                     )
                 }
                 SettingWallpaper -> {
-                    root.rootView.showSnackbar(
+                    snackbar = root.rootView.showSnackbar(
                         getString(R.string.wallpaper_setting_ongoing),
                         Snackbar.LENGTH_INDEFINITE,
                         null,
@@ -97,7 +105,7 @@ class DetailsFragment : Fragment(R.layout.fragment_details) {
                     )
                 }
                 SetWallpaperSuccess -> {
-                    root.rootView.showSnackbar(
+                    snackbar = root.rootView.showSnackbar(
                         getString(R.string.wallpaper_setting_success),
                         Snackbar.LENGTH_SHORT,
                         null,
@@ -128,6 +136,7 @@ class DetailsFragment : Fragment(R.layout.fragment_details) {
     }
 
     override fun onDestroyView() {
+        snackbar?.dismiss()
         binding = null
         super.onDestroyView()
     }
@@ -150,7 +159,7 @@ class DetailsFragment : Fragment(R.layout.fragment_details) {
                         requireActivity().run {
                             if (fileExists(photoDetails.fileName)) {
                                 getUriForPhoto(photoDetails.fileName)?.also { uri ->
-                                    viewModel.setWallpaper(uri)
+                                    viewModel.setWallpaper(uri, requireActivity())
                                 } ?: run {
                                     setWallpaper(this, photoDetails)
                                 }
@@ -171,7 +180,7 @@ class DetailsFragment : Fragment(R.layout.fragment_details) {
                     it,
                     photoDetails.fileName,
                     photoDetails.id,
-                    context,
+                    requireActivity(),
                     viewLifecycleOwner
                 )
             }
@@ -187,7 +196,7 @@ class DetailsFragment : Fragment(R.layout.fragment_details) {
                     it,
                     photoDetails.fileName,
                     photoDetails.id,
-                    context,
+                    requireActivity(),
                     viewLifecycleOwner
                 )
             }
