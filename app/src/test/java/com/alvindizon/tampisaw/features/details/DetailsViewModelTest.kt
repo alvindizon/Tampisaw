@@ -1,20 +1,28 @@
 package com.alvindizon.tampisaw.features.details
 
-import android.content.Context
+import android.app.Activity
 import android.net.Uri
 import androidx.lifecycle.LifecycleOwner
 import com.alvindizon.tampisaw.CoroutineExtension
 import com.alvindizon.tampisaw.InstantExecutorExtension
 import com.alvindizon.tampisaw.RxSchedulerExtension
 import com.alvindizon.tampisaw.core.toPhotoDetails
-import com.alvindizon.tampisaw.data.networking.model.getphoto.*
+import com.alvindizon.tampisaw.data.networking.model.getphoto.Exif
+import com.alvindizon.tampisaw.data.networking.model.getphoto.GetPhotoResponse
+import com.alvindizon.tampisaw.data.networking.model.getphoto.Links
+import com.alvindizon.tampisaw.data.networking.model.getphoto.Location
+import com.alvindizon.tampisaw.data.networking.model.getphoto.Tag
+import com.alvindizon.tampisaw.data.networking.model.getphoto.Urls
+import com.alvindizon.tampisaw.data.networking.model.getphoto.User
 import com.alvindizon.tampisaw.domain.DownloadPhotoUseCase
 import com.alvindizon.tampisaw.domain.GetPhotoUseCase
+import com.alvindizon.tampisaw.domain.SetWallpaperByBitmapUseCase
 import com.alvindizon.tampisaw.domain.SetWallpaperUseCase
 import com.alvindizon.tampisaw.testObserver
 import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
+import io.mockk.verify
 import io.reactivex.Completable
 import io.reactivex.Single
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -37,10 +45,10 @@ class DetailsViewModelTest {
     @MockK
     lateinit var setWallpaperUseCase: SetWallpaperUseCase
 
-    private lateinit var SUT: DetailsViewModel
-
     @MockK
-    lateinit var context: Context
+    lateinit var setWallpaperByBitmapUseCase: SetWallpaperByBitmapUseCase
+
+    private lateinit var viewModel: DetailsViewModel
 
     @MockK
     lateinit var lifecycleOwner: LifecycleOwner
@@ -48,37 +56,45 @@ class DetailsViewModelTest {
     @MockK
     lateinit var uri: Uri
 
+    @MockK
+    lateinit var activity: Activity
+
     @BeforeEach
     fun setUp() {
         MockKAnnotations.init(this)
-        SUT = DetailsViewModel(getPhotoUseCase, downloadPhotoUseCase, setWallpaperUseCase)
+        viewModel = DetailsViewModel(
+            getPhotoUseCase,
+            downloadPhotoUseCase,
+            setWallpaperUseCase,
+            setWallpaperByBitmapUseCase
+        )
     }
 
     @Test
     fun `observe correct states when getPhotos is successful`() {
-        val observedValues = SUT.uiState.testObserver().observedValues
+        val observedValues = viewModel.uiState.testObserver().observedValues
         every { getPhotoUseCase.getPhoto(any()) } returns Single.just(getPhotoResponse)
 
-        SUT.getPhoto("ID")
+        viewModel.getPhoto("ID")
         assertEquals(observedValues[0], Loading)
         assertEquals(observedValues[1], GetDetailSuccess(getPhotoResponse.toPhotoDetails()))
     }
 
     @Test
     fun `observe correct states when getPhotos is not successful`() {
-        val observedValues = SUT.uiState.testObserver().observedValues
+        val observedValues = viewModel.uiState.testObserver().observedValues
         val errorMsg = "error"
 
         every { getPhotoUseCase.getPhoto(any()) } returns Single.error(IOException(errorMsg))
 
-        SUT.getPhoto("ID")
+        viewModel.getPhoto("ID")
         assertEquals(observedValues[0], Loading)
         assertEquals(observedValues[1], Error(errorMsg))
     }
 
     @Test
     fun `observe correct states when downloadPhotos is successful`() {
-        val observedValues = SUT.uiState.testObserver().observedValues
+        val observedValues = viewModel.uiState.testObserver().observedValues
 
         every {
             downloadPhotoUseCase.downloadPhoto(
@@ -88,16 +104,16 @@ class DetailsViewModelTest {
                 any(),
                 any()
             )
-        } returns Completable.complete()
+        } returns Single.just(uri)
 
-        SUT.downloadPhoto(quality, fileName, id, context, lifecycleOwner)
+        viewModel.downloadPhoto(quality, fileName, id, activity, lifecycleOwner)
         assertEquals(observedValues[0], Downloading)
         assertEquals(observedValues[1], DownloadSuccess)
     }
 
     @Test
     fun `observe correct states when downloadPhotos errors`() {
-        val observedValues = SUT.uiState.testObserver().observedValues
+        val observedValues = viewModel.uiState.testObserver().observedValues
         val errorMsg = "error"
 
         every {
@@ -108,75 +124,172 @@ class DetailsViewModelTest {
                 any(),
                 any()
             )
-        } returns Completable.error(Throwable(errorMsg))
+        } returns Single.error(Throwable(errorMsg))
 
-        SUT.downloadPhoto(quality, fileName, id, context, lifecycleOwner)
+        viewModel.downloadPhoto(quality, fileName, id, activity, lifecycleOwner)
         assertEquals(observedValues[0], Downloading)
         assertEquals(observedValues[1], Error(errorMsg))
     }
 
     @Test
     fun `observe correct states when downloadAndSetWallpaper is successful`() {
-        val observedValues = SUT.uiState.testObserver().observedValues
+        val observedValues = viewModel.uiState.testObserver().observedValues
 
         every {
-            setWallpaperUseCase.downloadAndSetWallpaper(
+            downloadPhotoUseCase.downloadPhoto(
                 any(),
                 any(),
                 any(),
                 any(),
                 any()
             )
-        } returns Completable.complete()
+        } returns Single.just(uri)
 
-        SUT.downloadAndSetWallpaper(quality, fileName, id, context, lifecycleOwner)
+        every { setWallpaperUseCase.setWallpaper(any(), any()) } returns Completable.complete()
+
+        viewModel.downloadAndSetWallpaper(quality, fileName, id, activity, lifecycleOwner)
+        verify(exactly = 1) {
+            setWallpaperUseCase.setWallpaper(any(), any())
+        }
+        assertEquals(observedValues[0], SettingWallpaper)
+        assertEquals(observedValues[1], SetWallpaperSuccess)
+    }
+
+    @Test
+    fun `observe correct states when setWallpaper returns IllegalArgumentException and setWallpaperByBitmap is successful`() {
+        val observedValues = viewModel.uiState.testObserver().observedValues
+
+        every {
+            downloadPhotoUseCase.downloadPhoto(
+                any(),
+                any(),
+                any(),
+                any(),
+                any()
+            )
+        } returns Single.just(uri)
+
+        every { setWallpaperUseCase.setWallpaper(any(), any()) } returns Completable.error(
+            IllegalArgumentException()
+        )
+
+        every { setWallpaperByBitmapUseCase.setWallpaperByBitmap(any()) } returns Completable.complete()
+
+        viewModel.downloadAndSetWallpaper(quality, fileName, id, activity, lifecycleOwner)
+        verify(exactly = 1) {
+            setWallpaperByBitmapUseCase.setWallpaperByBitmap(any())
+        }
         assertEquals(observedValues[0], SettingWallpaper)
         assertEquals(observedValues[1], SetWallpaperSuccess)
     }
 
     @Test
     fun `observe correct states when downloadAndSetWallpaper errors`() {
-        val observedValues = SUT.uiState.testObserver().observedValues
+        val observedValues = viewModel.uiState.testObserver().observedValues
         val errorMsg = "error"
 
         every {
-            setWallpaperUseCase.downloadAndSetWallpaper(
+            downloadPhotoUseCase.downloadPhoto(
                 any(),
                 any(),
                 any(),
                 any(),
                 any()
             )
-        } returns Completable.error(Throwable(errorMsg))
+        } returns Single.error(Throwable(errorMsg))
 
-        SUT.downloadAndSetWallpaper(quality, fileName, id, context, lifecycleOwner)
+        viewModel.downloadAndSetWallpaper(quality, fileName, id, activity, lifecycleOwner)
+        assertEquals(observedValues[0], SettingWallpaper)
+        assertEquals(observedValues[1], Error(errorMsg))
+    }
+
+    @Test
+    fun `observe correct states when setWallpaper returns Exception`() {
+        val observedValues = viewModel.uiState.testObserver().observedValues
+        val errorMsg = "error"
+
+        every {
+            downloadPhotoUseCase.downloadPhoto(
+                any(),
+                any(),
+                any(),
+                any(),
+                any()
+            )
+        } returns Single.just(uri)
+
+        every {
+            setWallpaperUseCase.setWallpaper(
+                any(),
+                any()
+            )
+        } returns Completable.error(Exception(errorMsg))
+
+        viewModel.downloadAndSetWallpaper(quality, fileName, id, activity, lifecycleOwner)
         assertEquals(observedValues[0], SettingWallpaper)
         assertEquals(observedValues[1], Error(errorMsg))
     }
 
     @Test
     fun `observe correct states when setWallpaper is successful`() {
-        val observedValues = SUT.uiState.testObserver().observedValues
+        val observedValues = viewModel.uiState.testObserver().observedValues
 
         every {
-            setWallpaperUseCase.setWallpaperByUri(any())
+            setWallpaperUseCase.setWallpaper(any(), any())
         } returns Completable.complete()
 
-        SUT.setWallpaper(uri)
+        viewModel.setWallpaper(uri, activity)
         assertEquals(observedValues[0], SettingWallpaper)
         assertEquals(observedValues[1], SetWallpaperSuccess)
     }
 
     @Test
     fun `observe correct states when setWallpaper errors`() {
-        val observedValues = SUT.uiState.testObserver().observedValues
+        val observedValues = viewModel.uiState.testObserver().observedValues
         val errorMsg = "error"
 
         every {
-            setWallpaperUseCase.setWallpaperByUri(any())
+            setWallpaperUseCase.setWallpaper(any(), any())
         } returns Completable.error(Throwable(errorMsg))
 
-        SUT.setWallpaper(uri)
+        viewModel.setWallpaper(uri, activity)
+        assertEquals(observedValues[0], SettingWallpaper)
+        assertEquals(observedValues[1], Error(errorMsg))
+    }
+
+    @Test
+    fun `given setWallpaper is called, verify success when setWallpaper returns IllegalArgumentException and setWallpaperByBitmap succeeds`() {
+        val observedValues = viewModel.uiState.testObserver().observedValues
+
+        every { setWallpaperUseCase.setWallpaper(any(), any()) } returns Completable.error(
+            IllegalArgumentException()
+        )
+
+        every { setWallpaperByBitmapUseCase.setWallpaperByBitmap(any()) } returns Completable.complete()
+
+        viewModel.setWallpaper(uri, activity)
+        verify(exactly = 1) {
+            setWallpaperByBitmapUseCase.setWallpaperByBitmap(any())
+        }
+        assertEquals(observedValues[0], SettingWallpaper)
+        assertEquals(observedValues[1], SetWallpaperSuccess)
+    }
+
+    @Test
+    fun `given setWallpaper is called, verify error when setWallpaper returns IllegalArgumentException and setWallpaperByBitmap errors`() {
+        val observedValues = viewModel.uiState.testObserver().observedValues
+        val errorMsg = "error"
+
+        every { setWallpaperUseCase.setWallpaper(any(), any()) } returns Completable.error(
+            IllegalArgumentException()
+        )
+
+        every { setWallpaperByBitmapUseCase.setWallpaperByBitmap(any()) } returns Completable.error(Throwable(errorMsg))
+
+        viewModel.setWallpaper(uri, activity)
+        verify(exactly = 1) {
+            setWallpaperByBitmapUseCase.setWallpaperByBitmap(any())
+        }
         assertEquals(observedValues[0], SettingWallpaper)
         assertEquals(observedValues[1], Error(errorMsg))
     }

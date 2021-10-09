@@ -1,6 +1,6 @@
 package com.alvindizon.tampisaw.features.details
 
-import android.content.Context
+import android.app.Activity
 import android.net.Uri
 import androidx.databinding.ObservableField
 import androidx.lifecycle.LifecycleOwner
@@ -10,8 +10,10 @@ import com.alvindizon.tampisaw.core.toPhotoDetails
 import com.alvindizon.tampisaw.core.ui.BaseViewModel
 import com.alvindizon.tampisaw.domain.DownloadPhotoUseCase
 import com.alvindizon.tampisaw.domain.GetPhotoUseCase
+import com.alvindizon.tampisaw.domain.SetWallpaperByBitmapUseCase
 import com.alvindizon.tampisaw.domain.SetWallpaperUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
+import io.reactivex.Completable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.rxkotlin.plusAssign
 import io.reactivex.rxkotlin.subscribeBy
@@ -22,7 +24,8 @@ import javax.inject.Inject
 class DetailsViewModel @Inject constructor(
     private val getPhotoUseCase: GetPhotoUseCase,
     private val downloadPhotoUseCase: DownloadPhotoUseCase,
-    private val setWallpaperUseCase: SetWallpaperUseCase
+    private val setWallpaperUseCase: SetWallpaperUseCase,
+    private val setWallpaperByBitmapUseCase: SetWallpaperByBitmapUseCase
 ) : BaseViewModel() {
 
     private val _uiState = MutableLiveData<DetailsUIState>()
@@ -53,16 +56,17 @@ class DetailsViewModel @Inject constructor(
         quality: String,
         fileName: String,
         id: String,
-        context: Context,
+        activity: Activity,
         lifecycleOwner: LifecycleOwner
     ) {
         compositeDisposable += downloadPhotoUseCase.downloadPhoto(
             quality,
             fileName,
             id,
-            context,
+            activity,
             lifecycleOwner
         )
+            .ignoreElement()
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .doOnSubscribe { _uiState.value = Downloading }
@@ -83,16 +87,25 @@ class DetailsViewModel @Inject constructor(
         quality: String,
         fileName: String,
         id: String,
-        context: Context,
+        activity: Activity,
         lifecycleOwner: LifecycleOwner
     ) {
-        compositeDisposable += setWallpaperUseCase.downloadAndSetWallpaper(
+        compositeDisposable += downloadPhotoUseCase.downloadPhoto(
             quality,
             fileName,
             id,
-            context,
+            activity,
             lifecycleOwner
         )
+            .flatMapCompletable { uri ->
+                setWallpaperUseCase.setWallpaper(uri, activity).onErrorResumeNext {
+                    if (it is IllegalArgumentException) {
+                        setWallpaperByBitmapUseCase.setWallpaperByBitmap(uri)
+                    } else {
+                        Completable.error(it)
+                    }
+                }
+            }
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .doOnSubscribe { _uiState.value = SettingWallpaper }
@@ -109,8 +122,15 @@ class DetailsViewModel @Inject constructor(
             )
     }
 
-    fun setWallpaper(uri: Uri) {
-        compositeDisposable += setWallpaperUseCase.setWallpaperByUri(uri)
+    fun setWallpaper(uri: Uri, activity: Activity) {
+        compositeDisposable += setWallpaperUseCase.setWallpaper(uri, activity)
+            .onErrorResumeNext {
+                if (it is IllegalArgumentException) {
+                    setWallpaperByBitmapUseCase.setWallpaperByBitmap(uri)
+                } else {
+                    Completable.error(it)
+                }
+            }
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .doOnSubscribe { _uiState.value = SettingWallpaper }

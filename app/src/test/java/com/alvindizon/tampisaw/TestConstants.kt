@@ -3,6 +3,7 @@ package com.alvindizon.tampisaw
 import androidx.paging.PagingData
 import com.alvindizon.tampisaw.core.toUnsplashCollection
 import com.alvindizon.tampisaw.core.toUnsplashPhoto
+import com.alvindizon.tampisaw.data.download.ImageDownloader
 import com.alvindizon.tampisaw.data.networking.model.getcollections.CoverPhoto
 import com.alvindizon.tampisaw.data.networking.model.getcollections.CoverPhotoUrl
 import com.alvindizon.tampisaw.data.networking.model.getcollections.GetCollectionsResponse
@@ -77,4 +78,11 @@ internal object TestConstants {
     val collectionsPagingData = PagingData.from(unsplashCollections)
     val collectionsResponsePagingData =
         PagingData.from(mutableListOf(collectionsResponse, collectionsResponse2))
+
+    const val QUALITY = "full"
+    const val FILENAME = "ASGAASGAS"
+    const val ID = "id"
+    // mocking workdata results in error(SignedCall not matching), need to create input data to match call
+    val inputData = ImageDownloader.createInputData(QUALITY, FILENAME, ID)
+
 }
