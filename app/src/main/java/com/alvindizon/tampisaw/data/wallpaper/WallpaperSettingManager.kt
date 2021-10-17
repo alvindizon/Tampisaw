@@ -12,8 +12,8 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LiveDataReactiveStreams
 import androidx.work.WorkInfo
 import com.alvindizon.tampisaw.data.download.ImageDownloader
-import io.reactivex.Completable
-import io.reactivex.Observable
+import io.reactivex.rxjava3.core.Completable
+import io.reactivex.rxjava3.core.Observable
 import java.io.FileNotFoundException
 import java.io.IOException
 import java.util.*

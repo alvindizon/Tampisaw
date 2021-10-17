@@ -3,7 +3,7 @@ package com.alvindizon.tampisaw.domain
 import android.app.Activity
 import android.net.Uri
 import com.alvindizon.tampisaw.data.wallpaper.WallpaperSettingManager
-import io.reactivex.Completable
+import io.reactivex.rxjava3.core.Completable
 import javax.inject.Inject
 
 class SetWallpaperUseCase @Inject constructor(

@@ -15,10 +15,10 @@ import androidx.lifecycle.LiveData
 import androidx.work.Data
 import androidx.work.ForegroundInfo
 import androidx.work.OneTimeWorkRequestBuilder
-import androidx.work.RxWorker
 import androidx.work.WorkInfo
 import androidx.work.WorkManager
 import androidx.work.WorkerParameters
+import androidx.work.rxjava3.RxWorker
 import androidx.work.workDataOf
 import com.alvindizon.tampisaw.core.ui.NotifsHelper
 import com.alvindizon.tampisaw.core.utils.FILE_PROVIDER_AUTHORITY
@@ -27,7 +27,7 @@ import com.alvindizon.tampisaw.core.utils.TAMPISAW_RELATIVE_PATH
 import com.alvindizon.tampisaw.data.networking.api.UnsplashApi
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
-import io.reactivex.Single
+import io.reactivex.rxjava3.core.Single
 import okhttp3.ResponseBody
 import okio.BufferedSink
 import okio.buffer

@@ -5,7 +5,7 @@ import android.net.Uri
 import androidx.lifecycle.LifecycleOwner
 import com.alvindizon.tampisaw.data.file.FileManager
 import com.alvindizon.tampisaw.data.wallpaper.WallpaperSettingManager
-import io.reactivex.Single
+import io.reactivex.rxjava3.core.Single
 import javax.inject.Inject
 
 class DownloadPhotoUseCase @Inject constructor(
