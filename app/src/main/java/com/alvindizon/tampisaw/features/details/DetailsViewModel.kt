@@ -13,11 +13,11 @@ import com.alvindizon.tampisaw.domain.GetPhotoUseCase
 import com.alvindizon.tampisaw.domain.SetWallpaperByBitmapUseCase
 import com.alvindizon.tampisaw.domain.SetWallpaperUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
-import io.reactivex.Completable
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.rxkotlin.plusAssign
-import io.reactivex.rxkotlin.subscribeBy
-import io.reactivex.schedulers.Schedulers
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
+import io.reactivex.rxjava3.core.Completable
+import io.reactivex.rxjava3.kotlin.plusAssign
+import io.reactivex.rxjava3.kotlin.subscribeBy
+import io.reactivex.rxjava3.schedulers.Schedulers
 import javax.inject.Inject
 
 @HiltViewModel

@@ -4,7 +4,7 @@ import com.alvindizon.tampisaw.TestConstants
 import com.alvindizon.tampisaw.collectData
 import io.mockk.every
 import io.mockk.mockk
-import io.reactivex.Observable
+import io.reactivex.rxjava3.core.Observable
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runBlockingTest
 import org.junit.jupiter.api.Assertions.assertEquals

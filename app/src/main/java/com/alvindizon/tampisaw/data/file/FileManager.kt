@@ -4,7 +4,7 @@ import android.content.Context
 import android.net.Uri
 import com.alvindizon.tampisaw.core.utils.getUriForPhoto
 import com.alvindizon.tampisaw.data.wallpaper.DownloadPhotoException
-import io.reactivex.Single
+import io.reactivex.rxjava3.core.Single
 import javax.inject.Inject
 
 interface FileManager {

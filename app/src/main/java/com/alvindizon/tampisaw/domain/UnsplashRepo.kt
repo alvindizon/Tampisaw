@@ -4,8 +4,8 @@ import androidx.paging.PagingData
 import com.alvindizon.tampisaw.data.networking.model.getcollections.GetCollectionsResponse
 import com.alvindizon.tampisaw.data.networking.model.getphoto.GetPhotoResponse
 import com.alvindizon.tampisaw.data.networking.model.listphotos.ListPhotosResponse
-import io.reactivex.Observable
-import io.reactivex.Single
+import io.reactivex.rxjava3.core.Observable
+import io.reactivex.rxjava3.core.Single
 
 interface UnsplashRepo {
 

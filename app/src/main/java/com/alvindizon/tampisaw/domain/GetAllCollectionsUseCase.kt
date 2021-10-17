@@ -4,7 +4,7 @@ import androidx.paging.PagingData
 import androidx.paging.map
 import com.alvindizon.tampisaw.core.toUnsplashCollection
 import com.alvindizon.tampisaw.features.collections.UnsplashCollection
-import io.reactivex.Observable
+import io.reactivex.rxjava3.core.Observable
 import javax.inject.Inject
 
 class GetAllCollectionsUseCase @Inject constructor(private val unsplashRepo: UnsplashRepo) {

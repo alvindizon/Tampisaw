@@ -1,12 +1,12 @@
 package com.alvindizon.tampisaw.data.paging
 
 import androidx.paging.PagingState
-import androidx.paging.rxjava2.RxPagingSource
+import androidx.paging.rxjava3.RxPagingSource
 import com.alvindizon.tampisaw.core.Const
 import com.alvindizon.tampisaw.data.networking.api.UnsplashApi
 import com.alvindizon.tampisaw.data.networking.model.listphotos.ListPhotosResponse
-import io.reactivex.Single
-import io.reactivex.schedulers.Schedulers
+import io.reactivex.rxjava3.core.Single
+import io.reactivex.rxjava3.schedulers.Schedulers
 
 class SearchPhotosPagingSource(private val unsplashApi: UnsplashApi, private val query: String) :
     RxPagingSource<Int, ListPhotosResponse>() {
