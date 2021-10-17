@@ -85,7 +85,7 @@ object Versions {
     const val androidVeil = "1.1.1"
     const val preference = "1.1.1"
     const val fab = "1.0.2"
-    const val work = "2.5.0"
+    const val work = "2.7.0"
     const val okio = "2.10.0"
     const val swiperefreshlayout = "1.1.0"
     const val coreTesting = "2.1.0"
