@@ -34,11 +34,15 @@
 
     <!--add this in order to create and inject WorkManager via Dagger -->
         <provider
-            android:name="androidx.work.impl.WorkManagerInitializer"
-            android:authorities="${applicationId}.workmanager-init"
+            android:name="androidx.startup.InitializationProvider"
+            android:authorities="${applicationId}.androidx-startup"
             android:enabled="false"
-            android:exported="false"
-            tools:node="remove" />
+            android:exported="false" >
+            <meta-data
+                android:name="androidx.work.WorkManagerInitializer"
+                android:value="androidx.startup"
+                tools:node="remove" />
+        </provider>
 
         <!--we need to use FileProvider since we're targeting >= API 24-->
         <provider
