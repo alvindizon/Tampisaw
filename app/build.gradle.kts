@@ -76,7 +76,5 @@ dependencies {
         kapt(it)
     }
 
-    api(Libs.dagger)
-
     debugImplementation(Libs.leakCanary)
 }
