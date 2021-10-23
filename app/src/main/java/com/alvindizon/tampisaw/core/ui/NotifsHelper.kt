@@ -12,13 +12,19 @@ import androidx.core.app.NotificationManagerCompat
 import com.alvindizon.tampisaw.R
 import javax.inject.Inject
 
-class NotifsHelper @Inject constructor(private val context: Context,
-                   private val notificationManager: NotificationManagerCompat) {
+class NotifsHelper @Inject constructor(
+    private val context: Context,
+    private val notificationManager: NotificationManagerCompat
+) {
 
     init {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val notificationChannels = listOf(
-                NotificationChannel(DOWNLOADS_CHANNEL_ID, "Downloads", NotificationManager.IMPORTANCE_LOW),
+                NotificationChannel(
+                    DOWNLOADS_CHANNEL_ID,
+                    "Downloads",
+                    NotificationManager.IMPORTANCE_LOW
+                ),
             )
             notificationManager.createNotificationChannels(notificationChannels)
         }
@@ -77,8 +83,12 @@ class NotifsHelper @Inject constructor(private val context: Context,
         }
 
         val chooser = Intent.createChooser(viewIntent, "Open with")
-
-        return PendingIntent.getActivity(context, 0, chooser, PendingIntent.FLAG_UPDATE_CURRENT)
+        val flag = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
+        } else {
+            PendingIntent.FLAG_UPDATE_CURRENT
+        }
+        return PendingIntent.getActivity(context, 0, chooser, flag)
     }
 
     companion object {
