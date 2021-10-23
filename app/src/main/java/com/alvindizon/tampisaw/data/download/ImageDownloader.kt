@@ -1,5 +1,6 @@
 package com.alvindizon.tampisaw.data.download
 
+import android.annotation.SuppressLint
 import android.content.ContentResolver
 import android.content.ContentValues
 import android.content.Context
@@ -15,9 +16,11 @@ import androidx.lifecycle.LiveData
 import androidx.work.Data
 import androidx.work.ForegroundInfo
 import androidx.work.OneTimeWorkRequestBuilder
+import androidx.work.OutOfQuotaPolicy
 import androidx.work.WorkInfo
 import androidx.work.WorkManager
 import androidx.work.WorkerParameters
+import androidx.work.impl.utils.futures.SettableFuture
 import androidx.work.rxjava3.RxWorker
 import androidx.work.workDataOf
 import com.alvindizon.tampisaw.core.ui.NotifsHelper
@@ -25,6 +28,7 @@ import com.alvindizon.tampisaw.core.utils.FILE_PROVIDER_AUTHORITY
 import com.alvindizon.tampisaw.core.utils.TAMPISAW_LEGACY_PATH
 import com.alvindizon.tampisaw.core.utils.TAMPISAW_RELATIVE_PATH
 import com.alvindizon.tampisaw.data.networking.api.UnsplashApi
+import com.google.common.util.concurrent.ListenableFuture
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
 import io.reactivex.rxjava3.core.Single
@@ -47,6 +51,25 @@ class ImageDownloader @AssistedInject constructor(
     @Assisted params: WorkerParameters
 ) : RxWorker(context, params) {
 
+    @SuppressLint("RestrictedApi")
+    override fun getForegroundInfoAsync(): ListenableFuture<ForegroundInfo> {
+        val future = SettableFuture.create<ForegroundInfo>()
+
+        val notificationId = id.hashCode()
+        val fileName = inputData.getString(KEY_OUTPUT_FILE_NAME)
+
+        if (fileName == null) {
+            future.setException(IllegalStateException("Filename is null"))
+            return future
+        }
+        // note: at this point, WorkManager has been manually initialized in WorkerModule,
+        // thus it is safe to call WorkManager.getInstance here
+        val notificationBuilder = getNotificationBuilder(fileName)
+
+        future.set(ForegroundInfo(notificationId, notificationBuilder.build()))
+        return future
+    }
+
     override fun createWork(): Single<Result> {
         val url = inputData.getString(KEY_INPUT_URL)
         val fileName = inputData.getString(KEY_OUTPUT_FILE_NAME)
@@ -57,15 +80,9 @@ class ImageDownloader @AssistedInject constructor(
         val notificationId = id.hashCode()
         // note: at this point, WorkManager has been manually initialized in WorkerModule,
         // thus it is safe to call WorkManager.getInstance here
-        val cancelIntent = WorkManager.getInstance(context).createCancelPendingIntent(id)
-        val notificationBuilder =
-            notifsHelper.getDownloadProgressNotifBuilder(fileName, cancelIntent)
+        val notificationBuilder = getNotificationBuilder(fileName)
 
         return unsplashApi.downloadFile(url)
-            .doOnSubscribe {
-                // display notification with progress bar
-                setForegroundAsync(ForegroundInfo(notificationId, notificationBuilder.build()))
-            }
             .flatMap {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
                     saveImage(it, fileName, notificationId, notificationBuilder)
@@ -83,6 +100,11 @@ class ImageDownloader @AssistedInject constructor(
                 notifsHelper.showDownloadErrorNotification(fileName)
                 Result.failure()
             }
+    }
+
+    private fun getNotificationBuilder(fileName: String): NotificationCompat.Builder {
+        val cancelIntent = WorkManager.getInstance(context).createCancelPendingIntent(id)
+        return notifsHelper.getDownloadProgressNotifBuilder(fileName, cancelIntent)
     }
 
     @RequiresApi(Build.VERSION_CODES.Q)
@@ -233,8 +255,11 @@ class ImageDownloader @AssistedInject constructor(
             workData: Data,
             context: Context
         ): UUID {
-            val request = OneTimeWorkRequestBuilder<ImageDownloader>()
-                .setInputData(workData).build()
+            val request =
+                OneTimeWorkRequestBuilder<ImageDownloader>().apply {
+                    setInputData(workData)
+                    setExpedited(OutOfQuotaPolicy.RUN_AS_NON_EXPEDITED_WORK_REQUEST)
+                }.build()
             WorkManager.getInstance(context).enqueue(request)
             return request.id
         }
