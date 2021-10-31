@@ -12,7 +12,7 @@ import androidx.core.view.forEach
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
-import androidx.fragment.app.viewModels
+import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.alvindizon.tampisaw.R
@@ -37,7 +37,7 @@ class DetailsFragment : Fragment(R.layout.fragment_details) {
 
     private var binding: FragmentDetailsBinding? = null
 
-    private val viewModel: DetailsViewModel by viewModels()
+    private val viewModel: DetailsViewModel by activityViewModels()
 
     private val args: DetailsFragmentArgs by navArgs()
 
