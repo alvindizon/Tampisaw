@@ -35,7 +35,8 @@ object Libs {
         "androidx.hilt:hilt-work:${Versions.hiltAndroidX}",
         "com.jakewharton.timber:timber:${Versions.timber}",
         "androidx.lifecycle:lifecycle-reactivestreams-ktx:${Versions.lifecycle}",
-        "androidx.core:core-splashscreen:${Versions.splashScreen}"
+        "androidx.core:core-splashscreen:${Versions.splashScreen}",
+        "androidx.concurrent:concurrent-futures-ktx:${Versions.concurrent}"
     )
 
     val androidTestImplementations = listOf(
@@ -98,4 +99,5 @@ object Versions {
     const val detekt = "1.18.1"
     const val splashScreen = "1.0.0-alpha01"
     const val leakCanary = "2.7"
+    const val concurrent = "1.1.0"
 }
