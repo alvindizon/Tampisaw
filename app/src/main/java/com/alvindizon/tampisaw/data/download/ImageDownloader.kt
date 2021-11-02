@@ -1,6 +1,5 @@
 package com.alvindizon.tampisaw.data.download
 
-import android.annotation.SuppressLint
 import android.content.ContentResolver
 import android.content.ContentValues
 import android.content.Context
@@ -9,6 +8,7 @@ import android.net.Uri
 import android.os.Build
 import android.provider.MediaStore
 import androidx.annotation.RequiresApi
+import androidx.concurrent.futures.CallbackToFutureAdapter
 import androidx.core.app.NotificationCompat
 import androidx.core.content.FileProvider
 import androidx.hilt.work.HiltWorker
@@ -20,7 +20,6 @@ import androidx.work.OutOfQuotaPolicy
 import androidx.work.WorkInfo
 import androidx.work.WorkManager
 import androidx.work.WorkerParameters
-import androidx.work.impl.utils.futures.SettableFuture
 import androidx.work.rxjava3.RxWorker
 import androidx.work.workDataOf
 import com.alvindizon.tampisaw.core.ui.NotifsHelper
@@ -51,23 +50,26 @@ class ImageDownloader @AssistedInject constructor(
     @Assisted params: WorkerParameters
 ) : RxWorker(context, params) {
 
-    @SuppressLint("RestrictedApi")
+    private lateinit var notificationBuilder: NotificationCompat.Builder
+
+    private val notificationId = id.hashCode()
+
     override fun getForegroundInfoAsync(): ListenableFuture<ForegroundInfo> {
-        val future = SettableFuture.create<ForegroundInfo>()
-
-        val notificationId = id.hashCode()
+        val url = inputData.getString(KEY_INPUT_URL)
         val fileName = inputData.getString(KEY_OUTPUT_FILE_NAME)
+        val photoId = inputData.getString(KEY_PHOTO_ID)
 
-        if (fileName == null) {
-            future.setException(IllegalStateException("Filename is null"))
-            return future
+        return CallbackToFutureAdapter.getFuture {
+            if (fileName == null || url == null || photoId == null) {
+                it.setException(IllegalStateException("Filename is null"))
+            } else {
+                // note: at this point, WorkManager has been manually initialized in WorkerModule,
+                // thus it is safe to call WorkManager.getInstance here
+                notificationBuilder = getNotificationBuilder(fileName)
+
+                it.set(ForegroundInfo(notificationId, notificationBuilder.build()))
+            }
         }
-        // note: at this point, WorkManager has been manually initialized in WorkerModule,
-        // thus it is safe to call WorkManager.getInstance here
-        val notificationBuilder = getNotificationBuilder(fileName)
-
-        future.set(ForegroundInfo(notificationId, notificationBuilder.build()))
-        return future
     }
 
     override fun createWork(): Single<Result> {
@@ -76,11 +78,6 @@ class ImageDownloader @AssistedInject constructor(
         val photoId = inputData.getString(KEY_PHOTO_ID)
 
         if (url == null || fileName == null || photoId == null) return Single.just(Result.failure())
-
-        val notificationId = id.hashCode()
-        // note: at this point, WorkManager has been manually initialized in WorkerModule,
-        // thus it is safe to call WorkManager.getInstance here
-        val notificationBuilder = getNotificationBuilder(fileName)
 
         return unsplashApi.downloadFile(url)
             .flatMap {
@@ -130,11 +127,11 @@ class ImageDownloader @AssistedInject constructor(
 
             uri?.let {
                 val complete = contentResolver.openOutputStream(uri)?.use { outputStream ->
-                    responseBody.writeToSink(outputStream.sink().buffer()) {
+                    responseBody.writeToSink(outputStream.sink().buffer()) { resp ->
                         setForegroundAsync(
                             ForegroundInfo(
                                 notificationId,
-                                notifsHelper.updateDownloadNotification(builder, it).build()
+                                notifsHelper.updateDownloadNotification(builder, resp).build()
                             )
                         )
                     }
