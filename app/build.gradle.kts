@@ -7,6 +7,7 @@ plugins {
     kotlin(Plugins.kapt)
     id(Plugins.kotlinNavSafeArgs)
     id(Plugins.hilt)
+    id("kotlin-parcelize")
 }
 
 fun getAccessKey(): String {

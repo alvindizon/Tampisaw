@@ -15,6 +15,7 @@ import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import androidx.transition.TransitionInflater
 import com.alvindizon.tampisaw.R
 import com.alvindizon.tampisaw.core.hasWritePermission
 import com.alvindizon.tampisaw.core.utils.dismissCurrentDialog
@@ -23,6 +24,7 @@ import com.alvindizon.tampisaw.core.utils.getUriForPhoto
 import com.alvindizon.tampisaw.core.utils.showDialogFragment
 import com.alvindizon.tampisaw.core.utils.showFileExistsDialog
 import com.alvindizon.tampisaw.core.utils.showSnackbar
+import com.alvindizon.tampisaw.core.utils.waitForTransition
 import com.alvindizon.tampisaw.data.wallpaper.WallpaperSettingManager
 import com.alvindizon.tampisaw.databinding.FragmentDetailsBinding
 import com.bumptech.glide.Glide
@@ -63,12 +65,16 @@ class DetailsFragment : Fragment(R.layout.fragment_details) {
                 handleUiState(uiState, this)
             }
         }
+
+        sharedElementEnterTransition =
+            TransitionInflater.from(context).inflateTransition(android.R.transition.move)
     }
 
     private fun handleUiState(uiState: DetailsUIState?, binding: FragmentDetailsBinding) {
         with(binding) {
             when (uiState) {
                 is GetDetailSuccess -> {
+                    // TODO just pass URL from gallery, only load details when viewing info
                     image.let { imgView ->
                         Glide.with(requireContext())
                             .load(uiState.photoDetails.regularUrl)
@@ -120,7 +126,12 @@ class DetailsFragment : Fragment(R.layout.fragment_details) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        waitForTransition(view)
+
         binding = FragmentDetailsBinding.bind(view)
+        binding?.photo = args.photo
+        binding?.executePendingBindings()
 
         val callback = object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
@@ -240,6 +251,8 @@ class DetailsFragment : Fragment(R.layout.fragment_details) {
                 findNavController().navigateUp()
             }
 
+            toolbarTitle.text = photoDetails.username
+
             Glide.with(avatar)
                 .load(photoDetails.profileImageUrl)
                 .placeholder(R.drawable.ic_user)
@@ -247,8 +260,6 @@ class DetailsFragment : Fragment(R.layout.fragment_details) {
                 .transition(DrawableTransitionOptions.withCrossFade())
                 .into(avatar)
                 .clearOnDetach()
-
-            toolbarTitle.text = photoDetails.username
 
             // show/hide toolbar on click anywhere on screen
             layout.setOnClickListener {

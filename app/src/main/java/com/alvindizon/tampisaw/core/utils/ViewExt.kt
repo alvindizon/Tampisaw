@@ -27,3 +27,5 @@ fun View.showSnackbar(
         it.show()
     }
 }
+
+fun View.toTransitionGroup() = this to transitionName

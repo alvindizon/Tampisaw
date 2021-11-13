@@ -1,137 +1,151 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/layout"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@android:color/black">
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbar"
+    <data>
+
+        <variable
+            name="photo"
+            type="com.alvindizon.tampisaw.features.gallery.UnsplashPhoto" />
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/layout"
         android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:elevation="4dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-        
-        <LinearLayout
+        android:layout_height="match_parent"
+        android:background="@android:color/black">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
             android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:elevation="4dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:gravity="center">
+
+                <ImageView
+                    android:id="@+id/up_btn"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight=".10"
+                    android:src="@drawable/ic_back"
+                    tools:ignore="ContentDescription" />
+
+                <ImageView
+                    android:id="@+id/avatar"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight=".10"
+                    android:transitionName="@{@string/transition_avatar(photo.id)}"
+                    tools:ignore="ContentDescription" />
+
+                <TextView
+                    android:id="@+id/toolbar_title"
+                    style="@style/ToolbarTitleStyle"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight=".70"
+                    android:ellipsize="end"
+                    android:gravity="fill"
+                    android:maxLines="1"
+                    android:paddingStart="16dp"
+                    android:paddingEnd="8dp"
+                    android:text="@{photo.user.name}"
+                    android:transitionName="@{@string/transition_username(photo.id)}"
+                    tools:text="alvindizon" />
+
+                <ImageView
+                    android:id="@+id/info"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight=".10"
+                    android:src="@drawable/ic_info"
+                    tools:ignore="ContentDescription" />
+            </LinearLayout>
+
+        </androidx.appcompat.widget.Toolbar>
+
+        <ImageView
+            android:id="@+id/image"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:transitionName="@{@string/transition_image(photo.id)}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="ContentDescription" />
+
+        <androidx.core.widget.ContentLoadingProgressBar
+            android:id="@+id/progress_bar"
+            style="?android:attr/progressBarStyle"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:gravity="center"
-            android:focusable="true"
-            android:focusableInTouchMode="true">
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-            <ImageView
-                android:id="@+id/up_btn"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight=".10"
-                android:src="@drawable/ic_back"
-                tools:ignore="ContentDescription"/>
+        <com.nambimobile.widgets.efab.ExpandableFabLayout
+            android:id="@+id/fabLayout"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
-            <ImageView
-                android:id="@+id/avatar"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight=".10"
-                tools:ignore="ContentDescription"/>
-
-            <TextView
-                android:id="@+id/toolbar_title"
-                style="@style/ToolbarTitleStyle"
-                android:paddingStart="16dp"
-                android:paddingEnd="8dp"
-                android:layout_width="0dp"
+            <com.nambimobile.widgets.efab.Overlay
+                android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight=".70"
-                android:gravity="fill"
-                android:ellipsize="end"
-                android:maxLines="1"
-                tools:text="alvindizon" />
+                app:overlay_alpha="0.62"
+                app:overlay_color="@color/color_on_surface"
+                app:overlay_orientation="portrait" />
 
-            <ImageView
-                android:id="@+id/info"
-                android:layout_width="0dp"
+            <com.nambimobile.widgets.efab.ExpandableFab
+                android:id="@+id/fab"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight=".10"
-                android:src="@drawable/ic_info"
-                tools:ignore="ContentDescription"/>
-        </LinearLayout>
+                android:layout_gravity="bottom|end"
+                android:layout_marginEnd="@dimen/fab_margin"
+                android:layout_marginBottom="@dimen/fab_margin"
+                app:efab_closingAnticipateTension="0"
+                app:efab_color="@color/color_background"
+                app:efab_icon="@drawable/ic_more"
+                app:efab_iconAnimationRotationDeg="-180"
+                app:efab_openingAnimationDurationMs="500"
+                app:efab_orientation="portrait" />
 
-    </androidx.appcompat.widget.Toolbar>
+            <com.nambimobile.widgets.efab.FabOption
+                android:id="@+id/download_option"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:fab_color="@color/color_background"
+                app:fab_icon="@drawable/ic_download"
+                app:fab_orientation="portrait"
+                app:label_text="@string/download_img" />
 
-    <ImageView
-        android:id="@+id/image"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:ignore="ContentDescription" />
+            <com.nambimobile.widgets.efab.FabOption
+                android:id="@+id/set_wallpaper_option"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:fab_color="@color/color_background"
+                app:fab_icon="@drawable/ic_wallpaper"
+                app:fab_orientation="portrait"
+                app:label_text="@string/set_wallpaper" />
 
-    <androidx.core.widget.ContentLoadingProgressBar
-        android:id="@+id/progress_bar"
-        style="?android:attr/progressBarStyle"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
-
-    <com.nambimobile.widgets.efab.ExpandableFabLayout
-        android:id="@+id/fabLayout"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <com.nambimobile.widgets.efab.Overlay
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:overlay_alpha="0.62"
-            app:overlay_color="@color/color_on_surface"
-            app:overlay_orientation="portrait"/>
-
-        <com.nambimobile.widgets.efab.ExpandableFab
-            android:id="@+id/fab"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom|end"
-            android:layout_marginEnd="@dimen/fab_margin"
-            android:layout_marginBottom="@dimen/fab_margin"
-            app:efab_closingAnticipateTension="0"
-            app:efab_icon="@drawable/ic_more"
-            app:efab_iconAnimationRotationDeg="-180"
-            app:efab_openingAnimationDurationMs="500"
-            app:efab_color="@color/color_background"
-            app:efab_orientation="portrait"/>
-
-        <com.nambimobile.widgets.efab.FabOption
-            android:id="@+id/download_option"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:fab_icon="@drawable/ic_download"
-            app:fab_orientation="portrait"
-            app:fab_color="@color/color_background"
-            app:label_text="@string/download_img" />
-
-        <com.nambimobile.widgets.efab.FabOption
-            android:id="@+id/set_wallpaper_option"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:fab_icon="@drawable/ic_wallpaper"
-            app:fab_orientation="portrait"
-            app:fab_color="@color/color_background"
-            app:label_text="@string/set_wallpaper" />
-
-    </com.nambimobile.widgets.efab.ExpandableFabLayout>
+        </com.nambimobile.widgets.efab.ExpandableFabLayout>
 
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
