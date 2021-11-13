@@ -9,12 +9,7 @@
         android:label="fragment_gallery" >
         <action
             android:id="@+id/detailsAction"
-            app:destination="@id/details_dest" >
-            <argument
-                android:name="url"
-                app:argType="string"
-                android:defaultValue="" />
-        </action>
+            app:destination="@id/details_dest" />
 
     </fragment>
 
@@ -27,15 +22,13 @@
             app:argType="string"
             android:defaultValue="" />
 
+        <argument
+            android:name="photo"
+            app:argType="com.alvindizon.tampisaw.features.gallery.UnsplashPhoto" />
+
         <action
             android:id="@+id/searchAction"
-            app:destination="@id/search_dest">
-
-            <argument
-                android:name="query"
-                app:argType="string"/>
-
-        </action>
+            app:destination="@id/search_dest"/>
 
     </fragment>
 
@@ -46,25 +39,7 @@
 
         <action
             android:id="@+id/collectionAction"
-            app:destination="@id/collection_dest" >
-            <argument
-                android:name="id"
-                app:argType="string" />
-            <argument
-                android:name="description"
-                app:argType="string"
-                app:nullable="true"/>
-            <argument
-                android:name="totalPhotos"
-                app:argType="integer"/>
-            <argument
-                android:name="name"
-                app:argType="string"
-                app:nullable="true"/>
-            <argument
-                android:name="title"
-                app:argType="string"/>
-        </action>
+            app:destination="@id/collection_dest" />
     </fragment>
 
     <fragment
@@ -80,34 +55,11 @@
 
         <action
             android:id="@+id/detailsAction"
-            app:destination="@id/details_dest" >
-            <argument
-                android:name="url"
-                app:argType="string"
-                android:defaultValue="" />
-        </action>
+            app:destination="@id/details_dest" />
 
         <action
             android:id="@+id/collectionAction"
-            app:destination="@id/collection_dest" >
-            <argument
-                android:name="id"
-                app:argType="string" />
-            <argument
-                android:name="description"
-                app:argType="string"
-                app:nullable="true"/>
-            <argument
-                android:name="totalPhotos"
-                app:argType="integer"/>
-            <argument
-                android:name="name"
-                app:argType="string"
-                app:nullable="true"/>
-            <argument
-                android:name="title"
-                app:argType="string"/>
-        </action>
+            app:destination="@id/collection_dest" />
 
     </fragment>
 
@@ -136,12 +88,7 @@
 
         <action
             android:id="@+id/detailsAction"
-            app:destination="@id/details_dest" >
-            <argument
-                android:name="url"
-                app:argType="string"
-                android:defaultValue="" />
-        </action>
+            app:destination="@id/details_dest"/>
 
     </fragment>
 </navigation>

@@ -4,16 +4,12 @@ import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.core.view.isVisible
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.alvindizon.tampisaw.R
 import com.alvindizon.tampisaw.databinding.ItemGalleryBinding
 import com.bumptech.glide.Glide
-import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
-
-const val TRANSITION_MILLIS = 330
 
 class UnsplashDiff: DiffUtil.ItemCallback<UnsplashPhoto>() {
     override fun areItemsTheSame(oldItem: UnsplashPhoto, newItem: UnsplashPhoto): Boolean {
@@ -25,27 +21,23 @@ class UnsplashDiff: DiffUtil.ItemCallback<UnsplashPhoto>() {
     }
 }
 
-class GalleryAdapter(val listener: (UnsplashPhoto) -> Unit)
+class GalleryAdapter(val listener: (UnsplashPhoto, ItemGalleryBinding) -> Unit)
     : PagingDataAdapter<UnsplashPhoto, GalleryAdapter.ViewHolder>(UnsplashDiff()) {
 
     inner class ViewHolder(private val binding: ItemGalleryBinding):
         RecyclerView.ViewHolder(binding.root) {
 
         fun bind(photo: UnsplashPhoto) {
+            binding.photo = photo
+            binding.executePendingBindings()
 
             binding.imageView.background = ColorDrawable(Color.parseColor(photo.color))
 
             Glide.with(binding.imageView)
                 .load(photo.urls.regular)
                 .thumbnail(Glide.with(binding.imageView).load(photo.urls.thumb).centerCrop())
-                .transition(DrawableTransitionOptions.withCrossFade(TRANSITION_MILLIS))
                 .into(binding.imageView)
                 .clearOnDetach()
-
-            binding.username.text = photo.user.name
-            binding.handle.isVisible = !photo.sponsored
-            binding.labelSponsored.isVisible = photo.sponsored
-            binding.handle.text = photo.user.username
 
             if(photo.height != null && photo.width != null) {
                 binding.imageView.aspectRatio = photo.height.toDouble() / photo.width.toDouble()
@@ -53,11 +45,14 @@ class GalleryAdapter(val listener: (UnsplashPhoto) -> Unit)
 
             Glide.with(binding.avatar)
                 .load(photo.user.profileImageUrl)
-                .placeholder(R.drawable.ic_user)
                 .circleCrop()
-                .transition(DrawableTransitionOptions.withCrossFade())
+                .placeholder(R.drawable.ic_user)
                 .into(binding.avatar)
                 .clearOnDetach()
+
+            itemView.setOnClickListener {
+                listener.invoke(photo, binding)
+            }
         }
     }
 
@@ -70,9 +65,6 @@ class GalleryAdapter(val listener: (UnsplashPhoto) -> Unit)
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         getItem(position)?.let { item ->
             holder.bind(item)
-            holder.itemView.setOnClickListener {
-                listener(item)
-            }
         }
     }
 }

@@ -5,11 +5,14 @@ import android.view.View
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
 import androidx.paging.PagingDataAdapter
 import com.alvindizon.tampisaw.R
 import com.alvindizon.tampisaw.core.ui.RetryAdapter
 import com.alvindizon.tampisaw.core.utils.setLoadStateListener
+import com.alvindizon.tampisaw.core.utils.toTransitionGroup
+import com.alvindizon.tampisaw.core.utils.waitForTransition
 import com.alvindizon.tampisaw.databinding.FragmentGalleryBinding
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
@@ -37,6 +40,8 @@ class GalleryFragment : Fragment(R.layout.fragment_gallery) {
         viewLifecycleOwner.lifecycle.addObserver(viewModel)
 
         setupGallery()
+
+        waitForTransition(view)
     }
 
     override fun onDestroyView() {
@@ -46,9 +51,18 @@ class GalleryFragment : Fragment(R.layout.fragment_gallery) {
 
     private fun setupGallery() {
         // Add a click listener for each list item
-        val adapter = GalleryAdapter { photo ->
+        val adapter = GalleryAdapter { photo, itemBinding ->
             photo.id.let {
-                findNavController().navigate(GalleryFragmentDirections.detailsAction(it))
+                val extras = FragmentNavigatorExtras(
+                    itemBinding.avatar.toTransitionGroup(),
+                    itemBinding.imageView.toTransitionGroup(),
+                    itemBinding.username.toTransitionGroup(),
+                    itemBinding.handle.toTransitionGroup()
+                )
+                findNavController().navigate(
+                    GalleryFragmentDirections.detailsAction(it, photo),
+                    extras
+                )
             }
         }
 
