@@ -1,142 +1,154 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <com.google.android.material.appbar.AppBarLayout
-        android:id="@+id/app_bar"
+    <data>
+
+        <variable
+            name="id"
+            type="String" />
+
+    </data>
+
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="?attr/colorSurface"
-        app:layout_constraintTop_toTopOf="parent">
+        android:layout_height="match_parent">
 
-        <com.google.android.material.appbar.CollapsingToolbarLayout
-            android:id="@+id/collapsing_toolbar"
+        <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/app_bar"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:contentScrim="?attr/colorSurface"
-            app:expandedTitleGravity="top"
-            app:layout_scrollFlags="scroll|exitUntilCollapsed|snap"
-            app:scrimAnimationDuration="0"
-            app:titleEnabled="false">
+            android:layout_height="wrap_content"
+            android:background="?attr/colorSurface"
+            app:layout_constraintTop_toTopOf="parent">
 
-            <LinearLayout
-                android:id="@+id/collection_info"
+            <com.google.android.material.appbar.CollapsingToolbarLayout
+                android:id="@+id/collapsing_toolbar"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="?attr/actionBarSize"
-                android:background="?attr/colorSurface"
-                android:orientation="vertical"
-                android:paddingBottom="@dimen/margin_5"
-                app:layout_collapseMode="parallax"
-                app:layout_collapseParallaxMultiplier="0.5">
-
-                <TextView
-                    android:id="@+id/count_curator_view"
-                    style="@style/CollectionCaptionStyle"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/margin_3"
-                    android:layout_marginEnd="@dimen/margin_3"
-                    android:singleLine="true"
-                    tools:text="69 Photos \u2022 Alvin Dizon" />
-
-                <TextView
-                    android:id="@+id/description"
-                    style="@style/CollectionCaptionStyle.Description"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/margin_3"
-                    android:layout_marginTop="@dimen/margin_5"
-                    android:layout_marginEnd="@dimen/margin_3"
-                    android:visibility="gone"
-                    tools:text="A collection that has beautiful photos in it, curated by someone who has good taste." />
-
-            </LinearLayout>
-
-            <androidx.appcompat.widget.Toolbar
-                android:id="@+id/toolbar"
-                android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
-                android:layout_gravity="top"
-                app:layout_collapseMode="pin">
+                android:layout_height="match_parent"
+                app:contentScrim="?attr/colorSurface"
+                app:expandedTitleGravity="top"
+                app:layout_scrollFlags="scroll|exitUntilCollapsed|snap"
+                app:scrimAnimationDuration="0"
+                app:titleEnabled="false">
 
                 <LinearLayout
+                    android:id="@+id/collection_info"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:focusable="true"
-                    android:focusableInTouchMode="true">
-
-                    <ImageView
-                        android:id="@+id/up_btn"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight=".10"
-                        android:src="@drawable/ic_back_dark"
-                        tools:ignore="ContentDescription" />
+                    android:layout_marginTop="?attr/actionBarSize"
+                    android:background="?attr/colorSurface"
+                    android:orientation="vertical"
+                    android:paddingBottom="@dimen/margin_5"
+                    app:layout_collapseMode="parallax"
+                    app:layout_collapseParallaxMultiplier="0.5">
 
                     <TextView
-                        android:id="@+id/toolbar_title"
-                        style="@style/ToolbarTitleStyle.Dark"
-                        android:layout_width="0dp"
+                        android:id="@+id/count_curator_view"
+                        style="@style/CollectionCaptionStyle"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_weight=".90"
-                        android:ellipsize="end"
-                        android:gravity="fill"
-                        android:maxLines="1"
-                        android:layout_marginStart="16dp"
-                        android:layout_marginEnd="8dp"
-                        tools:text="Collection #1" />
+                        android:layout_marginStart="@dimen/margin_3"
+                        android:layout_marginEnd="@dimen/margin_3"
+                        android:singleLine="true"
+                        tools:text="69 Photos \u2022 Alvin Dizon" />
+
+                    <TextView
+                        android:id="@+id/description"
+                        style="@style/CollectionCaptionStyle.Description"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/margin_3"
+                        android:layout_marginTop="@dimen/margin_5"
+                        android:layout_marginEnd="@dimen/margin_3"
+                        android:visibility="gone"
+                        tools:text="A collection that has beautiful photos in it, curated by someone who has good taste." />
 
                 </LinearLayout>
-            </androidx.appcompat.widget.Toolbar>
 
-        </com.google.android.material.appbar.CollapsingToolbarLayout>
+                <androidx.appcompat.widget.Toolbar
+                    android:id="@+id/toolbar"
+                    android:layout_width="match_parent"
+                    android:layout_height="?attr/actionBarSize"
+                    android:layout_gravity="top"
+                    app:layout_collapseMode="pin">
 
-    </com.google.android.material.appbar.AppBarLayout>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:focusable="true"
+                        android:focusableInTouchMode="true">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        android:layout_marginHorizontal="@dimen/margin_1">
+                        <ImageView
+                            android:id="@+id/up_btn"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight=".10"
+                            android:src="@drawable/ic_back_dark"
+                            tools:ignore="ContentDescription" />
 
-        <androidx.core.widget.ContentLoadingProgressBar
-            android:id="@+id/progress_bar"
-            style="?android:attr/progressBarStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:visibility="invisible"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+                        <TextView
+                            android:id="@+id/toolbar_title"
+                            style="@style/ToolbarTitleStyle.Dark"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight=".90"
+                            android:ellipsize="end"
+                            android:gravity="fill"
+                            android:maxLines="1"
+                            android:transitionName="@{@string/transition_collection_title(id)}"
+                            android:layout_marginStart="16dp"
+                            android:layout_marginEnd="8dp"
+                            tools:text="Collection #1" />
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/collection_photo_list"
+                    </LinearLayout>
+                </androidx.appcompat.widget.Toolbar>
+
+            </com.google.android.material.appbar.CollapsingToolbarLayout>
+
+        </com.google.android.material.appbar.AppBarLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:scrollbars="vertical"
-            app:layoutManager="LinearLayoutManager"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:orientation="vertical"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"
+            android:layout_marginHorizontal="@dimen/margin_1">
 
-        <Button
-            android:id="@+id/retry_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/retry"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            <androidx.core.widget.ContentLoadingProgressBar
+                android:id="@+id/progress_bar"
+                style="?android:attr/progressBarStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="invisible"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/collection_photo_list"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scrollbars="vertical"
+                app:layoutManager="LinearLayoutManager"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <Button
+                android:id="@+id/retry_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/retry"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
 
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+</layout>

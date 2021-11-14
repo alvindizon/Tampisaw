@@ -9,6 +9,7 @@ import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.paging.PagingDataAdapter
+import androidx.transition.TransitionInflater
 import com.alvindizon.tampisaw.R
 import com.alvindizon.tampisaw.core.ui.RetryAdapter
 import com.alvindizon.tampisaw.core.utils.setLoadStateListener
@@ -17,6 +18,7 @@ import com.alvindizon.tampisaw.core.utils.waitForTransition
 import com.alvindizon.tampisaw.databinding.FragmentCollectionBinding
 import com.alvindizon.tampisaw.features.gallery.GalleryAdapter
 import com.google.android.material.snackbar.Snackbar
+import com.google.android.material.transition.MaterialFadeThrough
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 
@@ -33,12 +35,21 @@ class CollectionFragment : Fragment(R.layout.fragment_collection) {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        enterTransition = MaterialFadeThrough().apply {
+            removeTarget(R.id.collection_title)
+        }
+
+        sharedElementEnterTransition =
+            TransitionInflater.from(context).inflateTransition(android.R.transition.move)
+
         viewModel.getAllPhotos(args.id)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentCollectionBinding.bind(view)
+        binding?.id = args.id
+        binding?.executePendingBindings()
 
         viewLifecycleOwner.lifecycle.addObserver(viewModel)
 
