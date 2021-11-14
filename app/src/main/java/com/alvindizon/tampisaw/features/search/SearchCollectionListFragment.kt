@@ -9,7 +9,9 @@ import androidx.navigation.fragment.findNavController
 import androidx.paging.PagingDataAdapter
 import com.alvindizon.tampisaw.R
 import com.alvindizon.tampisaw.core.ui.RetryAdapter
+import com.alvindizon.tampisaw.core.utils.getNavigatorExtras
 import com.alvindizon.tampisaw.core.utils.setLoadStateListener
+import com.alvindizon.tampisaw.core.utils.waitForTransition
 import com.alvindizon.tampisaw.databinding.FragmentSearchCollectionListBinding
 import com.alvindizon.tampisaw.features.collections.CollectionAdapter
 import com.google.android.material.snackbar.Snackbar
@@ -31,6 +33,8 @@ class SearchCollectionListFragment : Fragment(R.layout.fragment_search_collectio
         viewLifecycleOwner.lifecycle.addObserver(viewModel)
 
         setupGallery()
+
+        waitForTransition(view)
     }
 
     override fun onDestroyView() {
@@ -40,11 +44,17 @@ class SearchCollectionListFragment : Fragment(R.layout.fragment_search_collectio
 
     private fun setupGallery() {
         // Add a click listener for each list item
-        val adapter = CollectionAdapter {
+        val adapter = CollectionAdapter { collection, itemBinding ->
+            val extras = getNavigatorExtras(itemBinding.collectionTitle)
             findNavController().navigate(
                 SearchFragmentDirections.collectionAction(
-                    it.id, it.description, it.totalPhotos, it.fullname, it.title
-                )
+                    collection.id,
+                    collection.description,
+                    collection.totalPhotos,
+                    collection.fullname,
+                    collection.title
+                ),
+                extras
             )
         }
 

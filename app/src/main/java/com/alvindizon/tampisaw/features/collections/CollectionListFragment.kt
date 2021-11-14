@@ -9,7 +9,9 @@ import androidx.navigation.fragment.findNavController
 import androidx.paging.PagingDataAdapter
 import com.alvindizon.tampisaw.R
 import com.alvindizon.tampisaw.core.ui.RetryAdapter
+import com.alvindizon.tampisaw.core.utils.getNavigatorExtras
 import com.alvindizon.tampisaw.core.utils.setLoadStateListener
+import com.alvindizon.tampisaw.core.utils.waitForTransition
 import com.alvindizon.tampisaw.databinding.FragmentCollectionListBinding
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
@@ -32,6 +34,9 @@ class CollectionListFragment : Fragment(R.layout.fragment_collection_list) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        waitForTransition(view)
+
         binding = FragmentCollectionListBinding.bind(view)
 
         viewLifecycleOwner.lifecycle.addObserver(viewModel)
@@ -46,15 +51,17 @@ class CollectionListFragment : Fragment(R.layout.fragment_collection_list) {
 
     private fun setupGallery() {
         // Add a click listener for each list item
-        val adapter = CollectionAdapter {
+        val adapter = CollectionAdapter { collection, itemBinding ->
+            val extras = getNavigatorExtras(itemBinding.collectionTitle)
             findNavController().navigate(
                 CollectionListFragmentDirections.collectionAction(
-                    it.id,
-                    it.description,
-                    it.totalPhotos,
-                    it.fullname,
-                    it.title
-                )
+                    collection.id,
+                    collection.description,
+                    collection.totalPhotos,
+                    collection.fullname,
+                    collection.title
+                ),
+                extras
             )
         }
 

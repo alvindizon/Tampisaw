@@ -5,7 +5,6 @@ import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.core.view.isVisible
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
@@ -32,7 +31,7 @@ class UnsplashDiff : DiffUtil.ItemCallback<UnsplashCollection>() {
     }
 }
 
-class CollectionAdapter(val listener: (UnsplashCollection) -> Unit) :
+class CollectionAdapter(val listener: (UnsplashCollection, ItemCollectionsBinding) -> Unit) :
     PagingDataAdapter<UnsplashCollection, CollectionAdapter.ViewHolder>(UnsplashDiff()) {
 
     inner class ViewHolder(private val binding: ItemCollectionsBinding) :
@@ -40,6 +39,8 @@ class CollectionAdapter(val listener: (UnsplashCollection) -> Unit) :
 
         @SuppressLint("SetTextI18n")
         fun bind(collection: UnsplashCollection) {
+            binding.collection = collection
+            binding.executePendingBindings()
 
             binding.imageView.background = ColorDrawable(Color.parseColor(collection.color))
 
@@ -51,12 +52,6 @@ class CollectionAdapter(val listener: (UnsplashCollection) -> Unit) :
                 .transition(DrawableTransitionOptions.withCrossFade(TRANSITION_MILLIS))
                 .into(binding.imageView)
                 .clearOnDetach()
-
-            binding.username.text = collection.fullname
-            binding.lockIcon.isVisible = collection.private ?: false
-            binding.handle.text = collection.username
-            binding.collectionTitle.text = collection.title
-            binding.photoCount.text = collection.totalPhotos.toString() + " photos"
 
             if (collection.coverPhotoHeight != null && collection.coverPhotoWidth != null) {
                 binding.imageView.aspectRatio =
@@ -70,6 +65,8 @@ class CollectionAdapter(val listener: (UnsplashCollection) -> Unit) :
                 .transition(DrawableTransitionOptions.withCrossFade())
                 .into(binding.avatar)
                 .clearOnDetach()
+
+            itemView.setOnClickListener { listener(collection, binding) }
         }
     }
 
@@ -80,12 +77,7 @@ class CollectionAdapter(val listener: (UnsplashCollection) -> Unit) :
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        getItem(position)?.let { item ->
-            holder.bind(item)
-            holder.itemView.setOnClickListener {
-                listener(item)
-            }
-        }
+        getItem(position)?.let { item -> holder.bind(item) }
     }
 }
 

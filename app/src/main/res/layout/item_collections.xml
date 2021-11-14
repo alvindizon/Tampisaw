@@ -1,114 +1,132 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/layout"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.16" />
+    <data>
 
-    <ImageView
-        android:id="@+id/avatar"
-        android:layout_width="@dimen/avatar_size"
-        android:layout_height="@dimen/avatar_size"
-        android:layout_marginTop="@dimen/margin_1"
-        app:layout_constraintEnd_toStartOf="@id/guideline"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:ignore="ContentDescription" />
+        <import type="android.view.View"/>
+        <variable
+            name="collection"
+            type="com.alvindizon.tampisaw.features.collections.UnsplashCollection" />
 
-    <TextView
-        style="@style/GalleryTextStyle.Title"
-        android:id="@+id/username"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/margin_1"
-        android:layout_marginTop="@dimen/margin_1"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/guideline"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:text="Alvin Dizon" />
+    </data>
 
-    <TextView
-        style="@style/GalleryTextStyle"
-        android:id="@+id/handle"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/margin_1"
-        android:layout_marginBottom="@dimen/margin_1"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/guideline"
-        app:layout_constraintTop_toBottomOf="@id/username"
-        tools:text="alvindizon"/>
-
-    <TextView
-        android:id="@+id/collection_title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/margin_2"
-        android:layout_marginEnd="@dimen/margin_1"
-        android:ellipsize="end"
-        android:maxLines="1"
-        style="@style/CollectionListTextStyle.Title"
-        app:layout_constraintBottom_toTopOf="@id/photo_count"
-        app:layout_constraintEnd_toStartOf="@id/lock_icon"
-        app:layout_constrainedWidth="true"
-        app:layout_constraintHorizontal_bias="0"
-        app:layout_constraintHorizontal_chainStyle="packed"
-        app:layout_constraintStart_toStartOf="parent"
-        tools:text="Damn good collection" />
-
-    <ImageView
-        android:id="@+id/lock_icon"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/ic_private"
-        android:translationZ="1dp"
-        app:layout_constraintBottom_toBottomOf="@id/collection_title"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toEndOf="@id/collection_title"
-        app:layout_constraintTop_toTopOf="@id/collection_title"
-        tools:ignore="ContentDescription"/>
-
-    <TextView
-        android:id="@+id/photo_count"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/margin_2"
-        style="@style/CollectionListTextStyle"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="@id/img_card_view"
-        tools:text="69 photos"/>
-
-    <com.google.android.material.card.MaterialCardView
-        android:id="@+id/img_card_view"
-        style="@style/ImageCardViewStyle"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/layout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:foreground="?attr/selectableItemBackground"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/avatar">
+        android:layout_height="wrap_content">
 
-        <com.alvindizon.tampisaw.core.ui.AspectRatioImageView
-            android:id="@+id/image_view"
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.16" />
+
+        <ImageView
+            android:id="@+id/avatar"
+            android:layout_width="@dimen/avatar_size"
+            android:layout_height="@dimen/avatar_size"
+            android:layout_marginTop="@dimen/margin_1"
+            app:layout_constraintEnd_toStartOf="@id/guideline"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="ContentDescription" />
+
+        <TextView
+            android:id="@+id/username"
+            style="@style/GalleryTextStyle.Title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_1"
+            android:layout_marginTop="@dimen/margin_1"
+            android:text="@{collection.fullname}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/guideline"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="Alvin Dizon" />
+
+        <TextView
+            android:id="@+id/handle"
+            style="@style/GalleryTextStyle"
+            android:text="@{collection.username}"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_1"
+            android:layout_marginBottom="@dimen/margin_1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/guideline"
+            app:layout_constraintTop_toBottomOf="@id/username"
+            tools:text="alvindizon" />
+
+        <TextView
+            android:id="@+id/collection_title"
+            style="@style/CollectionListTextStyle.Title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_2"
+            android:layout_marginEnd="@dimen/margin_1"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:text="@{collection.title}"
+            android:transitionName="@{@string/transition_collection_title(collection.id)}"
+            app:layout_constrainedWidth="true"
+            app:layout_constraintBottom_toTopOf="@id/photo_count"
+            app:layout_constraintEnd_toStartOf="@id/lock_icon"
+            app:layout_constraintHorizontal_bias="0"
+            app:layout_constraintHorizontal_chainStyle="packed"
+            app:layout_constraintStart_toStartOf="parent"
+            tools:text="Damn good collection" />
+
+        <ImageView
+            android:id="@+id/lock_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_private"
+            android:translationZ="1dp"
+            android:visibility="@{collection.private ? View.VISIBLE : View.GONE}"
+            app:layout_constraintBottom_toBottomOf="@id/collection_title"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toEndOf="@id/collection_title"
+            app:layout_constraintTop_toTopOf="@id/collection_title"
+            tools:ignore="ContentDescription" />
+
+        <TextView
+            android:id="@+id/photo_count"
+            style="@style/CollectionListTextStyle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/margin_2"
+            app:layout_constraintBottom_toBottomOf="@id/img_card_view"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:text="@{@string/photo_count(collection.totalPhotos)}"
+            tools:text="69 photos" />
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/img_card_view"
+            style="@style/ImageCardViewStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:scaleType="fitXY"
-            android:adjustViewBounds="true"
-            tools:ignore="ContentDescription"
-            tools:src="@drawable/gradient"/>
+            android:foreground="?attr/selectableItemBackground"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/avatar">
 
-    </com.google.android.material.card.MaterialCardView>
+            <com.alvindizon.tampisaw.core.ui.AspectRatioImageView
+                android:id="@+id/image_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:adjustViewBounds="true"
+                android:scaleType="fitXY"
+                tools:ignore="ContentDescription"
+                tools:src="@drawable/gradient" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
