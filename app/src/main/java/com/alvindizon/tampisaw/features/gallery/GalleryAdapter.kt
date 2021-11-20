@@ -8,10 +8,11 @@ import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.alvindizon.tampisaw.R
+import com.alvindizon.tampisaw.core.utils.listener
 import com.alvindizon.tampisaw.databinding.ItemGalleryBinding
 import com.bumptech.glide.Glide
 
-class UnsplashDiff: DiffUtil.ItemCallback<UnsplashPhoto>() {
+class UnsplashDiff : DiffUtil.ItemCallback<UnsplashPhoto>() {
     override fun areItemsTheSame(oldItem: UnsplashPhoto, newItem: UnsplashPhoto): Boolean {
         return oldItem.id == newItem.id
     }
@@ -21,10 +22,13 @@ class UnsplashDiff: DiffUtil.ItemCallback<UnsplashPhoto>() {
     }
 }
 
-class GalleryAdapter(val listener: (UnsplashPhoto, ItemGalleryBinding) -> Unit)
-    : PagingDataAdapter<UnsplashPhoto, GalleryAdapter.ViewHolder>(UnsplashDiff()) {
+class GalleryAdapter(
+    val onImageLoadFailed: () -> Unit = {},
+    val onImageResourceReady: () -> Unit = {},
+    val listener: (UnsplashPhoto, ItemGalleryBinding) -> Unit
+) : PagingDataAdapter<UnsplashPhoto, GalleryAdapter.ViewHolder>(UnsplashDiff()) {
 
-    inner class ViewHolder(private val binding: ItemGalleryBinding):
+    inner class ViewHolder(private val binding: ItemGalleryBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
         fun bind(photo: UnsplashPhoto) {
@@ -35,11 +39,15 @@ class GalleryAdapter(val listener: (UnsplashPhoto, ItemGalleryBinding) -> Unit)
 
             Glide.with(binding.imageView)
                 .load(photo.urls.regular)
+                .listener(
+                    onLoadFailed = { onImageLoadFailed.invoke() },
+                    onResourceReady = { onImageResourceReady.invoke() }
+                )
                 .thumbnail(Glide.with(binding.imageView).load(photo.urls.thumb).centerCrop())
                 .into(binding.imageView)
                 .clearOnDetach()
 
-            if(photo.height != null && photo.width != null) {
+            if (photo.height != null && photo.width != null) {
                 binding.imageView.aspectRatio = photo.height.toDouble() / photo.width.toDouble()
             }
 

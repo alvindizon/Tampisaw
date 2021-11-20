@@ -21,14 +21,13 @@ import com.alvindizon.tampisaw.core.hasWritePermission
 import com.alvindizon.tampisaw.core.utils.dismissCurrentDialog
 import com.alvindizon.tampisaw.core.utils.fileExists
 import com.alvindizon.tampisaw.core.utils.getUriForPhoto
+import com.alvindizon.tampisaw.core.utils.listener
 import com.alvindizon.tampisaw.core.utils.showDialogFragment
 import com.alvindizon.tampisaw.core.utils.showFileExistsDialog
 import com.alvindizon.tampisaw.core.utils.showSnackbar
-import com.alvindizon.tampisaw.core.utils.waitForTransition
 import com.alvindizon.tampisaw.data.wallpaper.WallpaperSettingManager
 import com.alvindizon.tampisaw.databinding.FragmentDetailsBinding
 import com.bumptech.glide.Glide
-import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.transition.MaterialFadeThrough
@@ -81,11 +80,13 @@ class DetailsFragment : Fragment(R.layout.fragment_details) {
         with(binding) {
             when (uiState) {
                 is GetDetailSuccess -> {
-                    // TODO just pass URL from gallery, only load details when viewing info
                     image.let { imgView ->
                         Glide.with(requireContext())
                             .load(uiState.photoDetails.regularUrl)
-                            .transition(DrawableTransitionOptions.withCrossFade())
+                            .listener(
+                                onLoadFailed = { startPostponedEnterTransition() },
+                                onResourceReady = { startPostponedEnterTransition() }
+                            )
                             .error(R.drawable.ic_error)
                             .into(imgView)
                         setupFabOptions(uiState.photoDetails)
@@ -134,7 +135,7 @@ class DetailsFragment : Fragment(R.layout.fragment_details) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        waitForTransition(view)
+        postponeEnterTransition()
 
         binding = FragmentDetailsBinding.bind(view)
         binding?.photo = args.photo
@@ -262,9 +263,12 @@ class DetailsFragment : Fragment(R.layout.fragment_details) {
 
             Glide.with(avatar)
                 .load(photoDetails.profileImageUrl)
-                .placeholder(R.drawable.ic_user)
+                .listener(
+                    onLoadFailed = { startPostponedEnterTransition() },
+                    onResourceReady = { startPostponedEnterTransition() }
+                )
                 .circleCrop()
-                .transition(DrawableTransitionOptions.withCrossFade())
+                .placeholder(R.drawable.ic_user)
                 .into(avatar)
                 .clearOnDetach()
 

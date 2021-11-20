@@ -12,7 +12,6 @@ import com.alvindizon.tampisaw.R
 import com.alvindizon.tampisaw.core.ui.RetryAdapter
 import com.alvindizon.tampisaw.core.utils.setLoadStateListener
 import com.alvindizon.tampisaw.core.utils.toTransitionGroup
-import com.alvindizon.tampisaw.core.utils.waitForTransition
 import com.alvindizon.tampisaw.databinding.FragmentSearchPhotosBinding
 import com.alvindizon.tampisaw.features.gallery.GalleryAdapter
 import com.google.android.material.snackbar.Snackbar
@@ -36,7 +35,7 @@ class SearchPhotosFragment : Fragment(R.layout.fragment_search_photos) {
 
         setupGallery()
 
-        waitForTransition(view)
+        postponeEnterTransition()
     }
 
     override fun onDestroyView() {
@@ -46,20 +45,23 @@ class SearchPhotosFragment : Fragment(R.layout.fragment_search_photos) {
 
     private fun setupGallery() {
         // Add a click listener for each list item
-        val adapter = GalleryAdapter { photo, itemBinding ->
-            photo.id.let {
-                val extras = FragmentNavigatorExtras(
-                    itemBinding.avatar.toTransitionGroup(),
-                    itemBinding.imageView.toTransitionGroup(),
-                    itemBinding.username.toTransitionGroup(),
-                    itemBinding.handle.toTransitionGroup()
-                )
-                findNavController().navigate(
-                    SearchFragmentDirections.detailsAction(it, photo, true),
-                    extras
-                )
-            }
-        }
+        val adapter = GalleryAdapter(
+            onImageLoadFailed = { startPostponedEnterTransition() },
+            onImageResourceReady = { startPostponedEnterTransition() },
+            listener = { photo, itemBinding ->
+                photo.id.let {
+                    val extras = FragmentNavigatorExtras(
+                        itemBinding.avatar.toTransitionGroup(),
+                        itemBinding.imageView.toTransitionGroup(),
+                        itemBinding.username.toTransitionGroup(),
+                        itemBinding.handle.toTransitionGroup()
+                    )
+                    findNavController().navigate(
+                        SearchFragmentDirections.detailsAction(it, photo, true),
+                        extras
+                    )
+                }
+            })
 
         viewModel.photos.observe(viewLifecycleOwner) {
             adapter.submitData(viewLifecycleOwner.lifecycle, it)
