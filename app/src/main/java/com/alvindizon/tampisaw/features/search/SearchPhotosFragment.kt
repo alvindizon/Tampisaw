@@ -55,7 +55,7 @@ class SearchPhotosFragment : Fragment(R.layout.fragment_search_photos) {
                     itemBinding.handle.toTransitionGroup()
                 )
                 findNavController().navigate(
-                    SearchFragmentDirections.detailsAction(it, photo),
+                    SearchFragmentDirections.detailsAction(it, photo, true),
                     extras
                 )
             }

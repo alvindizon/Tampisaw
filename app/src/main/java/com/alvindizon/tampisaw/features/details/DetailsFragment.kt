@@ -31,6 +31,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
+import com.google.android.material.transition.MaterialFadeThrough
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -63,6 +64,12 @@ class DetailsFragment : Fragment(R.layout.fragment_details) {
                 progressBar.isVisible = uiState is Loading
                 image.isVisible = uiState !is Loading
                 handleUiState(uiState, this)
+            }
+        }
+
+        if (args.fromSearch) {
+            enterTransition = MaterialFadeThrough().apply {
+                removeTarget(R.id.toolbar_title)
             }
         }
 
