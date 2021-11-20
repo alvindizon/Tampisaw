@@ -4,10 +4,12 @@ import android.Manifest
 import android.content.Context
 import android.os.Bundle
 import android.view.View
+import android.view.ViewGroup
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import androidx.core.view.doOnPreDraw
 import androidx.core.view.forEach
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
@@ -94,9 +96,9 @@ class DetailsFragment : Fragment(R.layout.fragment_details) {
                     }
                 }
                 is Error -> {
+                    (view?.parent as? ViewGroup)?.doOnPreDraw { startPostponedEnterTransition() }
                     snackbar = root.rootView.showSnackbar(
-                        uiState.message,
-                        Snackbar.LENGTH_SHORT,
+                        uiState.message, Snackbar.LENGTH_SHORT,
                         anchorView = fab
                     )
                 }
@@ -149,6 +151,8 @@ class DetailsFragment : Fragment(R.layout.fragment_details) {
 
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, callback)
 
+        initView()
+
         viewLifecycleOwner.lifecycle.addObserver(viewModel)
 
         viewModel.getPhoto(args.url)
@@ -158,6 +162,25 @@ class DetailsFragment : Fragment(R.layout.fragment_details) {
         snackbar?.dismiss()
         binding = null
         super.onDestroyView()
+    }
+
+    private fun initView() {
+        binding?.apply {
+            // initialize clicklistener for up button so that it can be clicked on error
+            upBtn.setOnClickListener {
+                findNavController().popBackStack()
+            }
+
+            val activity = requireActivity() as AppCompatActivity
+            toolbar.setBackgroundColor(
+                ContextCompat.getColor(
+                    requireContext(),
+                    R.color.toolbar_color
+                )
+            )
+            activity.setSupportActionBar(toolbar)
+            activity.supportActionBar?.setDisplayShowTitleEnabled(false)
+        }
     }
 
     private fun setupFabOptions(photoDetails: PhotoDetails) {
@@ -245,22 +268,6 @@ class DetailsFragment : Fragment(R.layout.fragment_details) {
 
     private fun setupToolbar(photoDetails: PhotoDetails) {
         binding?.apply {
-            val activity = requireActivity() as AppCompatActivity
-            toolbar.setBackgroundColor(
-                ContextCompat.getColor(
-                    requireContext(),
-                    R.color.toolbar_color
-                )
-            )
-            activity.setSupportActionBar(toolbar)
-            activity.supportActionBar?.setDisplayShowTitleEnabled(false)
-
-            upBtn.setOnClickListener {
-                findNavController().navigateUp()
-            }
-
-            toolbarTitle.text = photoDetails.username
-
             Glide.with(avatar)
                 .load(photoDetails.profileImageUrl)
                 .listener(
@@ -274,7 +281,7 @@ class DetailsFragment : Fragment(R.layout.fragment_details) {
 
             // show/hide toolbar on click anywhere on screen
             layout.setOnClickListener {
-                activity.supportActionBar?.apply {
+                (activity as AppCompatActivity).supportActionBar?.apply {
                     if (isShowing) {
                         hide()
                     } else {
