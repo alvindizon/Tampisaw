@@ -26,6 +26,11 @@
             android:name="photo"
             app:argType="com.alvindizon.tampisaw.features.gallery.UnsplashPhoto" />
 
+        <argument
+            android:name="fromSearch"
+            app:argType="boolean"
+            android:defaultValue="false"/>
+
         <action
             android:id="@+id/searchAction"
             app:destination="@id/search_dest"/>
