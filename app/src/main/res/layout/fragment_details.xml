@@ -46,7 +46,6 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight=".10"
-                    android:transitionName="@{@string/transition_avatar(photo.id)}"
                     tools:ignore="ContentDescription" />
 
                 <TextView
@@ -79,7 +78,6 @@
             android:id="@+id/image"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:transitionName="@{@string/transition_image(photo.id)}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
