@@ -4,10 +4,12 @@ import android.Manifest
 import android.content.Context
 import android.os.Bundle
 import android.view.View
+import android.view.ViewGroup
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import androidx.core.view.doOnPreDraw
 import androidx.core.view.forEach
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
@@ -93,6 +95,7 @@ class DetailsFragment : Fragment(R.layout.fragment_details) {
                     }
                 }
                 is Error -> {
+                    (view ?.parent as? ViewGroup)?.doOnPreDraw { startPostponedEnterTransition() }
                     snackbar = root.rootView.showSnackbar(
                         uiState.message,
                         Snackbar.LENGTH_SHORT,
@@ -147,6 +150,8 @@ class DetailsFragment : Fragment(R.layout.fragment_details) {
         }
 
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, callback)
+
+        initView()
 
         viewLifecycleOwner.lifecycle.addObserver(viewModel)
 
@@ -242,7 +247,7 @@ class DetailsFragment : Fragment(R.layout.fragment_details) {
             .show()
     }
 
-    private fun setupToolbar(photoDetails: PhotoDetails) {
+    private fun initView() {
         binding?.apply {
             val activity = requireActivity() as AppCompatActivity
             toolbar.setBackgroundColor(
@@ -257,9 +262,12 @@ class DetailsFragment : Fragment(R.layout.fragment_details) {
             upBtn.setOnClickListener {
                 findNavController().navigateUp()
             }
+        }
+    }
 
-            toolbarTitle.text = photoDetails.username
-
+    private fun setupToolbar(photoDetails: PhotoDetails) {
+        binding?.apply {
+            val activity = requireActivity() as AppCompatActivity
             Glide.with(avatar)
                 .load(photoDetails.profileImageUrl)
                 .placeholder(R.drawable.ic_user)
