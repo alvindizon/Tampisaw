@@ -67,12 +67,7 @@ class CollectionFragment : Fragment(R.layout.fragment_collection) {
         // Add a click listener for each list item
         val adapter = GalleryAdapter { photo, itemBinding ->
             photo.id.let {
-                val extras = FragmentNavigatorExtras(
-                    itemBinding.avatar.toTransitionGroup(),
-                    itemBinding.imageView.toTransitionGroup(),
-                    itemBinding.username.toTransitionGroup(),
-                    itemBinding.handle.toTransitionGroup()
-                )
+                val extras = FragmentNavigatorExtras(itemBinding.username.toTransitionGroup())
                 findNavController().navigate(
                     CollectionFragmentDirections.detailsAction(it, photo),
                     extras

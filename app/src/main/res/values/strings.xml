@@ -29,10 +29,7 @@
     <string name="wallpaper_setting_ongoing">Setting wallpaper…</string>
     <string name="wallpaper_download_error">Error downloading wallpaper.</string>
     <string name="empty_search">No results here, try searching for something else.</string>
-    <string name="transition_image">image %s</string>
     <string name="transition_username">username %s</string>
-    <string name="transition_avatar">avatar %s</string>
-    <string name="transition_handle">handle %s</string>
     <string name="transition_collection_title">collection title %s</string>
     <string name="photo_count">%d photos</string>
 </resources>

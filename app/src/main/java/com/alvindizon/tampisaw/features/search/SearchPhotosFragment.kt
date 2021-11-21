@@ -48,12 +48,7 @@ class SearchPhotosFragment : Fragment(R.layout.fragment_search_photos) {
         // Add a click listener for each list item
         val adapter = GalleryAdapter { photo, itemBinding ->
             photo.id.let {
-                val extras = FragmentNavigatorExtras(
-                    itemBinding.avatar.toTransitionGroup(),
-                    itemBinding.imageView.toTransitionGroup(),
-                    itemBinding.username.toTransitionGroup(),
-                    itemBinding.handle.toTransitionGroup()
-                )
+                val extras = FragmentNavigatorExtras(itemBinding.username.toTransitionGroup())
                 findNavController().navigate(
                     SearchFragmentDirections.detailsAction(it, photo, true),
                     extras
