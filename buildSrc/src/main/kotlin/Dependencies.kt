@@ -36,7 +36,8 @@ object Libs {
         "com.jakewharton.timber:timber:${Versions.timber}",
         "androidx.lifecycle:lifecycle-reactivestreams-ktx:${Versions.lifecycle}",
         "androidx.core:core-splashscreen:${Versions.splashScreen}",
-        "androidx.concurrent:concurrent-futures-ktx:${Versions.concurrent}"
+        "androidx.concurrent:concurrent-futures-ktx:${Versions.concurrent}",
+        "com.google.firebase:firebase-analytics-ktx"
     )
 
     val androidTestImplementations = listOf(
@@ -59,6 +60,8 @@ object Libs {
     )
 
     const val leakCanary = "com.squareup.leakcanary:leakcanary-android:${Versions.leakCanary}"
+
+    const val firebaseBom = "com.google.firebase:firebase-bom:${Versions.firebase}"
 
 }
 
@@ -100,4 +103,6 @@ object Versions {
     const val splashScreen = "1.0.0-alpha01"
     const val leakCanary = "2.7"
     const val concurrent = "1.1.0"
+    const val googleServices = "4.3.10"
+    const val firebase = "29.0.0"
 }

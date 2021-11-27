@@ -18,6 +18,7 @@ buildscript {
         classpath(LegacyPluginClassPath.kotlinPlugin)
         classpath(LegacyPluginClassPath.safeArgs)
         classpath(LegacyPluginClassPath.hiltPlugin)
+        classpath(LegacyPluginClassPath.googleServices)
     }
 }
 
