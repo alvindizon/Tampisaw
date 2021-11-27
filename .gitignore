@@ -90,5 +90,8 @@ Thumbs.db
 # generated files on buildSrc
 /buildSrc/build
 
+# google-services.json
+/app/google-services.json
+
 
 
