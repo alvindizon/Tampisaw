@@ -9,6 +9,7 @@ plugins {
     id(Plugins.hilt)
     id("kotlin-parcelize")
     id(Plugins.googleServices)
+    id(Plugins.crashlytics)
 }
 
 fun getAccessKey(): String {
