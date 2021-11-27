@@ -18,6 +18,10 @@ jobs:
         env:
           ACCESS_KEY: ${{ secrets.ACCESS_KEY }}
         run: echo ACCESS_KEY=$ACCESS_KEY > ./local.properties
+      - name: Access google-services.json
+        env:
+          FIREBASE_SECRET: ${{ secrets.FIREBASE_SECRET }}
+        run: echo $FIREBASE_SECRET > ./app/google-services.json
       - name: Build
         run: ./gradlew lintRelease
   test:
@@ -33,6 +37,10 @@ jobs:
         env:
           ACCESS_KEY: ${{ secrets.ACCESS_KEY }}
         run: echo ACCESS_KEY=$ACCESS_KEY > ./local.properties
+      - name: Access google-services.json
+        env:
+          FIREBASE_SECRET: ${{ secrets.FIREBASE_SECRET }}
+        run: echo $FIREBASE_SECRET > ./app/google-services.json
       - name: Test
         run: ./gradlew testDebugUnitTest
   detekt:
@@ -48,5 +56,9 @@ jobs:
         env:
           ACCESS_KEY: ${{ secrets.ACCESS_KEY }}
         run: echo ACCESS_KEY=$ACCESS_KEY > ./local.properties
+      - name: Access google-services.json
+        env:
+          FIREBASE_SECRET: ${{ secrets.FIREBASE_SECRET }}
+        run: echo $FIREBASE_SECRET > ./app/google-services.json
       - name: Run detekt
         run: ./gradlew detekt
