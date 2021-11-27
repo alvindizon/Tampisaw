@@ -19,6 +19,7 @@ buildscript {
         classpath(LegacyPluginClassPath.safeArgs)
         classpath(LegacyPluginClassPath.hiltPlugin)
         classpath(LegacyPluginClassPath.googleServices)
+        classpath(LegacyPluginClassPath.crashlyticsPlugin)
     }
 }
 
