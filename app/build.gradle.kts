@@ -8,6 +8,7 @@ plugins {
     id(Plugins.kotlinNavSafeArgs)
     id(Plugins.hilt)
     id("kotlin-parcelize")
+    id(Plugins.googleServices)
 }
 
 fun getAccessKey(): String {
@@ -61,6 +62,8 @@ android {
 }
 
 dependencies {
+    implementation(platform(Libs.firebaseBom))
+
     Libs.implementations.forEach {
         implementation(it)
     }

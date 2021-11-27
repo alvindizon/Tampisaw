@@ -12,6 +12,7 @@ object LegacyPluginClassPath {
     const val kotlinPlugin = "org.jetbrains.kotlin:kotlin-gradle-plugin:${Versions.kotlin}"
     const val safeArgs = "androidx.navigation:navigation-safe-args-gradle-plugin:${Versions.navigation}"
     const val hiltPlugin = "com.google.dagger:hilt-android-gradle-plugin:${Versions.hilt}"
+    const val googleServices = "com.google.gms:google-services:${Versions.googleServices}"
 }
 
 object Plugins {
@@ -22,6 +23,7 @@ object Plugins {
     const val hilt = "dagger.hilt.android.plugin"
     val gradleVersions = PluginClass("com.github.ben-manes.versions", Versions.gradleVersions)
     val detekt = PluginClass("io.gitlab.arturbosch.detekt", Versions.detekt)
+    const val googleServices = "com.google.gms.google-services"
 }
 
 data class PluginClass(val name: String, val version: String)
