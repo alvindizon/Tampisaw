@@ -1,0 +1,110 @@
+import io.gitlab.arturbosch.detekt.Detekt
+import io.gitlab.arturbosch.detekt.DetektPlugin
+
+// Top-level build file where you can add configuration options common to all sub-projects/modules.
+buildscript {
+
+    // Define versions in a single place
+    ext {
+        //Sdk and tools
+        minSdkVersion = 23
+        targetSdkVersion = 31
+        compileSdkVersion = 31
+
+        kotlinVersion = "1.5.31"
+        navigationVersion = "2.3.5"
+
+        //App dependencies
+        androidGradlePluginVersion = "7.0.3"
+        appCompatVersion = "1.3.1"
+        constraintLayoutVersion = "2.1.1"
+        espressoVersion = "3.4.0"
+        glideVersion = "4.12.0"
+        ktxVersion = "1.6.0"
+        lifecycleVersion = "2.3.1"
+        pagingVersion = "3.0.1"
+        retrofitVersion = "2.9.0"
+        testExtJunitVersion = "1.1.3"
+        rxJavaVersion = "3.1.2"
+        moshiVersion = "1.12.0"
+        materialVersion = "1.4.0"
+        findBugsVersion = "3.0.2"
+        okHttpLogInterceptorVer = "4.9.2"
+        androidVeilVersion = "1.1.1"
+        preferenceVersion = "1.1.1"
+        fabVersion = "1.2.1"
+        workVersion = "2.7.0"
+        okioVersion = "2.10.0"
+        swipeRefreshLayoutVersion= "1.1.0"
+        coreTestingVersion = "2.1.0"
+        coroutineVersion = "1.5.2"
+        rxAndroidVersion = "3.0.0"
+        rxKotlinVersion = "3.0.1"
+        mockkVersion = "1.12.0"
+        junitVersion = "5.8.1"
+        hiltVersion = "2.39.1"
+        hiltAndroidXVersion = "1.0.0"
+        timberVersion = "5.0.1"
+        splashScreenVersion = "1.0.0-alpha01"
+        leakCanaryVersion = "2.7"
+        concurrentVersion = "1.1.0"
+        googleServicesVersion = "4.3.10"
+        firebaseVersion = "29.0.0"
+        crashlyticsPluginVersion = "2.8.0"
+        detektVersion = "1.19.0"
+    }
+    repositories {
+        google()
+        mavenCentral()
+    }
+    dependencies {
+        classpath "com.android.tools.build:gradle:$androidGradlePluginVersion"
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
+        classpath "androidx.navigation:navigation-safe-args-gradle-plugin:$navigationVersion"
+        classpath "com.google.dagger:hilt-android-gradle-plugin:$hiltVersion"
+        classpath "com.google.gms:google-services:$googleServicesVersion"
+        classpath "com.google.firebase:firebase-crashlytics-gradle:$crashlyticsPluginVersion"
+        // NOTE: Do not place your application dependencies here; they belong
+        // in the individual module build.gradle files
+    }
+}
+
+plugins {
+    id "io.gitlab.arturbosch.detekt" version "1.19.0"
+}
+
+allprojects {
+    repositories {
+        google()
+        mavenCentral()
+    }
+}
+
+subprojects {
+    apply plugin: "io.gitlab.arturbosch.detekt"
+    detekt {
+        failFast = true // fail build on any finding
+        parallel = true //Enables parallel compilation of source files
+        config = files("$rootDir/detekt.yml")
+
+        reports {
+            html.enabled = true // observe findings in your browser with structure and code snippets
+            html.destination = file("build/reports/detekt.html")
+            xml.enabled = false // checkstyle like format mainly for integrations like Jenkins
+            txt.enabled = false // similar to the console output
+            sarif.enabled = false
+        }
+    }
+}
+
+task clean(type: Delete) {
+    delete rootProject.buildDir
+}
+
+tasks.withType(Detekt) {
+    exclude "**/src/androidTest/**"
+    exclude "**/src/test/**"
+    exclude "**/test/src/**"
+    exclude "**/build/**"
+    exclude "**/resources/**"
+}
