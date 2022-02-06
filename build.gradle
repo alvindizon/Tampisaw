@@ -37,7 +37,7 @@ buildscript {
         okioVersion = "2.10.0"
         swipeRefreshLayoutVersion= "1.1.0"
         coreTestingVersion = "2.1.0"
-        coroutineVersion = "1.5.2"
+        coroutineVersion = "1.6.0"
         rxAndroidVersion = "3.0.0"
         rxKotlinVersion = "3.0.1"
         mockkVersion = "1.12.0"
