@@ -34,7 +34,7 @@ buildscript {
         preferenceVersion = "1.1.1"
         fabVersion = "1.2.1"
         workVersion = "2.7.0"
-        okioVersion = "2.10.0"
+        okioVersion = "3.0.0"
         swipeRefreshLayoutVersion= "1.1.0"
         coreTestingVersion = "2.1.0"
         coroutineVersion = "1.5.2"
