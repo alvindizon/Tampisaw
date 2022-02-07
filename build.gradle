@@ -33,7 +33,7 @@ buildscript {
         androidVeilVersion = "1.1.1"
         preferenceVersion = "1.1.1"
         fabVersion = "1.2.1"
-        workVersion = "2.7.0"
+        workVersion = "2.7.1"
         okioVersion = "3.0.0"
         swipeRefreshLayoutVersion= "1.1.0"
         coreTestingVersion = "2.1.0"
