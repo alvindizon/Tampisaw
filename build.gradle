@@ -21,7 +21,7 @@ buildscript {
         espressoVersion = "3.4.0"
         glideVersion = "4.12.0"
         ktxVersion = "1.7.0"
-        lifecycleVersion = "2.3.1"
+        lifecycleVersion = "2.4.0"
         pagingVersion = "3.0.1"
         retrofitVersion = "2.9.0"
         testExtJunitVersion = "1.1.3"
