@@ -50,7 +50,7 @@ buildscript {
         concurrentVersion = "1.1.0"
         googleServicesVersion = "4.3.10"
         firebaseVersion = "29.0.4"
-        crashlyticsPluginVersion = "2.8.0"
+        crashlyticsPluginVersion = "2.8.1"
     }
     repositories {
         google()
