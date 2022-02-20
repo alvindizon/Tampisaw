@@ -46,7 +46,7 @@ buildscript {
         hiltAndroidXVersion = "1.0.0"
         timberVersion = "5.0.1"
         splashScreenVersion = "1.0.0-alpha01"
-        leakCanaryVersion = "2.7"
+        leakCanaryVersion = "2.8.1"
         concurrentVersion = "1.1.0"
         googleServicesVersion = "4.3.10"
         firebaseVersion = "29.0.4"
