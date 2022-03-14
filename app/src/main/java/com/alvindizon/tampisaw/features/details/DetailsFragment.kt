@@ -76,7 +76,7 @@ class DetailsFragment : Fragment(R.layout.fragment_details) {
         }
 
         sharedElementEnterTransition =
-            TransitionInflater.from(context).inflateTransition(android.R.transition.move)
+            TransitionInflater.from(requireContext()).inflateTransition(android.R.transition.move)
     }
 
     private fun handleUiState(uiState: DetailsUIState?, binding: FragmentDetailsBinding) {

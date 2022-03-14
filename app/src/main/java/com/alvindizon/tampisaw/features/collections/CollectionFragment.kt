@@ -40,7 +40,7 @@ class CollectionFragment : Fragment(R.layout.fragment_collection) {
         }
 
         sharedElementEnterTransition =
-            TransitionInflater.from(context).inflateTransition(android.R.transition.move)
+            TransitionInflater.from(requireContext()).inflateTransition(android.R.transition.move)
 
         viewModel.getAllPhotos(args.id)
     }

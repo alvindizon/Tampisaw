@@ -31,7 +31,7 @@ buildscript {
         findBugsVersion = "3.0.2"
         okHttpLogInterceptorVer = "4.9.3"
         androidVeilVersion = "1.1.2"
-        preferenceVersion = "1.1.1"
+        preferenceVersion = "1.2.0"
         fabVersion = "1.2.1"
         workVersion = "2.7.1"
         okioVersion = "3.0.0"
