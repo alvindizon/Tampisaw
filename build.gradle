@@ -40,7 +40,7 @@ buildscript {
         coroutineVersion = "1.5.2"
         rxAndroidVersion = "3.0.0"
         rxKotlinVersion = "3.0.1"
-        mockkVersion = "1.12.2"
+        mockkVersion = "1.12.3"
         junitVersion = "5.8.2"
         hiltVersion = "2.41"
         hiltAndroidXVersion = "1.0.0"
