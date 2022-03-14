@@ -123,8 +123,8 @@ dependencies {
     implementation "androidx.preference:preference:$preferenceVersion"
 
     //Navigation
-    implementation "androidx.navigation:navigation-fragment-ktx:$rootProject.navigationVersion"
-    implementation "androidx.navigation:navigation-ui-ktx:$rootProject.navigationVersion"
+    implementation "androidx.navigation:navigation-fragment-ktx:$navigationVersion"
+    implementation "androidx.navigation:navigation-ui-ktx:$navigationVersion"
     
     // Expandable FAB
     implementation "com.nambimobile.widgets:expandable-fab:$fabVersion"
