@@ -13,10 +13,8 @@ import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.kotlin.plusAssign
 import io.reactivex.rxjava3.kotlin.subscribeBy
 import io.reactivex.rxjava3.schedulers.Schedulers
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import javax.inject.Inject
 
-@ExperimentalCoroutinesApi
 @HiltViewModel
 class CollectionViewModel @Inject constructor(
     private val getCollectionPhotosUseCase: GetCollectionPhotosUseCase

@@ -16,9 +16,8 @@ import com.alvindizon.tampisaw.databinding.FragmentSearchCollectionListBinding
 import com.alvindizon.tampisaw.features.collections.CollectionAdapter
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 
-@ExperimentalCoroutinesApi
+
 @AndroidEntryPoint
 class SearchCollectionListFragment : Fragment(R.layout.fragment_search_collection_list) {
 

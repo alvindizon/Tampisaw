@@ -17,9 +17,7 @@ import com.alvindizon.tampisaw.databinding.FragmentSearchPhotosBinding
 import com.alvindizon.tampisaw.features.gallery.GalleryAdapter
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 
-@ExperimentalCoroutinesApi
 @AndroidEntryPoint
 class SearchPhotosFragment : Fragment(R.layout.fragment_search_photos) {
 

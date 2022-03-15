@@ -1,14 +1,18 @@
 package com.alvindizon.tampisaw.features.search
 
-import com.alvindizon.tampisaw.*
+import com.alvindizon.tampisaw.CoroutineExtension
+import com.alvindizon.tampisaw.InstantExecutorExtension
+import com.alvindizon.tampisaw.RxSchedulerExtension
+import com.alvindizon.tampisaw.TestConstants
+import com.alvindizon.tampisaw.collectData
 import com.alvindizon.tampisaw.domain.SearchCollectionsUseCase
 import com.alvindizon.tampisaw.domain.SearchPhotosUseCase
+import com.alvindizon.tampisaw.testObserver
 import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.verify
 import io.reactivex.rxjava3.core.Observable
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runBlockingTest
 import org.junit.Assert.assertEquals
 import org.junit.jupiter.api.BeforeEach
@@ -16,7 +20,7 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 import java.io.IOException
 
-@ExperimentalCoroutinesApi
+
 @ExtendWith(value = [InstantExecutorExtension::class, RxSchedulerExtension::class, CoroutineExtension::class])
 class SearchViewModelTest {
 
