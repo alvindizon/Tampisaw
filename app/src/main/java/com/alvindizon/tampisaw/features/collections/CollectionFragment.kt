@@ -67,7 +67,7 @@ class CollectionFragment : Fragment(R.layout.fragment_collection) {
             photo.id.let {
                 val extras = FragmentNavigatorExtras(itemBinding.username.toTransitionGroup())
                 findNavController().navigate(
-                    CollectionFragmentDirections.detailsAction(it, photo),
+                    CollectionFragmentDirections.detailsAction(photo, it),
                     extras
                 )
             }

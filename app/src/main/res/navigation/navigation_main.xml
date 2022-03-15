@@ -17,14 +17,15 @@
         android:id="@+id/details_dest"
         android:name="com.alvindizon.tampisaw.features.details.DetailsFragment"
         android:label="fragment_details" >
-        <argument
-            android:name="url"
-            app:argType="string"
-            android:defaultValue="" />
 
         <argument
             android:name="photo"
             app:argType="com.alvindizon.tampisaw.features.gallery.UnsplashPhoto" />
+
+        <argument
+            android:name="url"
+            app:argType="string"
+            android:defaultValue="" />
 
         <argument
             android:name="fromSearch"
