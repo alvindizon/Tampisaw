@@ -14,9 +14,8 @@ import com.alvindizon.tampisaw.core.utils.hideKeyboard
 import com.alvindizon.tampisaw.databinding.FragmentSearchBinding
 import com.google.android.material.tabs.TabLayoutMediator
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 
-@ExperimentalCoroutinesApi
+
 @AndroidEntryPoint
 class SearchFragment : Fragment(R.layout.fragment_search) {
 
@@ -75,7 +74,6 @@ private class SearchAdapter(fragmentManager: FragmentManager, lifecycle: Lifecyc
 
     override fun getItemCount(): Int = SearchScreens.values().size
 
-    @ExperimentalCoroutinesApi
     override fun createFragment(position: Int): Fragment {
         return if (getItemViewType(position) == R.string.photos) {
             SearchPhotosFragment.newInstance()

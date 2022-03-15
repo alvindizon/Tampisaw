@@ -2,8 +2,11 @@ package com.alvindizon.tampisaw
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
-import androidx.paging.*
-import kotlinx.coroutines.ExperimentalCoroutinesApi
+import androidx.paging.CombinedLoadStates
+import androidx.paging.DifferCallback
+import androidx.paging.NullPaddedList
+import androidx.paging.PagingData
+import androidx.paging.PagingDataDiffer
 import kotlinx.coroutines.test.TestCoroutineDispatcher
 import org.mockito.Mockito
 
@@ -16,7 +19,7 @@ private val dcb = object : DifferCallback {
     override fun onRemoved(position: Int, count: Int) {}
 }
 
-@ExperimentalCoroutinesApi
+
 suspend fun <T : Any> PagingData<T>.collectData(): List<T> {
     val items = mutableListOf<T>()
     val dif = object : PagingDataDiffer<T>(dcb, TestCoroutineDispatcher()) {
