@@ -11,7 +11,7 @@ buildscript {
         targetSdkVersion = 31
         compileSdkVersion = 31
 
-        kotlinVersion = "1.5.31"
+        kotlinVersion = "1.6.10"
         navigationVersion = "2.3.5"
 
         //App dependencies
