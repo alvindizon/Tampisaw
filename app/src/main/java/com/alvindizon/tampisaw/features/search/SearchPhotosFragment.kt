@@ -48,7 +48,7 @@ class SearchPhotosFragment : Fragment(R.layout.fragment_search_photos) {
             photo.id.let {
                 val extras = FragmentNavigatorExtras(itemBinding.username.toTransitionGroup())
                 findNavController().navigate(
-                    SearchFragmentDirections.detailsAction(it, photo, true),
+                    SearchFragmentDirections.detailsAction(photo, it, true),
                     extras
                 )
             }
