@@ -48,6 +48,7 @@ buildscript {
         googleServicesVersion = "4.3.10"
         firebaseVersion = "29.3.0"
         crashlyticsPluginVersion = "2.8.1"
+        detektVersion = "1.19.0"
     }
     repositories {
         google()
@@ -66,7 +67,7 @@ buildscript {
 }
 
 plugins {
-    id "io.gitlab.arturbosch.detekt" version "1.19.0"
+    id "io.gitlab.arturbosch.detekt" version "$detektVersion"
 }
 
 allprojects {
