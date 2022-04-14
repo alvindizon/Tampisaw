@@ -13,7 +13,7 @@ import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.verify
 import io.reactivex.rxjava3.core.Observable
-import kotlinx.coroutines.test.runBlockingTest
+import kotlinx.coroutines.runBlocking
 import org.junit.Assert.assertEquals
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -30,12 +30,12 @@ class SearchViewModelTest {
     @MockK
     lateinit var searchCollectionsUseCase: SearchCollectionsUseCase
 
-    private lateinit var SUT: SearchViewModel
+    private lateinit var viewModel: SearchViewModel
 
     @BeforeEach
     fun setUp() {
         MockKAnnotations.init(this)
-        SUT = SearchViewModel(searchPhotosUseCase, searchCollectionsUseCase)
+        viewModel = SearchViewModel(searchPhotosUseCase, searchCollectionsUseCase)
     }
 
     @Test
@@ -46,7 +46,7 @@ class SearchViewModelTest {
         )
         val querySlots = mutableListOf<String>()
 
-        SUT.updateQuery(testQuery)
+        viewModel.updateQuery(testQuery)
 
         verify(exactly = 1) { searchPhotosUseCase.searchPhotos(capture(querySlots)) }
         verify(exactly = 1) { searchCollectionsUseCase.searchCollections(capture(querySlots)) }
@@ -57,15 +57,15 @@ class SearchViewModelTest {
 
     @Test
     fun `searchCollections loads correct PagingData of type UnsplashCollection`() {
-        val uiState = SUT.collections.testObserver()
+        val uiState = viewModel.collections.testObserver()
 
         every { searchCollectionsUseCase.searchCollections(testQuery) } returns Observable.just(
             TestConstants.collectionsPagingData
         )
 
-        SUT.searchCollections(testQuery)
+        viewModel.searchCollections(testQuery)
 
-        runBlockingTest {
+        runBlocking {
             val collectionsList = uiState.observedValues[0]?.collectData()
             assertEquals(TestConstants.unsplashCollection, collectionsList?.get(0))
             assertEquals(TestConstants.unsplashCollection2, collectionsList?.get(1))
@@ -74,13 +74,13 @@ class SearchViewModelTest {
 
     @Test
     fun `searchPhotos loads correct PagingData of type UnsplashPhoto`() {
-        val uiState = SUT.photos.testObserver()
+        val uiState = viewModel.photos.testObserver()
 
         every { searchPhotosUseCase.searchPhotos(testQuery) } returns Observable.just(TestConstants.photoPagingData)
 
-        SUT.searchPhotos(testQuery)
+        viewModel.searchPhotos(testQuery)
 
-        runBlockingTest {
+        runBlocking {
             val photoList = uiState.observedValues[0]?.collectData()
             assertEquals(TestConstants.unsplashPhoto, photoList?.get(0))
             assertEquals(TestConstants.unsplashPhoto2, photoList?.get(1))
@@ -89,24 +89,24 @@ class SearchViewModelTest {
 
     @Test
     fun `empty paging data if error is encountered on getAllPhotos`() {
-        val uiState = SUT.photos.testObserver()
+        val uiState = viewModel.photos.testObserver()
 
         every { searchPhotosUseCase.searchPhotos(testQuery) } returns Observable.error(IOException())
 
-        SUT.searchPhotos(testQuery)
+        viewModel.searchPhotos(testQuery)
 
         uiState.observedValues.isEmpty().let { assert(it) }
     }
 
     @Test
     fun `empty paging data if error is encountered on getAllCollections`() {
-        val uiState = SUT.collections.testObserver()
+        val uiState = viewModel.collections.testObserver()
 
         every { searchCollectionsUseCase.searchCollections(testQuery) } returns Observable.error(
             IOException()
         )
 
-        SUT.searchCollections(testQuery)
+        viewModel.searchCollections(testQuery)
 
         uiState.observedValues.isEmpty().let { assert(it) }
     }

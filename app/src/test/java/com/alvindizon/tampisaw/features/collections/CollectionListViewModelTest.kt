@@ -11,38 +11,38 @@ import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.reactivex.rxjava3.core.Observable
-import kotlinx.coroutines.test.runBlockingTest
+import kotlinx.coroutines.runBlocking
 import org.junit.Assert.assertEquals
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 import java.io.IOException
 
-@ExtendWith(value = [InstantExecutorExtension::class, RxSchedulerExtension::class, CoroutineExtension::class])
+@ExtendWith(InstantExecutorExtension::class, RxSchedulerExtension::class, CoroutineExtension::class)
 class CollectionListViewModelTest {
 
     @MockK
     lateinit var getAllCollectionsUseCase: GetAllCollectionsUseCase
 
-    private lateinit var SUT: CollectionListViewModel
+    private lateinit var viewModel: CollectionListViewModel
 
     @BeforeEach
     fun setUp() {
         MockKAnnotations.init(this)
-        SUT = CollectionListViewModel(getAllCollectionsUseCase)
+        viewModel = CollectionListViewModel(getAllCollectionsUseCase)
     }
 
     @Test
     fun `getAllCollections loads correct PagingData of type UnsplashCollection`() {
-        val uiState = SUT.uiState.testObserver()
+        val uiState = viewModel.uiState.testObserver()
 
         every {
             getAllCollectionsUseCase.getAllCollections()
         } returns Observable.just(TestConstants.collectionsPagingData)
 
-        SUT.getAllCollections()
+        viewModel.getAllCollections()
 
-        runBlockingTest {
+        runBlocking {
             val collectionsList = uiState.observedValues[0]?.collectData()
             assertEquals(TestConstants.unsplashCollection, collectionsList?.get(0))
             assertEquals(TestConstants.unsplashCollection2, collectionsList?.get(1))
@@ -51,11 +51,11 @@ class CollectionListViewModelTest {
 
     @Test
     fun `empty paging data if error is encountered`() {
-        val uiState = SUT.uiState.testObserver()
+        val uiState = viewModel.uiState.testObserver()
 
         every { getAllCollectionsUseCase.getAllCollections() } returns Observable.error(IOException())
 
-        SUT.getAllCollections()
+        viewModel.getAllCollections()
 
         uiState.observedValues.isEmpty().let { assert(it) }
     }

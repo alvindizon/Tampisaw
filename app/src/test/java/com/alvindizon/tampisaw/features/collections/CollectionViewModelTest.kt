@@ -11,7 +11,7 @@ import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.reactivex.rxjava3.core.Observable
-import kotlinx.coroutines.test.runBlockingTest
+import kotlinx.coroutines.runBlocking
 import org.junit.Assert.assertEquals
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -25,25 +25,25 @@ class CollectionViewModelTest {
     @MockK
     lateinit var getCollectionPhotoUseCase: GetCollectionPhotosUseCase
 
-    private lateinit var SUT: CollectionViewModel
+    private lateinit var viewModel: CollectionViewModel
 
     @BeforeEach
     fun setUp() {
         MockKAnnotations.init(this)
-        SUT = CollectionViewModel(getCollectionPhotoUseCase)
+        viewModel = CollectionViewModel(getCollectionPhotoUseCase)
     }
 
     @Test
     fun `getAllPhotos load correct PagingData of type UnsplashPhoto`() {
-        val uiState = SUT.uiState.testObserver()
+        val uiState = viewModel.uiState.testObserver()
 
         every { getCollectionPhotoUseCase.getCollectionPhotos(testId) } returns Observable.just(
             TestConstants.photoPagingData
         )
 
-        SUT.getAllPhotos(testId)
+        viewModel.getAllPhotos(testId)
 
-        runBlockingTest {
+        runBlocking {
             val photoList = uiState.observedValues[0]?.collectData()
             assertEquals(TestConstants.unsplashPhoto, photoList?.get(0))
             assertEquals(TestConstants.unsplashPhoto2, photoList?.get(1))
@@ -53,13 +53,13 @@ class CollectionViewModelTest {
 
     @Test
     fun `empty paging data if error is encountered`() {
-        val uiState = SUT.uiState.testObserver()
+        val uiState = viewModel.uiState.testObserver()
 
         every { getCollectionPhotoUseCase.getCollectionPhotos(testId) } returns Observable.error(
             IOException()
         )
 
-        SUT.getAllPhotos(testId)
+        viewModel.getAllPhotos(testId)
 
         uiState.observedValues.isEmpty().let { assert(it) }
     }
