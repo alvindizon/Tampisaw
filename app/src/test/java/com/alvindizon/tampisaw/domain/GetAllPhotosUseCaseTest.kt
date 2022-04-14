@@ -5,7 +5,7 @@ import com.alvindizon.tampisaw.collectData
 import io.mockk.every
 import io.mockk.mockk
 import io.reactivex.rxjava3.core.Observable
-import kotlinx.coroutines.test.runBlockingTest
+import kotlinx.coroutines.runBlocking
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -28,7 +28,7 @@ class GetAllPhotosUseCaseTest {
 
         val pagingData = useCase.getAllPhotos().test().values()[0]
 
-        runBlockingTest {
+        runBlocking {
             val list = pagingData.collectData()
             assertEquals(TestConstants.unsplashPhoto, list[0])
             assertEquals(TestConstants.unsplashPhoto2, list[1])

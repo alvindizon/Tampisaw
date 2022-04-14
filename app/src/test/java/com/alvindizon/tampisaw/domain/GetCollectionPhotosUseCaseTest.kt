@@ -7,7 +7,7 @@ import io.mockk.mockk
 import io.mockk.slot
 import io.mockk.verify
 import io.reactivex.rxjava3.core.Observable
-import kotlinx.coroutines.test.runBlockingTest
+import kotlinx.coroutines.runBlocking
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -36,7 +36,7 @@ class GetCollectionPhotosUseCaseTest {
 
         assertEquals("eni", querySlot.captured)
 
-        runBlockingTest {
+        runBlocking {
             val list = pagingData.collectData()
             assertEquals(TestConstants.unsplashPhoto, list[0])
             assertEquals(TestConstants.unsplashPhoto2, list[1])

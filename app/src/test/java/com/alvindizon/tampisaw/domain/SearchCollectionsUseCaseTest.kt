@@ -7,7 +7,7 @@ import io.mockk.mockk
 import io.mockk.slot
 import io.mockk.verify
 import io.reactivex.rxjava3.core.Observable
-import kotlinx.coroutines.test.runBlockingTest
+import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -38,7 +38,7 @@ class SearchCollectionsUseCaseTest {
 
         assertEquals("eni", querySlot.captured)
 
-        runBlockingTest {
+        runTest {
             val list = pagingData.collectData()
             assertEquals(TestConstants.unsplashCollection, list[0])
             assertEquals(TestConstants.unsplashCollection2, list[1])
