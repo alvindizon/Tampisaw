@@ -2,7 +2,6 @@ package com.alvindizon.tampisaw
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
-import androidx.paging.CombinedLoadStates
 import androidx.paging.DifferCallback
 import androidx.paging.NullPaddedList
 import androidx.paging.PagingData
@@ -27,7 +26,6 @@ suspend fun <T : Any> PagingData<T>.collectData(): List<T> {
         override suspend fun presentNewList(
             previousList: NullPaddedList<T>,
             newList: NullPaddedList<T>,
-            newCombinedLoadStates: CombinedLoadStates,
             lastAccessedIndex: Int,
             onListPresentable: () -> Unit
         ): Int? {
