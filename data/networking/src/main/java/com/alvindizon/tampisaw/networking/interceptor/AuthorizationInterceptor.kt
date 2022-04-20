@@ -1,4 +1,4 @@
-package com.alvindizon.tampisaw.data.networking.interceptor
+package com.alvindizon.tampisaw.networking.interceptor
 
 import okhttp3.Interceptor
 import okhttp3.Response

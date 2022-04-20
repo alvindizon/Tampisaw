@@ -1,4 +1,4 @@
-package com.alvindizon.tampisaw.data.networking.exception
+package com.alvindizon.tampisaw.networking.exception
 
 import java.io.IOException
 

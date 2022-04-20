@@ -1,6 +1,6 @@
 package com.alvindizon.tampisaw.domain
 
-import com.alvindizon.tampisaw.data.networking.model.getphoto.GetPhotoResponse
+import com.alvindizon.tampisaw.api.model.getphoto.GetPhotoResponse
 import io.reactivex.rxjava3.core.Single
 import javax.inject.Inject
 

@@ -1,16 +1,16 @@
 package com.alvindizon.tampisaw
 
 import androidx.paging.PagingData
+import com.alvindizon.tampisaw.api.model.getcollections.CoverPhoto
+import com.alvindizon.tampisaw.api.model.getcollections.CoverPhotoUrl
+import com.alvindizon.tampisaw.api.model.getcollections.GetCollectionsResponse
+import com.alvindizon.tampisaw.api.model.getcollections.User
+import com.alvindizon.tampisaw.api.model.listphotos.ListPhotosResponse
+import com.alvindizon.tampisaw.api.model.listphotos.ProfileImage
+import com.alvindizon.tampisaw.api.model.listphotos.Urls
 import com.alvindizon.tampisaw.core.toUnsplashCollection
 import com.alvindizon.tampisaw.core.toUnsplashPhoto
 import com.alvindizon.tampisaw.data.download.ImageDownloader
-import com.alvindizon.tampisaw.data.networking.model.getcollections.CoverPhoto
-import com.alvindizon.tampisaw.data.networking.model.getcollections.CoverPhotoUrl
-import com.alvindizon.tampisaw.data.networking.model.getcollections.GetCollectionsResponse
-import com.alvindizon.tampisaw.data.networking.model.getcollections.User
-import com.alvindizon.tampisaw.data.networking.model.listphotos.ListPhotosResponse
-import com.alvindizon.tampisaw.data.networking.model.listphotos.ProfileImage
-import com.alvindizon.tampisaw.data.networking.model.listphotos.Urls
 
 internal object TestConstants {
 
@@ -18,7 +18,7 @@ internal object TestConstants {
         "#FFFFFF", null, "desc",
         1250, "id", false, 1,
         Urls("raw", "full", "regular", "small", "thumb"),
-        com.alvindizon.tampisaw.data.networking.model.listphotos.User(
+        com.alvindizon.tampisaw.api.model.listphotos.User(
             "id",
             "location",
             "name", ProfileImage("profileImageUrl"), "username"
@@ -29,7 +29,7 @@ internal object TestConstants {
         "#000000", null, "desc2",
         1250, "id2", false, 1,
         Urls("raw", "full", "regular", "small", "thumb"),
-        com.alvindizon.tampisaw.data.networking.model.listphotos.User(
+        com.alvindizon.tampisaw.api.model.listphotos.User(
             "id",
             "location",
             "name", ProfileImage("profileImageUrl"), "username"
@@ -38,11 +38,12 @@ internal object TestConstants {
     )
     val unsplashPhoto = listPhotosResponse.toUnsplashPhoto()
     val unsplashPhoto2 = listPhotosResponse2.toUnsplashPhoto()
-    val unsplashPhotos = mutableListOf(unsplashPhoto, unsplashPhoto2)
+    private val unsplashPhotos = mutableListOf(unsplashPhoto, unsplashPhoto2)
     val photoPagingData = PagingData.from(unsplashPhotos)
-    val listPhotosPagingData = PagingData.from(mutableListOf(listPhotosResponse, listPhotosResponse2))
+    val listPhotosPagingData =
+        PagingData.from(mutableListOf(listPhotosResponse, listPhotosResponse2))
 
-    val collectionsResponse = GetCollectionsResponse(
+    private val collectionsResponse = GetCollectionsResponse(
         "123",
         "collection",
         "wala lang",
@@ -57,7 +58,7 @@ internal object TestConstants {
         )
     )
 
-    val collectionsResponse2 = GetCollectionsResponse(
+    private val collectionsResponse2 = GetCollectionsResponse(
         "124",
         "collection2",
         "wala lang din",
@@ -82,6 +83,7 @@ internal object TestConstants {
     const val QUALITY = "full"
     const val FILENAME = "ASGAASGAS"
     const val ID = "id"
+
     // mocking workdata results in error(SignedCall not matching), need to create input data to match call
     val inputData = ImageDownloader.createInputData(QUALITY, FILENAME, ID)
 

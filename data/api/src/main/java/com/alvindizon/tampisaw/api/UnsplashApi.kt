@@ -1,10 +1,10 @@
-package com.alvindizon.tampisaw.data.networking.api
+package com.alvindizon.tampisaw.api
 
-import com.alvindizon.tampisaw.data.networking.model.getcollections.GetCollectionsResponse
-import com.alvindizon.tampisaw.data.networking.model.getphoto.GetPhotoResponse
-import com.alvindizon.tampisaw.data.networking.model.listphotos.ListPhotosResponse
-import com.alvindizon.tampisaw.data.networking.model.search.SearchCollectionsResponse
-import com.alvindizon.tampisaw.data.networking.model.search.SearchPhotosResponse
+import com.alvindizon.tampisaw.api.model.getcollections.GetCollectionsResponse
+import com.alvindizon.tampisaw.api.model.getphoto.GetPhotoResponse
+import com.alvindizon.tampisaw.api.model.listphotos.ListPhotosResponse
+import com.alvindizon.tampisaw.api.model.search.SearchCollectionsResponse
+import com.alvindizon.tampisaw.api.model.search.SearchPhotosResponse
 import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.core.Single
 import okhttp3.ResponseBody
