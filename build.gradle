@@ -32,7 +32,7 @@ buildscript {
         preferenceVersion = "1.2.0"
         fabVersion = "1.2.1"
         workVersion = "2.7.1"
-        okioVersion = "3.0.0"
+        okioVersion = "3.1.0"
         swipeRefreshLayoutVersion= "1.1.0"
         coreTestingVersion = "2.1.0"
         coroutineVersion = "1.6.1"
