@@ -1,4 +1,4 @@
-package com.alvindizon.tampisaw.data.networking.model.getcollections
+package com.alvindizon.tampisaw.api.model.getcollections
 
 
 import com.squareup.moshi.Json

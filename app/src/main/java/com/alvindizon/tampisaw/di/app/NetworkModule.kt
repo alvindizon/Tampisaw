@@ -1,9 +1,9 @@
 package com.alvindizon.tampisaw.di.app
 
 import com.alvindizon.tampisaw.BuildConfig
-import com.alvindizon.tampisaw.data.networking.api.UnsplashApi
-import com.alvindizon.tampisaw.data.networking.interceptor.AuthorizationInterceptor
-import com.alvindizon.tampisaw.data.networking.interceptor.ConnectivityInterceptor
+import com.alvindizon.tampisaw.api.UnsplashApi
+import com.alvindizon.tampisaw.networking.interceptor.AuthorizationInterceptor
+import com.alvindizon.tampisaw.networking.interceptor.ConnectivityInterceptor
 import com.squareup.moshi.Moshi
 import dagger.Module
 import dagger.Provides

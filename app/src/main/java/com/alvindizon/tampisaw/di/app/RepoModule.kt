@@ -1,7 +1,7 @@
 package com.alvindizon.tampisaw.di.app
 
+import com.alvindizon.tampisaw.api.UnsplashApi
 import com.alvindizon.tampisaw.data.UnsplashRepoImpl
-import com.alvindizon.tampisaw.data.networking.api.UnsplashApi
 import com.alvindizon.tampisaw.domain.UnsplashRepo
 import dagger.Module
 import dagger.Provides

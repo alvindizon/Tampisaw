@@ -1,4 +1,4 @@
-package com.alvindizon.tampisaw.data.networking.model.listphotos
+package com.alvindizon.tampisaw.api.model.listphotos
 
 
 import com.squareup.moshi.Json

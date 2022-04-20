@@ -22,11 +22,11 @@ import androidx.work.WorkManager
 import androidx.work.WorkerParameters
 import androidx.work.rxjava3.RxWorker
 import androidx.work.workDataOf
+import com.alvindizon.tampisaw.api.UnsplashApi
 import com.alvindizon.tampisaw.core.ui.NotifsHelper
 import com.alvindizon.tampisaw.core.utils.FILE_PROVIDER_AUTHORITY
 import com.alvindizon.tampisaw.core.utils.TAMPISAW_LEGACY_PATH
 import com.alvindizon.tampisaw.core.utils.TAMPISAW_RELATIVE_PATH
-import com.alvindizon.tampisaw.data.networking.api.UnsplashApi
 import com.google.common.util.concurrent.ListenableFuture
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
