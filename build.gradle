@@ -10,7 +10,7 @@ buildscript {
         minSdkVersion = 23
         targetSdkVersion = 31
         compileSdkVersion = 31
-        kotlinVersion = "1.6.20"
+        kotlinVersion = "1.6.21"
         navigationVersion = "2.4.2"
         //App dependencies
         androidGradlePluginVersion = "7.1.3"
