@@ -6,8 +6,8 @@ import androidx.databinding.ObservableField
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.alvindizon.tampisaw.core.toPhotoDetails
 import com.alvindizon.tampisaw.core.ui.BaseViewModel
+import com.alvindizon.tampisaw.core.toPhotoDetails
 import com.alvindizon.tampisaw.domain.DownloadPhotoUseCase
 import com.alvindizon.tampisaw.domain.GetPhotoUseCase
 import com.alvindizon.tampisaw.domain.SetWallpaperByBitmapUseCase

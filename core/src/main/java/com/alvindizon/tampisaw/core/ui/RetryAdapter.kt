@@ -6,11 +6,12 @@ import androidx.core.view.isVisible
 import androidx.paging.LoadState
 import androidx.paging.LoadStateAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.alvindizon.tampisaw.R
-import com.alvindizon.tampisaw.databinding.ItemRetryBinding
+import com.alvindizon.tampisaw.core.R
+import com.alvindizon.tampisaw.core.databinding.ItemRetryBinding
 
 // this adapter displays a progress indicator and a retry button. this is meant to be used as a footer/header
-class RetryAdapter (private val retry: () -> Unit) : LoadStateAdapter<RetryAdapter.RetryViewHolder>() {
+class RetryAdapter(private val retry: () -> Unit) :
+    LoadStateAdapter<RetryAdapter.RetryViewHolder>() {
     override fun onBindViewHolder(holder: RetryViewHolder, loadState: LoadState) {
         holder.bind(loadState)
     }
@@ -19,7 +20,7 @@ class RetryAdapter (private val retry: () -> Unit) : LoadStateAdapter<RetryAdapt
         return RetryViewHolder.create(parent, retry)
     }
 
-    class RetryViewHolder (
+    class RetryViewHolder(
         private val binding: ItemRetryBinding,
         retry: () -> Unit
     ) : RecyclerView.ViewHolder(binding.root) {
@@ -37,7 +38,7 @@ class RetryAdapter (private val retry: () -> Unit) : LoadStateAdapter<RetryAdapt
             binding.errorMsg.isVisible = loadState !is LoadState.Loading
         }
 
-        companion object{
+        companion object {
             fun create(parent: ViewGroup, retry: () -> Unit): RetryViewHolder {
                 val view = LayoutInflater.from(parent.context)
                     .inflate(R.layout.item_retry, parent, false)

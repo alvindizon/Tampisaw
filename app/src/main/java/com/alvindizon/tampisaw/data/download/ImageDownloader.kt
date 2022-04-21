@@ -24,9 +24,9 @@ import androidx.work.rxjava3.RxWorker
 import androidx.work.workDataOf
 import com.alvindizon.tampisaw.api.UnsplashApi
 import com.alvindizon.tampisaw.core.ui.NotifsHelper
-import com.alvindizon.tampisaw.core.utils.FILE_PROVIDER_AUTHORITY
 import com.alvindizon.tampisaw.core.utils.TAMPISAW_LEGACY_PATH
 import com.alvindizon.tampisaw.core.utils.TAMPISAW_RELATIVE_PATH
+import com.alvindizon.tampisaw.core.utils.getFileProviderAuthority
 import com.google.common.util.concurrent.ListenableFuture
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
@@ -196,7 +196,7 @@ class ImageDownloader @AssistedInject constructor(
 
             // we need to use FileProvider since we're targeting >= API 24, if not then using
             // Uri.fromFile would cause FileUriExposedException
-            val uri = FileProvider.getUriForFile(context, FILE_PROVIDER_AUTHORITY, file)
+            val uri = FileProvider.getUriForFile(context, context.getFileProviderAuthority(), file)
             emitter.onSuccess(uri)
         }
 

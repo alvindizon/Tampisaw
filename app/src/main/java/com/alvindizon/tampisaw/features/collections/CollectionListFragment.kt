@@ -7,8 +7,8 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.paging.PagingDataAdapter
-import com.alvindizon.tampisaw.R
 import com.alvindizon.tampisaw.core.ui.RetryAdapter
+import com.alvindizon.tampisaw.R
 import com.alvindizon.tampisaw.core.utils.getNavigatorExtras
 import com.alvindizon.tampisaw.core.utils.setLoadStateListener
 import com.alvindizon.tampisaw.core.utils.waitForTransition

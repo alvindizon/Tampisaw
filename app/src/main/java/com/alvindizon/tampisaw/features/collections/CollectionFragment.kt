@@ -10,8 +10,8 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.paging.PagingDataAdapter
 import androidx.transition.TransitionInflater
-import com.alvindizon.tampisaw.R
 import com.alvindizon.tampisaw.core.ui.RetryAdapter
+import com.alvindizon.tampisaw.R
 import com.alvindizon.tampisaw.core.utils.setLoadStateListener
 import com.alvindizon.tampisaw.core.utils.toTransitionGroup
 import com.alvindizon.tampisaw.core.utils.waitForTransition
@@ -73,9 +73,9 @@ class CollectionFragment : Fragment(R.layout.fragment_collection) {
             }
         }
 
-        viewModel.uiState.observe(viewLifecycleOwner, {
+        viewModel.uiState.observe(viewLifecycleOwner) {
             adapter.submitData(viewLifecycleOwner.lifecycle, it)
-        })
+        }
 
         binding?.apply {
             // Apply the following settings to our recyclerview
