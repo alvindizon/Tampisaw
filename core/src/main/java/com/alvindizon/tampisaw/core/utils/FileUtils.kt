@@ -7,14 +7,11 @@ import android.os.Build
 import android.os.Environment
 import android.provider.MediaStore
 import androidx.core.content.FileProvider
-import com.alvindizon.tampisaw.BuildConfig
-import com.alvindizon.tampisaw.R
+import com.alvindizon.tampisaw.core.R
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import java.io.File
 
 const val TAMPISAW_DIRECTORY = "Tampisaw"
-
-const val FILE_PROVIDER_AUTHORITY = "${BuildConfig.APPLICATION_ID}.fileprovider"
 
 val TAMPISAW_RELATIVE_PATH = "${Environment.DIRECTORY_PICTURES}${File.separator}$TAMPISAW_DIRECTORY"
 
@@ -25,6 +22,9 @@ val TAMPISAW_LEGACY_PATH = "${
     )
 }${File.separator}$TAMPISAW_DIRECTORY"
 
+fun Context.getFileProviderAuthority(): String {
+    return "$packageName.fileprovider"
+}
 
 fun Context.fileExists(fileName: String): Boolean {
     return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
@@ -46,6 +46,7 @@ fun Context.fileExists(fileName: String): Boolean {
 }
 
 fun Context.getUriForPhoto(fileName: String): Uri? {
+
     return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
         val projection = arrayOf(MediaStore.MediaColumns._ID)
         val selection = "${MediaStore.MediaColumns.RELATIVE_PATH} like ? and " +
@@ -68,7 +69,7 @@ fun Context.getUriForPhoto(fileName: String): Uri? {
         }
     } else {
         val file = File(TAMPISAW_LEGACY_PATH, fileName)
-        FileProvider.getUriForFile(this, FILE_PROVIDER_AUTHORITY, file)
+        FileProvider.getUriForFile(this, getFileProviderAuthority(), file)
     }
 }
 

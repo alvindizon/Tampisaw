@@ -9,7 +9,7 @@ import android.net.Uri
 import android.os.Build
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
-import com.alvindizon.tampisaw.R
+import com.alvindizon.tampisaw.core.R
 import javax.inject.Inject
 
 class NotifsHelper @Inject constructor(

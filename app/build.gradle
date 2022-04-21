@@ -60,6 +60,7 @@ dependencies {
     implementation fileTree(dir: "libs", include: ["*.jar"])
     implementation project(":data:api")
     implementation project(":data:networking")
+    implementation project(":common:core")
     implementation deps.androidX.coreKtx
     implementation deps.androidX.appCompat
     implementation deps.androidX.constraintLayout
