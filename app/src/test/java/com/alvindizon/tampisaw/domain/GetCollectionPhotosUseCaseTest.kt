@@ -1,7 +1,7 @@
 package com.alvindizon.tampisaw.domain
 
 import com.alvindizon.tampisaw.TestConstants
-import com.alvindizon.tampisaw.collectData
+import com.alvindizon.tampisaw.testbase.collectData
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.slot

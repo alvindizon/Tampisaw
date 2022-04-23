@@ -10,9 +10,9 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.work.OneTimeWorkRequest
 import androidx.work.WorkManager
 import androidx.work.WorkRequest
-import com.alvindizon.tampisaw.InstantExecutorExtension
 import com.alvindizon.tampisaw.TestConstants
 import com.alvindizon.tampisaw.data.download.ImageDownloader
+import com.alvindizon.tampisaw.testbase.InstantExecutorExtension
 import io.mockk.Runs
 import io.mockk.every
 import io.mockk.just

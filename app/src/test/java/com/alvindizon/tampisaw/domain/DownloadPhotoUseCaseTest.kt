@@ -4,12 +4,10 @@ import android.app.Activity
 import android.net.Uri
 import androidx.lifecycle.LifecycleOwner
 import com.alvindizon.tampisaw.TestConstants
-import com.alvindizon.tampisaw.data.file.FileManager
-import com.alvindizon.tampisaw.data.wallpaper.WallpaperSettingManager
+import com.alvindizon.tampisaw.setwallpaper.WallpaperSettingManager
 import io.mockk.every
 import io.mockk.mockk
 import io.reactivex.rxjava3.core.Completable
-import io.reactivex.rxjava3.core.Single
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 
@@ -23,18 +21,15 @@ class DownloadPhotoUseCaseTest {
 
     private val uri: Uri = mockk()
 
-    private val fileManager: FileManager = mockk()
-
     private lateinit var useCase: DownloadPhotoUseCase
 
     @BeforeEach
     fun setUp() {
-        useCase = DownloadPhotoUseCase(wallpaperSettingManager, fileManager)
+        useCase = DownloadPhotoUseCase(wallpaperSettingManager)
     }
 
     @Test
     fun `verify usecase has no errors when photo is successfully downloaded`() {
-        every { fileManager.getUriForPhoto(any(), any()) } returns Single.just(uri)
         every {
             wallpaperSettingManager.downloadPhoto(
                 any(),

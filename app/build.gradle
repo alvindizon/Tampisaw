@@ -33,13 +33,6 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
-    kotlinOptions { // this needs to be set if you want your decompiled Java code at Java 8
-        jvmTarget = "1.8"
-        freeCompilerArgs += [
-                "-Xopt-in=kotlinx.coroutines.ExperimentalCoroutinesApi",
-                "-Xopt-in=androidx.paging.ExperimentalPagingApi"
-        ]
-    }
 
     buildFeatures {
         viewBinding true
@@ -61,6 +54,7 @@ dependencies {
     implementation project(":data:api")
     implementation project(":data:networking")
     implementation project(":common:core")
+    testImplementation project(":common:testbase")
     implementation deps.androidX.coreKtx
     implementation deps.androidX.appCompat
     implementation deps.androidX.constraintLayout

@@ -1,4 +1,4 @@
-package com.alvindizon.tampisaw
+package com.alvindizon.tampisaw.testbase
 
 import io.reactivex.rxjava3.android.plugins.RxAndroidPlugins
 import io.reactivex.rxjava3.plugins.RxJavaPlugins

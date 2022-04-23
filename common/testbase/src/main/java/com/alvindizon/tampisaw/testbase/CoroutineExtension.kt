@@ -1,4 +1,4 @@
-package com.alvindizon.tampisaw
+package com.alvindizon.tampisaw.testbase
 
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.test.TestDispatcher

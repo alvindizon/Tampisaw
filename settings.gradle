@@ -3,3 +3,4 @@ rootProject.name = "Tampisaw"
 include ':data:api'
 include ':data:networking'
 include ':common:core'
+include ':common:testbase'

@@ -1,12 +1,12 @@
 package com.alvindizon.tampisaw.features.gallery
 
-import com.alvindizon.tampisaw.CoroutineExtension
-import com.alvindizon.tampisaw.InstantExecutorExtension
-import com.alvindizon.tampisaw.RxSchedulerExtension
 import com.alvindizon.tampisaw.TestConstants
-import com.alvindizon.tampisaw.collectData
 import com.alvindizon.tampisaw.domain.GetAllPhotosUseCase
-import com.alvindizon.tampisaw.testObserver
+import com.alvindizon.tampisaw.testbase.CoroutineExtension
+import com.alvindizon.tampisaw.testbase.InstantExecutorExtension
+import com.alvindizon.tampisaw.testbase.RxSchedulerExtension
+import com.alvindizon.tampisaw.testbase.collectData
+import com.alvindizon.tampisaw.testbase.testObserver
 import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.MockK

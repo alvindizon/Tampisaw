@@ -3,9 +3,6 @@ package com.alvindizon.tampisaw.features.details
 import android.app.Activity
 import android.net.Uri
 import androidx.lifecycle.LifecycleOwner
-import com.alvindizon.tampisaw.CoroutineExtension
-import com.alvindizon.tampisaw.InstantExecutorExtension
-import com.alvindizon.tampisaw.RxSchedulerExtension
 import com.alvindizon.tampisaw.api.model.getphoto.Exif
 import com.alvindizon.tampisaw.api.model.getphoto.GetPhotoResponse
 import com.alvindizon.tampisaw.api.model.getphoto.Links
@@ -18,7 +15,10 @@ import com.alvindizon.tampisaw.domain.DownloadPhotoUseCase
 import com.alvindizon.tampisaw.domain.GetPhotoUseCase
 import com.alvindizon.tampisaw.domain.SetWallpaperByBitmapUseCase
 import com.alvindizon.tampisaw.domain.SetWallpaperUseCase
-import com.alvindizon.tampisaw.testObserver
+import com.alvindizon.tampisaw.testbase.CoroutineExtension
+import com.alvindizon.tampisaw.testbase.InstantExecutorExtension
+import com.alvindizon.tampisaw.testbase.RxSchedulerExtension
+import com.alvindizon.tampisaw.testbase.testObserver
 import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
