@@ -1,0 +1,38 @@
+apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
+
+android {
+    compileSdk buildVersions.compileSdk
+
+    defaultConfig {
+        minSdk buildVersions.minSdk
+        targetSdk buildVersions.targetSdk
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles "consumer-rules.pro"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+}
+
+dependencies {
+    implementation deps.junit
+    implementation deps.coroutines.test
+    implementation deps.androidX.test.core
+    implementation deps.mockk
+
+    implementation deps.androidX.paging.runtime
+    implementation deps.androidX.lifecycle.livedata
+}

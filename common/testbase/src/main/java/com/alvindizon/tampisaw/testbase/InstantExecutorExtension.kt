@@ -1,4 +1,4 @@
-package com.alvindizon.tampisaw
+package com.alvindizon.tampisaw.testbase
 
 import android.annotation.SuppressLint
 import androidx.arch.core.executor.ArchTaskExecutor
