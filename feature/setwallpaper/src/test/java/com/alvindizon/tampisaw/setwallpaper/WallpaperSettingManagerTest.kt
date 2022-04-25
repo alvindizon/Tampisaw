@@ -1,4 +1,4 @@
-package com.alvindizon.tampisaw.data.wallpaper
+package com.alvindizon.tampisaw.setwallpaper
 
 import android.app.WallpaperManager
 import android.content.ContentResolver
@@ -10,8 +10,7 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.work.OneTimeWorkRequest
 import androidx.work.WorkManager
 import androidx.work.WorkRequest
-import com.alvindizon.tampisaw.TestConstants
-import com.alvindizon.tampisaw.data.download.ImageDownloader
+import com.alvindizon.tampisaw.downloadwallpaper.ImageDownloader
 import com.alvindizon.tampisaw.testbase.InstantExecutorExtension
 import io.mockk.Runs
 import io.mockk.every
@@ -51,11 +50,11 @@ class WallpaperSettingManagerTest {
         mockkStatic(WorkManager::class)
         mockkConstructor(OneTimeWorkRequest.Builder::class)
 
-        every { ImageDownloader.enqueueDownload(TestConstants.inputData, any()) } returns mockk()
+        every { ImageDownloader.enqueueDownload(inputData, any()) } returns mockk()
         every { ImageDownloader.cancelWorkById(any(), any()) } returns mockk()
         every { ImageDownloader.getWorkInfoByIdLiveData(any(), any()) } returns mockk()
         every {
-            anyConstructed<OneTimeWorkRequest.Builder>().setInputData(TestConstants.inputData)
+            anyConstructed<OneTimeWorkRequest.Builder>().setInputData(inputData)
                 .build()
         } returns mockk()
         every { WorkManager.getInstance(any()).enqueue(any<WorkRequest>()) } returns mockk()
@@ -111,5 +110,7 @@ class WallpaperSettingManagerTest {
         private const val QUALITY = "full"
         private const val FILENAME = "ASGAASGAS"
         private const val ID = "id"
+        // mocking workdata results in error(SignedCall not matching), need to create input data to match call
+        private val inputData = ImageDownloader.createInputData(QUALITY, FILENAME, ID)
     }
 }

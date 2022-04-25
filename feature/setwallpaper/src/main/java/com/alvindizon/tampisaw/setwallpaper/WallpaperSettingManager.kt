@@ -1,4 +1,4 @@
-package com.alvindizon.tampisaw.data.wallpaper
+package com.alvindizon.tampisaw.setwallpaper
 
 import android.app.Activity
 import android.app.WallpaperManager
@@ -11,7 +11,7 @@ import android.provider.MediaStore
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LiveDataReactiveStreams
 import androidx.work.WorkInfo
-import com.alvindizon.tampisaw.data.download.ImageDownloader
+import com.alvindizon.tampisaw.downloadwallpaper.ImageDownloader
 import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.core.Observable
 import java.io.FileNotFoundException

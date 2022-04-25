@@ -56,6 +56,7 @@ dependencies {
     implementation project(":common:core")
     testImplementation project(":common:testbase")
     implementation project(":feature:downloadwallpaper")
+    implementation project(":feature:setwallpaper")
     implementation deps.androidX.coreKtx
     implementation deps.androidX.appCompat
     implementation deps.androidX.constraintLayout
