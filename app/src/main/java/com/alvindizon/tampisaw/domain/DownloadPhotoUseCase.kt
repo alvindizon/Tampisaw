@@ -1,17 +1,16 @@
 package com.alvindizon.tampisaw.domain
 
 import android.app.Activity
+import android.content.Context
 import android.net.Uri
 import androidx.lifecycle.LifecycleOwner
-import com.alvindizon.tampisaw.data.file.FileManager
-import com.alvindizon.tampisaw.data.wallpaper.WallpaperSettingManager
+import com.alvindizon.tampisaw.core.utils.getUriForPhoto
+import com.alvindizon.tampisaw.setwallpaper.DownloadPhotoException
+import com.alvindizon.tampisaw.setwallpaper.WallpaperSettingManager
 import io.reactivex.rxjava3.core.Single
 import javax.inject.Inject
 
-class DownloadPhotoUseCase @Inject constructor(
-    private val wallpaperSettingManager: WallpaperSettingManager,
-    private val fileManager: FileManager
-) {
+class DownloadPhotoUseCase @Inject constructor(private val wallpaperSettingManager: WallpaperSettingManager) {
     fun downloadPhoto(
         quality: String,
         fileName: String,
@@ -25,6 +24,17 @@ class DownloadPhotoUseCase @Inject constructor(
             id,
             activity,
             lifecycleOwner
-        ).andThen(fileManager.getUriForPhoto(activity, fileName))
+        ).andThen(getUriForPhoto(activity, fileName))
+    }
+
+    private fun getUriForPhoto(context: Context, fileName: String): Single<Uri> {
+        return Single.defer {
+            val uri = context.getUriForPhoto(fileName)
+            if (uri != null) {
+                Single.just(uri)
+            } else {
+                Single.error(DownloadPhotoException())
+            }
+        }
     }
 }

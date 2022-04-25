@@ -3,5 +3,6 @@ rootProject.name = "Tampisaw"
 include ':data:api'
 include ':data:networking'
 include ':feature:downloadwallpaper'
+include ':feature:setwallpaper'
 include ':common:core'
 include ':common:testbase'

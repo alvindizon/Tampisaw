@@ -1,0 +1,61 @@
+apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-kapt'
+apply plugin: 'dagger.hilt.android.plugin'
+
+android {
+    compileSdk buildVersions.compileSdk
+
+    defaultConfig {
+        minSdk buildVersions.minSdk
+        targetSdk buildVersions.targetSdk
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles "consumer-rules.pro"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+    testOptions {
+        unitTests.all {
+            useJUnitPlatform()
+            // Show test results.
+            testLogging {
+                events "passed", "skipped", "failed"
+            }
+        }
+    }
+}
+
+dependencies {
+    implementation deps.androidX.coreKtx
+    implementation deps.androidX.lifecycle.runtime
+
+    implementation deps.androidX.work.runtime
+
+    implementation deps.androidX.lifecycle.reactiveStreams
+
+    implementation deps.rxjava.rxjava
+
+    implementation deps.dagger.hilt
+    implementation project(":feature:downloadwallpaper")
+    kapt deps.dagger.hiltCompiler
+
+    // test
+    testImplementation deps.junit
+    testImplementation deps.coroutines.test
+    testImplementation deps.androidX.test.core
+    testImplementation deps.mockk
+    testImplementation project(":common:testbase")
+}
