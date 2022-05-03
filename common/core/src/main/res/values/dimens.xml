@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="margin_1">8dp</dimen>
+    <dimen name="margin_2">16dp</dimen>
+    <dimen name="margin_3">24dp</dimen>
+    <dimen name="margin_4">4dp</dimen>
+    <dimen name="margin_5">12dp</dimen>
+
+    <dimen name="avatar_size">40dp</dimen>
+
+</resources>

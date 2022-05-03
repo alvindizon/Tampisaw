@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="color_primary">#1B64F9</color>
+    <color name="color_primary_variant">#0445CA</color>
+    <color name="color_secondary">#03DAC5</color>
+    <color name="color_secondary_variant">#036C62</color>
+    <color name="shimmer_base_0">#c2c2c2</color>
+    <color name="shimmer_highlight_0">#ffffff</color>
+    <color name="color_on_surface">#000000</color>
+    <color name="color_divider">#1F000000</color>
+    <color name="color_tinted_surface">#ffffff</color>
+    <color name="color_on_surface_secondary">#9e9e9e</color>
+    <color name="color_background">#ffffff</color>
+    <color name="color_on_background">#000000</color>
+    <color name="color_on_primary">#ffffff</color>
+    <color name="color_on_secondary">#ffffff</color>
+
+
+    <color name="cancel_red">#D65151</color>
+    <color name="toolbar_color">#80000000</color>
+</resources>
