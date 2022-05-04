@@ -7,7 +7,7 @@
     <data>
         <variable
             name="viewModel"
-            type="com.alvindizon.tampisaw.features.details.DetailsViewModel" />
+            type="com.alvindizon.tampisaw.details.viewmodel.DetailsViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

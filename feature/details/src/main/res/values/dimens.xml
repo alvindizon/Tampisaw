@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--Bottom Drawer-->
+    <dimen name="bottom_sheet_handle_width">28dp</dimen>
+    <dimen name="bottom_sheet_handle_height">4dp</dimen>
+    <dimen name="bottom_sheet_handle_radius">8dp</dimen>
+
+    <!--FAB margin-->
+    <dimen name="fab_margin">14dp</dimen>
+</resources>

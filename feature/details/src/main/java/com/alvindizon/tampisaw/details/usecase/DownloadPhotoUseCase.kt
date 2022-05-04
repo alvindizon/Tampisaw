@@ -1,4 +1,4 @@
-package com.alvindizon.tampisaw.domain
+package com.alvindizon.tampisaw.details.usecase
 
 import android.app.Activity
 import android.content.Context
@@ -10,7 +10,9 @@ import com.alvindizon.tampisaw.setwallpaper.WallpaperSettingManager
 import io.reactivex.rxjava3.core.Single
 import javax.inject.Inject
 
-class DownloadPhotoUseCase @Inject constructor(private val wallpaperSettingManager: WallpaperSettingManager) {
+class DownloadPhotoUseCase @Inject constructor(
+    private val wallpaperSettingManager: WallpaperSettingManager
+) {
     fun downloadPhoto(
         quality: String,
         fileName: String,

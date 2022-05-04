@@ -1,4 +1,4 @@
-package com.alvindizon.tampisaw.features.details
+package com.alvindizon.tampisaw.details.ui
 
 import android.app.Dialog
 import android.os.Bundle
@@ -10,8 +10,9 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.alvindizon.tampisaw.R
-import com.alvindizon.tampisaw.databinding.DialogPhotoDetailsBinding
+import com.alvindizon.tampisaw.details.R
+import com.alvindizon.tampisaw.details.databinding.DialogPhotoDetailsBinding
+import com.alvindizon.tampisaw.details.viewmodel.DetailsViewModel
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import dagger.hilt.android.AndroidEntryPoint

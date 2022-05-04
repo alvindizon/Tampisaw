@@ -1,7 +1,7 @@
-package com.alvindizon.tampisaw.domain
+package com.alvindizon.tampisaw.details.usecase
 
 import android.net.Uri
-import com.alvindizon.tampisaw.data.wallpaper.WallpaperSettingManager
+import com.alvindizon.tampisaw.setwallpaper.WallpaperSettingManager
 import io.reactivex.rxjava3.core.Completable
 import javax.inject.Inject
 

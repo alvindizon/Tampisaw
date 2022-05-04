@@ -1,4 +1,4 @@
-package com.alvindizon.tampisaw.features.details
+package com.alvindizon.tampisaw.details.model
 
 
 data class PhotoDetails (
@@ -10,11 +10,8 @@ data class PhotoDetails (
     val views: String?,
     val downloads: String?,
     val likes: String?,
-    val description: String?,
     val camera: String,
     val location: String,
-    val download: String?,
-    val downloadLocation: String?,
     val rawUrl: String,
     val fullUrl: String,
     val regularUrl: String,
