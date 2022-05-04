@@ -5,8 +5,8 @@ import com.alvindizon.tampisaw.api.model.getphoto.GetPhotoResponse
 import com.alvindizon.tampisaw.api.model.listphotos.ListPhotosResponse
 import com.alvindizon.tampisaw.api.model.listphotos.Urls
 import com.alvindizon.tampisaw.api.model.listphotos.User
+import com.alvindizon.tampisaw.details.model.PhotoDetails
 import com.alvindizon.tampisaw.features.collections.UnsplashCollection
-import com.alvindizon.tampisaw.features.details.PhotoDetails
 import com.alvindizon.tampisaw.features.gallery.UnsplashPhoto
 import com.alvindizon.tampisaw.features.gallery.UnsplashPhotoUrls
 import com.alvindizon.tampisaw.features.gallery.UnsplashUser
@@ -23,10 +23,9 @@ fun Urls.toUnsplashUrls() = UnsplashPhotoUrls(raw, full, regular, small, thumb)
 
 fun GetPhotoResponse.toPhotoDetails() = PhotoDetails(
     id, createdAt, updatedAt, "$width x $height", color, views.toCompactFormat(),
-    downloads.toCompactFormat(), likes.toCompactFormat(), description,
-    getCamera(), getLocationString(), links.download, links.downloadLocation,
-    urls.raw, urls.full, urls.regular, urls.small, urls.thumb, user.profileImage?.large, user.name,
-    getTags()
+    downloads.toCompactFormat(), likes.toCompactFormat(),
+    getCamera(), getLocationString(), urls.raw, urls.full, urls.regular, urls.small, urls.thumb,
+    user.profileImage?.large, user.name, getTags()
 )
 
 fun GetPhotoResponse.getLocationString(): String = when {

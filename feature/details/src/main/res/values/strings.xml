@@ -1,0 +1,16 @@
+<resources>
+    <string name="title_views">Views</string>
+    <string name="title_downloads">Downloads</string>
+    <string name="title_likes">Likes</string>
+    <string name="download_img">Download image</string>
+    <string name="set_wallpaper">Set image as wallpaper</string>
+    <string name="download_complete">Download complete</string>
+    <string name="title_photo_quality">Choose photo quality</string>
+    <string name="title_camera">Camera</string>
+    <string name="title_location">Location</string>
+    <string name="title_dimension">Dimension</string>
+    <string name="wallpaper_setting_success">Wallpaper set successfully</string>
+    <string name="wallpaper_setting_ongoing">Setting wallpaper…</string>
+    <string name="wallpaper_download_error">Error downloading wallpaper.</string>
+    <string name="transition_username">username %s</string>
+</resources>

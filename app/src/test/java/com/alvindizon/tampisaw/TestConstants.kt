@@ -80,10 +80,6 @@ internal object TestConstants {
     val collectionsResponsePagingData =
         PagingData.from(mutableListOf(collectionsResponse, collectionsResponse2))
 
-    const val QUALITY = "full"
-    const val FILENAME = "ASGAASGAS"
-    const val ID = "id"
-
     // mocking workdata results in error(SignedCall not matching), need to create input data to match call
     val inputData = ImageDownloader.createInputData(QUALITY, FILENAME, ID)
 

@@ -1,4 +1,4 @@
-package com.alvindizon.tampisaw.features.details
+package com.alvindizon.tampisaw.details.viewmodel
 
 import android.app.Activity
 import android.net.Uri
@@ -7,11 +7,19 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.alvindizon.tampisaw.core.ui.BaseViewModel
-import com.alvindizon.tampisaw.core.toPhotoDetails
-import com.alvindizon.tampisaw.domain.DownloadPhotoUseCase
-import com.alvindizon.tampisaw.domain.GetPhotoUseCase
-import com.alvindizon.tampisaw.domain.SetWallpaperByBitmapUseCase
-import com.alvindizon.tampisaw.domain.SetWallpaperUseCase
+import com.alvindizon.tampisaw.details.model.PhotoDetails
+import com.alvindizon.tampisaw.details.ui.DetailsUIState
+import com.alvindizon.tampisaw.details.ui.DownloadSuccess
+import com.alvindizon.tampisaw.details.ui.Downloading
+import com.alvindizon.tampisaw.details.ui.DetailsError
+import com.alvindizon.tampisaw.details.ui.GetDetailSuccess
+import com.alvindizon.tampisaw.details.ui.Loading
+import com.alvindizon.tampisaw.details.ui.SetWallpaperSuccess
+import com.alvindizon.tampisaw.details.ui.SettingWallpaper
+import com.alvindizon.tampisaw.details.usecase.DownloadPhotoUseCase
+import com.alvindizon.tampisaw.details.usecase.GetPhotoUseCase
+import com.alvindizon.tampisaw.details.usecase.SetWallpaperByBitmapUseCase
+import com.alvindizon.tampisaw.details.usecase.SetWallpaperUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Completable
@@ -40,13 +48,13 @@ class DetailsViewModel @Inject constructor(
             .doOnSubscribe { _uiState.value = Loading }
             .subscribeBy(
                 onSuccess = {
-                    _uiState.value = GetDetailSuccess(it.toPhotoDetails())
-                    photoDetails.set(it.toPhotoDetails())
+                    _uiState.value = GetDetailSuccess(it)
+                    photoDetails.set(it)
                 },
                 onError = { error ->
                     error.printStackTrace()
                     _uiState.value = error.message?.let {
-                        Error(it)
+                        DetailsError(it)
                     }
                 }
             )
@@ -77,7 +85,7 @@ class DetailsViewModel @Inject constructor(
                 onError = { error ->
                     error.printStackTrace()
                     _uiState.value = error.message?.let {
-                        Error(it)
+                        DetailsError(it)
                     }
                 }
             )
@@ -116,7 +124,7 @@ class DetailsViewModel @Inject constructor(
                 onError = { error ->
                     error.printStackTrace()
                     _uiState.value = error.message?.let {
-                        Error(it)
+                        DetailsError(it)
                     }
                 }
             )
@@ -141,7 +149,7 @@ class DetailsViewModel @Inject constructor(
                 onError = { error ->
                     error.printStackTrace()
                     _uiState.value = error.message?.let {
-                        Error(it)
+                        DetailsError(it)
                     }
                 }
             )

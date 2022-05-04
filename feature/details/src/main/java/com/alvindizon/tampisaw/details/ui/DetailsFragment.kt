@@ -1,4 +1,4 @@
-package com.alvindizon.tampisaw.features.details
+package com.alvindizon.tampisaw.details.ui
 
 import android.Manifest
 import android.content.Context
@@ -18,7 +18,6 @@ import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.transition.TransitionInflater
-import com.alvindizon.tampisaw.R
 import com.alvindizon.tampisaw.core.hasWritePermission
 import com.alvindizon.tampisaw.core.utils.dismissCurrentDialog
 import com.alvindizon.tampisaw.core.utils.fileExists
@@ -27,8 +26,13 @@ import com.alvindizon.tampisaw.core.utils.showDialogFragment
 import com.alvindizon.tampisaw.core.utils.showFileExistsDialog
 import com.alvindizon.tampisaw.core.utils.showSnackbar
 import com.alvindizon.tampisaw.core.utils.waitForTransition
-import com.alvindizon.tampisaw.data.wallpaper.WallpaperSettingManager
-import com.alvindizon.tampisaw.databinding.FragmentDetailsBinding
+import com.alvindizon.tampisaw.details.R
+import com.alvindizon.tampisaw.details.R.layout.fragment_details
+import com.alvindizon.tampisaw.details.databinding.FragmentDetailsBinding
+import com.alvindizon.tampisaw.details.model.PhotoDetails
+import com.alvindizon.tampisaw.details.model.fileName
+import com.alvindizon.tampisaw.details.viewmodel.DetailsViewModel
+import com.alvindizon.tampisaw.setwallpaper.WallpaperSettingManager
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -38,7 +42,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class DetailsFragment : Fragment(R.layout.fragment_details) {
+class DetailsFragment : Fragment(fragment_details) {
 
     private var binding: FragmentDetailsBinding? = null
 
@@ -94,8 +98,8 @@ class DetailsFragment : Fragment(R.layout.fragment_details) {
                         setupToolbar(uiState.photoDetails)
                     }
                 }
-                is Error -> {
-                    (view ?.parent as? ViewGroup)?.doOnPreDraw { startPostponedEnterTransition() }
+                is DetailsError -> {
+                    (view?.parent as? ViewGroup)?.doOnPreDraw { startPostponedEnterTransition() }
                     snackbar = root.rootView.showSnackbar(
                         uiState.message,
                         Snackbar.LENGTH_SHORT,
@@ -140,7 +144,7 @@ class DetailsFragment : Fragment(R.layout.fragment_details) {
         waitForTransition(view)
 
         binding = FragmentDetailsBinding.bind(view)
-        binding?.photo = args.photo
+        // TODO get photo.user.name and photo.id from app module and bind them to the layout
         binding?.executePendingBindings()
 
         val callback = object : OnBackPressedCallback(true) {
@@ -292,7 +296,7 @@ class DetailsFragment : Fragment(R.layout.fragment_details) {
                 activityFragmentManager.run {
                     showDialogFragment(InfoBottomSheet.newInstance(photoDetails.tags) {
                         dismissCurrentDialog()
-                        findNavController().navigate(DetailsFragmentDirections.searchAction(it))
+                        // TODO send clicked tag to search module
                     })
                 }
             }

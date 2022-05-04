@@ -1,20 +1,20 @@
-package com.alvindizon.tampisaw.features.details
+package com.alvindizon.tampisaw.details.viewmodel
 
 import android.app.Activity
 import android.net.Uri
 import androidx.lifecycle.LifecycleOwner
-import com.alvindizon.tampisaw.api.model.getphoto.Exif
-import com.alvindizon.tampisaw.api.model.getphoto.GetPhotoResponse
-import com.alvindizon.tampisaw.api.model.getphoto.Links
-import com.alvindizon.tampisaw.api.model.getphoto.Location
-import com.alvindizon.tampisaw.api.model.getphoto.Tag
-import com.alvindizon.tampisaw.api.model.getphoto.Urls
-import com.alvindizon.tampisaw.api.model.getphoto.User
-import com.alvindizon.tampisaw.core.toPhotoDetails
-import com.alvindizon.tampisaw.domain.DownloadPhotoUseCase
-import com.alvindizon.tampisaw.domain.GetPhotoUseCase
-import com.alvindizon.tampisaw.domain.SetWallpaperByBitmapUseCase
-import com.alvindizon.tampisaw.domain.SetWallpaperUseCase
+import com.alvindizon.tampisaw.details.model.PhotoDetails
+import com.alvindizon.tampisaw.details.ui.DetailsError
+import com.alvindizon.tampisaw.details.ui.DownloadSuccess
+import com.alvindizon.tampisaw.details.ui.Downloading
+import com.alvindizon.tampisaw.details.ui.GetDetailSuccess
+import com.alvindizon.tampisaw.details.ui.Loading
+import com.alvindizon.tampisaw.details.ui.SetWallpaperSuccess
+import com.alvindizon.tampisaw.details.ui.SettingWallpaper
+import com.alvindizon.tampisaw.details.usecase.DownloadPhotoUseCase
+import com.alvindizon.tampisaw.details.usecase.GetPhotoUseCase
+import com.alvindizon.tampisaw.details.usecase.SetWallpaperByBitmapUseCase
+import com.alvindizon.tampisaw.details.usecase.SetWallpaperUseCase
 import com.alvindizon.tampisaw.testbase.CoroutineExtension
 import com.alvindizon.tampisaw.testbase.InstantExecutorExtension
 import com.alvindizon.tampisaw.testbase.RxSchedulerExtension
@@ -76,7 +76,7 @@ class DetailsViewModelTest {
 
         viewModel.getPhoto("ID")
         assertEquals(observedValues[0], Loading)
-        assertEquals(observedValues[1], GetDetailSuccess(getPhotoResponse.toPhotoDetails()))
+        assertEquals(observedValues[1], GetDetailSuccess(getPhotoResponse))
     }
 
     @Test
@@ -88,7 +88,7 @@ class DetailsViewModelTest {
 
         viewModel.getPhoto("ID")
         assertEquals(observedValues[0], Loading)
-        assertEquals(observedValues[1], Error(errorMsg))
+        assertEquals(observedValues[1], DetailsError(errorMsg))
     }
 
     @Test
@@ -127,7 +127,7 @@ class DetailsViewModelTest {
 
         viewModel.downloadPhoto(quality, fileName, id, activity, lifecycleOwner)
         assertEquals(observedValues[0], Downloading)
-        assertEquals(observedValues[1], Error(errorMsg))
+        assertEquals(observedValues[1], DetailsError(errorMsg))
     }
 
     @Test
@@ -199,7 +199,7 @@ class DetailsViewModelTest {
 
         viewModel.downloadAndSetWallpaper(quality, fileName, id, activity, lifecycleOwner)
         assertEquals(observedValues[0], SettingWallpaper)
-        assertEquals(observedValues[1], Error(errorMsg))
+        assertEquals(observedValues[1], DetailsError(errorMsg))
     }
 
     @Test
@@ -226,7 +226,7 @@ class DetailsViewModelTest {
 
         viewModel.downloadAndSetWallpaper(quality, fileName, id, activity, lifecycleOwner)
         assertEquals(observedValues[0], SettingWallpaper)
-        assertEquals(observedValues[1], Error(errorMsg))
+        assertEquals(observedValues[1], DetailsError(errorMsg))
     }
 
     @Test
@@ -253,7 +253,7 @@ class DetailsViewModelTest {
 
         viewModel.setWallpaper(uri, activity)
         assertEquals(observedValues[0], SettingWallpaper)
-        assertEquals(observedValues[1], Error(errorMsg))
+        assertEquals(observedValues[1], DetailsError(errorMsg))
     }
 
     @Test
@@ -290,28 +290,17 @@ class DetailsViewModelTest {
             setWallpaperByBitmapUseCase.setWallpaperByBitmap(any())
         }
         assertEquals(observedValues[0], SettingWallpaper)
-        assertEquals(observedValues[1], Error(errorMsg))
+        assertEquals(observedValues[1], DetailsError(errorMsg))
     }
 
     companion object {
-        private val getPhotoResponse = GetPhotoResponse(
+        private val getPhotoResponse = PhotoDetails(
             "id",
             "created_at",
-            "updated_at",
-            720,
-            1250,
-            "#FFFFFF",
-            69,
-            69,
-            69,
-            false,
-            "desc",
-            Exif(),
-            Location("city", "country"),
-            listOf(Tag("shit"), Tag("garbage")),
-            Urls("raw", "full", "regular", "small", "thumb"),
-            Links(),
-            User("user_id", "name", null)
+            "updated_at", "720 x 1250", "#FFFFFF", "1",
+            "2", "3",
+            "camera", "location", "raw", "full", "regular", "small", "thumb",
+            "profileImageUrl", "username", listOf("tag1", "tag2")
         )
         private const val quality = "full"
         private const val fileName = "fileName"
