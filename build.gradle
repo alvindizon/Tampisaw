@@ -17,7 +17,7 @@ buildscript {
         appCompatVersion = "1.4.1"
         constraintLayoutVersion = "2.1.3"
         espressoVersion = "3.4.0"
-        glideVersion = "4.13.1"
+        glideVersion = "4.13.2"
         ktxVersion = "1.7.0"
         lifecycleVersion = "2.4.1"
         pagingVersion = "3.1.1"
