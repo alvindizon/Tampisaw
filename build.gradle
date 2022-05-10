@@ -40,7 +40,7 @@ buildscript {
         rxKotlinVersion = "3.0.1"
         mockkVersion = "1.12.3"
         junitVersion = "5.8.2"
-        hiltVersion = "2.41"
+        hiltVersion = "2.42"
         hiltAndroidXVersion = "1.0.0"
         timberVersion = "5.0.1"
         splashScreenVersion = "1.0.0-beta02"
