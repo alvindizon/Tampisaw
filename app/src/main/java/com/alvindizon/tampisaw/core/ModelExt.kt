@@ -7,19 +7,20 @@ import com.alvindizon.tampisaw.api.model.listphotos.Urls
 import com.alvindizon.tampisaw.api.model.listphotos.User
 import com.alvindizon.tampisaw.details.model.PhotoDetails
 import com.alvindizon.tampisaw.features.collections.UnsplashCollection
-import com.alvindizon.tampisaw.features.gallery.UnsplashPhoto
-import com.alvindizon.tampisaw.features.gallery.UnsplashPhotoUrls
-import com.alvindizon.tampisaw.features.gallery.UnsplashUser
+import com.alvindizon.tampisaw.gallery.model.Photo
+import com.alvindizon.tampisaw.gallery.model.PhotoUrls
+import com.alvindizon.tampisaw.gallery.model.PhotoUser
 import java.util.*
 
-fun ListPhotosResponse.toUnsplashPhoto() = UnsplashPhoto(
-    id, description, user.toUnsplashUser(), urls.toUnsplashUrls(), sponsorship != null, color,
+
+fun ListPhotosResponse.toPhoto() = Photo(
+    id, description, user.toPhotoUser(), urls.toPhotoUrls(), sponsorship != null, color,
     height, width
 )
 
-fun User.toUnsplashUser() = UnsplashUser(name, username, profileImage?.large)
+fun User.toPhotoUser() = PhotoUser(name, username, profileImage?.large)
 
-fun Urls.toUnsplashUrls() = UnsplashPhotoUrls(raw, full, regular, small, thumb)
+fun Urls.toPhotoUrls() = PhotoUrls(raw, full, regular, small, thumb)
 
 fun GetPhotoResponse.toPhotoDetails() = PhotoDetails(
     id, createdAt, updatedAt, "$width x $height", color, views.toCompactFormat(),

@@ -1,4 +1,4 @@
-package com.alvindizon.tampisaw.features.gallery
+package com.alvindizon.tampisaw.gallery.viewmodel
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -6,7 +6,8 @@ import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import androidx.paging.rxjava3.cachedIn
 import com.alvindizon.tampisaw.core.ui.BaseViewModel
-import com.alvindizon.tampisaw.domain.GetAllPhotosUseCase
+import com.alvindizon.tampisaw.gallery.model.Photo
+import com.alvindizon.tampisaw.gallery.usecase.GetAllPhotosUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.kotlin.plusAssign
@@ -20,8 +21,8 @@ class GalleryViewModel @Inject constructor(
     private val getAllPhotosUseCase: GetAllPhotosUseCase
 ) : BaseViewModel() {
 
-    private val _uiState = MutableLiveData<PagingData<UnsplashPhoto>>()
-    val uiState: LiveData<PagingData<UnsplashPhoto>> get() = _uiState
+    private val _uiState = MutableLiveData<PagingData<Photo>>()
+    val uiState: LiveData<PagingData<Photo>> get() = _uiState
 
     fun getAllPhotos() {
         compositeDisposable += getAllPhotosUseCase.getAllPhotos()

@@ -58,6 +58,7 @@ dependencies {
     implementation project(":feature:downloadwallpaper")
     implementation project(":feature:setwallpaper")
     implementation project(":feature:details")
+    implementation project(":feature:gallery")
     implementation deps.androidX.coreKtx
     implementation deps.androidX.appCompat
     implementation deps.androidX.constraintLayout

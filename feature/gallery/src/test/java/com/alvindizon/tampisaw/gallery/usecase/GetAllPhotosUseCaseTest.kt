@@ -1,6 +1,7 @@
-package com.alvindizon.tampisaw.domain
+package com.alvindizon.tampisaw.gallery.usecase
 
-import com.alvindizon.tampisaw.TestConstants
+import com.alvindizon.tampisaw.gallery.TestConstants
+import com.alvindizon.tampisaw.gallery.integration.GalleryViewRepository
 import com.alvindizon.tampisaw.testbase.collectData
 import io.mockk.every
 import io.mockk.mockk
@@ -13,32 +14,32 @@ import org.junit.jupiter.api.Test
 
 class GetAllPhotosUseCaseTest {
 
-    private val unsplashRepo: UnsplashRepo = mockk()
+    private val repo: GalleryViewRepository = mockk()
 
     private lateinit var useCase: GetAllPhotosUseCase
 
     @BeforeEach
     fun setUp() {
-        useCase = GetAllPhotosUseCase(unsplashRepo)
+        useCase = GetAllPhotosUseCase(repo)
     }
 
     @Test
     fun `verify usecase returns correct data when repo succeeds`() {
-        every { unsplashRepo.getAllPhotos() } returns Observable.just(TestConstants.listPhotosPagingData)
+        every { repo.getAllPhotos() } returns Observable.just(TestConstants.getAllPhotosPagingData)
 
         val pagingData = useCase.getAllPhotos().test().values()[0]
 
         runBlocking {
             val list = pagingData.collectData()
-            assertEquals(TestConstants.unsplashPhoto, list[0])
-            assertEquals(TestConstants.unsplashPhoto2, list[1])
+            assertEquals(TestConstants.photo1, list[0])
+            assertEquals(TestConstants.photo2, list[1])
         }
     }
 
     @Test
     fun `verify usecase errors when repo errors`() {
         val error = Throwable("error")
-        every { unsplashRepo.getAllPhotos() } returns Observable.error(error)
+        every { repo.getAllPhotos() } returns Observable.error(error)
 
         useCase.getAllPhotos().test().assertError {
             it.message == error.message

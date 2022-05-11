@@ -1,4 +1,4 @@
-package com.alvindizon.tampisaw.features.gallery
+package com.alvindizon.tampisaw.gallery.ui
 
 import android.os.Bundle
 import android.view.View
@@ -6,14 +6,14 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.FragmentNavigatorExtras
-import androidx.navigation.fragment.findNavController
 import androidx.paging.PagingDataAdapter
-import com.alvindizon.tampisaw.R
 import com.alvindizon.tampisaw.core.ui.RetryAdapter
 import com.alvindizon.tampisaw.core.utils.setLoadStateListener
 import com.alvindizon.tampisaw.core.utils.toTransitionGroup
 import com.alvindizon.tampisaw.core.utils.waitForTransition
-import com.alvindizon.tampisaw.databinding.FragmentGalleryBinding
+import com.alvindizon.tampisaw.gallery.R
+import com.alvindizon.tampisaw.gallery.databinding.FragmentGalleryBinding
+import com.alvindizon.tampisaw.gallery.viewmodel.GalleryViewModel
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -52,10 +52,11 @@ class GalleryFragment : Fragment(R.layout.fragment_gallery) {
         val adapter = GalleryAdapter { photo, itemBinding ->
             photo.id.let {
                 val extras = FragmentNavigatorExtras(itemBinding.username.toTransitionGroup())
-                findNavController().navigate(
-                    GalleryFragmentDirections.detailsAction(photo, it),
-                    extras
-                )
+                // TODO navigate to details via navigator
+//                findNavController().navigate(
+//                    GalleryFragmentDirections.detailsAction(photo, it),
+//                    extras
+//                )
             }
         }
 
