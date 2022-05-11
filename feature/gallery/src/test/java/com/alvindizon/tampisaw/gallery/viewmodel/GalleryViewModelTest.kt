@@ -1,7 +1,7 @@
-package com.alvindizon.tampisaw.features.gallery
+package com.alvindizon.tampisaw.gallery.viewmodel
 
-import com.alvindizon.tampisaw.TestConstants
-import com.alvindizon.tampisaw.domain.GetAllPhotosUseCase
+import com.alvindizon.tampisaw.gallery.TestConstants
+import com.alvindizon.tampisaw.gallery.usecase.GetAllPhotosUseCase
 import com.alvindizon.tampisaw.testbase.CoroutineExtension
 import com.alvindizon.tampisaw.testbase.InstantExecutorExtension
 import com.alvindizon.tampisaw.testbase.RxSchedulerExtension
@@ -37,14 +37,14 @@ class GalleryViewModelTest {
     fun `getAllPhotos loads correct PagingData of type UnsplashPhoto`() {
         val uiState = viewModel.uiState.testObserver()
 
-        every { getAllPhotosUseCase.getAllPhotos() } returns Observable.just(TestConstants.photoPagingData)
+        every { getAllPhotosUseCase.getAllPhotos() } returns Observable.just(TestConstants.getAllPhotosPagingData)
 
         viewModel.getAllPhotos()
 
         runBlocking {
             val photoList = uiState.observedValues[0]?.collectData()
-            assertEquals(TestConstants.unsplashPhoto, photoList?.get(0))
-            assertEquals(TestConstants.unsplashPhoto2, photoList?.get(1))
+            assertEquals(TestConstants.photo1, photoList?.get(0))
+            assertEquals(TestConstants.photo2, photoList?.get(1))
         }
     }
 

@@ -11,4 +11,9 @@
         <item name="android:textSize">20sp</item>
     </style>
 
+    <style name="ImageCardViewStyle" parent="Widget.MaterialComponents.CardView">
+        <item name="cardElevation">@dimen/margin_1</item>
+        <item name="cardUseCompatPadding">true</item>
+    </style>
+
 </resources>

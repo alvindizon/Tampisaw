@@ -1,14 +1,14 @@
-package com.alvindizon.tampisaw.features.gallery
+package com.alvindizon.tampisaw.gallery.model
 
 import android.os.Parcelable
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
-data class UnsplashPhoto(
+data class Photo(
     val id: String,
     val description: String?,
-    val user: UnsplashUser,
-    val urls: UnsplashPhotoUrls,
+    val user: PhotoUser,
+    val urls: PhotoUrls,
     val sponsored: Boolean,
     val color: String? = "#E0E0E0",
     val height: Int?,
@@ -16,7 +16,7 @@ data class UnsplashPhoto(
 ) : Parcelable
 
 @Parcelize
-data class UnsplashPhotoUrls(
+data class PhotoUrls(
     val raw: String?,
     val full: String?,
     val regular: String?,
@@ -25,7 +25,7 @@ data class UnsplashPhotoUrls(
 ) : Parcelable
 
 @Parcelize
-data class UnsplashUser(
+data class PhotoUser(
     val name: String,
     val username: String,
     val profileImageUrl: String?,
