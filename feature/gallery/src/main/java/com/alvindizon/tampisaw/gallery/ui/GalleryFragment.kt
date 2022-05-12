@@ -6,6 +6,7 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.FragmentNavigatorExtras
+import androidx.navigation.fragment.findNavController
 import androidx.paging.PagingDataAdapter
 import com.alvindizon.tampisaw.core.ui.RetryAdapter
 import com.alvindizon.tampisaw.core.utils.setLoadStateListener
@@ -13,12 +14,17 @@ import com.alvindizon.tampisaw.core.utils.toTransitionGroup
 import com.alvindizon.tampisaw.core.utils.waitForTransition
 import com.alvindizon.tampisaw.gallery.R
 import com.alvindizon.tampisaw.gallery.databinding.FragmentGalleryBinding
+import com.alvindizon.tampisaw.gallery.navigation.GalleryNavigator
 import com.alvindizon.tampisaw.gallery.viewmodel.GalleryViewModel
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class GalleryFragment : Fragment(R.layout.fragment_gallery) {
+
+    @Inject
+    lateinit var galleryNavigator: GalleryNavigator
 
     private var binding: FragmentGalleryBinding? = null
 
@@ -53,10 +59,13 @@ class GalleryFragment : Fragment(R.layout.fragment_gallery) {
             photo.id.let {
                 val extras = FragmentNavigatorExtras(itemBinding.username.toTransitionGroup())
                 // TODO navigate to details via navigator
-//                findNavController().navigate(
-//                    GalleryFragmentDirections.detailsAction(photo, it),
-//                    extras
-//                )
+                galleryNavigator.navigateToDetails(
+                    photo.user.name,
+                    it,
+                    photo.urls.regular ?: "",
+                    photo.user.profileImageUrl ?: "",
+                    extras
+                )
             }
         }
 

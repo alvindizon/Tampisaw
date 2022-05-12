@@ -143,9 +143,10 @@ class DetailsFragment : Fragment(fragment_details) {
 
         waitForTransition(view)
 
-        binding = FragmentDetailsBinding.bind(view)
-        // TODO get photo.user.name and photo.id from app module and bind them to the layout
-        binding?.executePendingBindings()
+        binding = FragmentDetailsBinding.bind(view).apply {
+            toolbarTitle.text = args.name
+            toolbarTitle.transitionName = getString(R.string.transition_username, args.photoId)
+        }
 
         val callback = object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
@@ -159,7 +160,7 @@ class DetailsFragment : Fragment(fragment_details) {
 
         viewLifecycleOwner.lifecycle.addObserver(viewModel)
 
-        viewModel.getPhoto(args.url)
+        viewModel.getPhoto(args.photoId)
     }
 
     override fun onDestroyView() {

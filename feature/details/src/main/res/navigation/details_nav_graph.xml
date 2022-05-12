@@ -10,13 +10,20 @@
         android:label="fragment_details" >
 
         <argument
-            android:name="photo"
-            app:argType="com.alvindizon.tampisaw.features.gallery.UnsplashPhoto" />
+            android:name="name"
+            app:argType="string"/>
 
         <argument
-            android:name="url"
-            app:argType="string"
-            android:defaultValue="" />
+            android:name="photoId"
+            app:argType="string"/>
+
+        <argument
+            android:name="regularUrl"
+            app:argType="string"/>
+
+        <argument
+            android:name="profileImageUrl"
+            app:argType="string"/>
 
         <argument
             android:name="fromSearch"
