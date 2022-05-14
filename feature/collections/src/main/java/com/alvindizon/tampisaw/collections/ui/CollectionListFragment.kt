@@ -1,4 +1,4 @@
-package com.alvindizon.tampisaw.features.collections
+package com.alvindizon.tampisaw.collections.ui
 
 import android.os.Bundle
 import android.view.View
@@ -7,12 +7,13 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.paging.PagingDataAdapter
+import com.alvindizon.collections.R
+import com.alvindizon.collections.databinding.FragmentCollectionListBinding
+import com.alvindizon.tampisaw.collections.viewmodel.CollectionListViewModel
 import com.alvindizon.tampisaw.core.ui.RetryAdapter
-import com.alvindizon.tampisaw.R
 import com.alvindizon.tampisaw.core.utils.getNavigatorExtras
 import com.alvindizon.tampisaw.core.utils.setLoadStateListener
 import com.alvindizon.tampisaw.core.utils.waitForTransition
-import com.alvindizon.tampisaw.databinding.FragmentCollectionListBinding
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -51,16 +52,17 @@ class CollectionListFragment : Fragment(R.layout.fragment_collection_list) {
         // Add a click listener for each list item
         val adapter = CollectionAdapter { collection, itemBinding ->
             val extras = getNavigatorExtras(itemBinding.collectionTitle)
-            findNavController().navigate(
-                CollectionListFragmentDirections.collectionAction(
-                    collection.id,
-                    collection.description,
-                    collection.totalPhotos,
-                    collection.fullname,
-                    collection.title
-                ),
-                extras
-            )
+            // TODO navigate to collection w/embedded gallery
+//            findNavController().navigate(
+//                CollectionListFragmentDirections.collectionAction(
+//                    collection.id,
+//                    collection.description,
+//                    collection.totalPhotos,
+//                    collection.fullname,
+//                    collection.title
+//                ),
+//                extras
+//            )
         }
 
         viewModel.uiState.observe(viewLifecycleOwner) {

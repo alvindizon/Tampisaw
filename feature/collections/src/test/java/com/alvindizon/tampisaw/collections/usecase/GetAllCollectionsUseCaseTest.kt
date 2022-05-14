@@ -1,6 +1,7 @@
-package com.alvindizon.tampisaw.domain
+package com.alvindizon.tampisaw.collections.usecase
 
-import com.alvindizon.tampisaw.TestConstants
+import com.alvindizon.tampisaw.collections.TestConstants
+import com.alvindizon.tampisaw.collections.integration.CollectionsViewRepository
 import com.alvindizon.tampisaw.testbase.collectData
 import io.mockk.every
 import io.mockk.mockk
@@ -13,32 +14,32 @@ import org.junit.jupiter.api.Test
 
 class GetAllCollectionsUseCaseTest {
 
-    private val unsplashRepo: UnsplashRepo = mockk()
+    private val repo: CollectionsViewRepository = mockk()
 
     private lateinit var useCase: GetAllCollectionsUseCase
 
     @BeforeEach
     fun setUp() {
-        useCase = GetAllCollectionsUseCase(unsplashRepo)
+        useCase = GetAllCollectionsUseCase(repo)
     }
 
     @Test
     fun `verify that if repo returns success, usecase maps response correctly`() {
-        every { unsplashRepo.getAllCollections() } returns Observable.just(TestConstants.collectionsResponsePagingData)
+        every { repo.getAllCollections() } returns Observable.just(TestConstants.getAllCollectionsPagingData)
 
         val pagingData = useCase.getAllCollections().test().values()[0]
 
         runBlocking {
             val list = pagingData.collectData()
-            assertEquals(TestConstants.unsplashCollection, list[0])
-            assertEquals(TestConstants.unsplashCollection2, list[1])
+            assertEquals(TestConstants.collections, list[0])
+            assertEquals(TestConstants.collections2, list[1])
         }
     }
 
     @Test
     fun `verify that if repo errors, usecase returns error`() {
         val error = Throwable("error")
-        every { unsplashRepo.getAllCollections() } returns Observable.error(error)
+        every { repo.getAllCollections() } returns Observable.error(error)
 
         useCase.getAllCollections().test().assertError {
             it.message == error.message

@@ -8,7 +8,7 @@
         <import type="android.view.View"/>
         <variable
             name="collection"
-            type="com.alvindizon.tampisaw.features.collections.UnsplashCollection" />
+            type="com.alvindizon.tampisaw.collections.model.Collection" />
 
     </data>
 

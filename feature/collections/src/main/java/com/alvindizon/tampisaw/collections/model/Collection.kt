@@ -1,7 +1,6 @@
-package com.alvindizon.tampisaw.features.collections
+package com.alvindizon.tampisaw.collections.model
 
-
-data class UnsplashCollection(
+data class Collection(
     val id: String,
     val title: String,
     val description: String?,

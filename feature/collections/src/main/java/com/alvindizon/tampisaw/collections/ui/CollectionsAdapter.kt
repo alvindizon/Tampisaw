@@ -1,4 +1,4 @@
-package com.alvindizon.tampisaw.features.collections
+package com.alvindizon.tampisaw.collections.ui
 
 import android.annotation.SuppressLint
 import android.graphics.Color
@@ -8,37 +8,38 @@ import android.view.ViewGroup
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.alvindizon.tampisaw.R
-import com.alvindizon.tampisaw.databinding.ItemCollectionsBinding
+import com.alvindizon.collections.R
+import com.alvindizon.collections.databinding.ItemCollectionsBinding
+import com.alvindizon.tampisaw.collections.model.Collection
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 
 const val TRANSITION_MILLIS = 330
 
-class UnsplashDiff : DiffUtil.ItemCallback<UnsplashCollection>() {
+class UnsplashDiff : DiffUtil.ItemCallback<Collection>() {
     override fun areItemsTheSame(
-        oldItem: UnsplashCollection,
-        newItem: UnsplashCollection
+        oldItem: Collection,
+        newItem: Collection
     ): Boolean {
         return oldItem.id == newItem.id
     }
 
     override fun areContentsTheSame(
-        oldItem: UnsplashCollection,
-        newItem: UnsplashCollection
+        oldItem: Collection,
+        newItem: Collection
     ): Boolean {
         return areItemsTheSame(oldItem, newItem)
     }
 }
 
-class CollectionAdapter(val listener: (UnsplashCollection, ItemCollectionsBinding) -> Unit) :
-    PagingDataAdapter<UnsplashCollection, CollectionAdapter.ViewHolder>(UnsplashDiff()) {
+class CollectionAdapter(val listener: (Collection, ItemCollectionsBinding) -> Unit) :
+    PagingDataAdapter<Collection, CollectionAdapter.ViewHolder>(UnsplashDiff()) {
 
     inner class ViewHolder(private val binding: ItemCollectionsBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
         @SuppressLint("SetTextI18n")
-        fun bind(collection: UnsplashCollection) {
+        fun bind(collection: Collection) {
             binding.collection = collection
             binding.executePendingBindings()
 

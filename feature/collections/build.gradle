@@ -1,0 +1,77 @@
+apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-kapt'
+apply plugin: "androidx.navigation.safeargs.kotlin"
+apply plugin: 'dagger.hilt.android.plugin'
+apply plugin: 'kotlin-parcelize'
+
+android {
+    compileSdk buildVersions.compileSdk
+
+    defaultConfig {
+        minSdk buildVersions.minSdk
+        targetSdk buildVersions.targetSdk
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles "consumer-rules.pro"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+    buildFeatures {
+        viewBinding true
+        dataBinding true
+    }
+}
+
+dependencies {
+    implementation project(":common:core")
+    implementation project(":feature:gallery")
+    testImplementation project(":common:testbase")
+
+    implementation deps.androidX.coreKtx
+    implementation deps.androidX.appCompat
+    implementation deps.androidX.constraintLayout
+
+    implementation deps.material
+
+    // test
+    testImplementation deps.junit
+    testImplementation deps.coroutines.test
+    testImplementation deps.androidX.test.core
+    testImplementation deps.mockk
+
+    // RxJava
+    implementation deps.rxjava.rxandroid
+    implementation deps.rxjava.rxjava
+    implementation deps.rxjava.rxkotlin
+
+    implementation deps.dagger.hilt
+    kapt deps.dagger.hiltCompiler
+
+    implementation deps.androidX.lifecycle.viewmodel
+
+    implementation deps.androidX.navigation.fragment // this pulls in fragment-ktx (responsible for by activityViewModel)
+    implementation deps.androidX.navigation.ui
+
+    // Paging
+    implementation deps.androidX.paging.runtime
+    implementation deps.androidX.paging.rxjava
+
+    // Swipe Refresh Layout
+    implementation deps.androidX.swipeRefreshLayout
+
+    // Glide
+    implementation deps.glide
+}
