@@ -1,7 +1,7 @@
-package com.alvindizon.tampisaw.features.collections
+package com.alvindizon.tampisaw.collections.viewmodel
 
-import com.alvindizon.tampisaw.TestConstants
-import com.alvindizon.tampisaw.domain.GetAllCollectionsUseCase
+import com.alvindizon.tampisaw.collections.TestConstants
+import com.alvindizon.tampisaw.collections.usecase.GetAllCollectionsUseCase
 import com.alvindizon.tampisaw.testbase.CoroutineExtension
 import com.alvindizon.tampisaw.testbase.InstantExecutorExtension
 import com.alvindizon.tampisaw.testbase.RxSchedulerExtension
@@ -38,14 +38,14 @@ class CollectionListViewModelTest {
 
         every {
             getAllCollectionsUseCase.getAllCollections()
-        } returns Observable.just(TestConstants.collectionsPagingData)
+        } returns Observable.just(TestConstants.getAllCollectionsPagingData)
 
         viewModel.getAllCollections()
 
         runBlocking {
             val collectionsList = uiState.observedValues[0]?.collectData()
-            assertEquals(TestConstants.unsplashCollection, collectionsList?.get(0))
-            assertEquals(TestConstants.unsplashCollection2, collectionsList?.get(1))
+            assertEquals(TestConstants.collections, collectionsList?.get(0))
+            assertEquals(TestConstants.collections2, collectionsList?.get(1))
         }
     }
 

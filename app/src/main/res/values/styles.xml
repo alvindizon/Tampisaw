@@ -38,27 +38,4 @@
         <item name="shapeAppearanceOverlay">?shapeAppearanceLargeComponent</item>
     </style>
 
-    <style name="CollectionListTextStyle">
-        <item name="android:textColor">?attr/colorOnPrimary</item>
-        <item name="android:textAlignment">viewStart</item>
-        <item name="android:textSize">18sp</item>
-        <!-- always + margin_1 + 1dp-->
-        <item name="android:translationZ">9dp</item>
-    </style>
-
-    <style name="CollectionListTextStyle.Title" parent="CollectionListTextStyle">
-        <item name="android:textSize">20sp</item>
-        <item name="android:textStyle">bold</item>
-    </style>
-
-    <style name="CollectionCaptionStyle">
-        <item name="android:textColor">@color/color_on_surface_secondary</item>
-        <item name="android:textSize">16sp</item>
-        <item name="android:textStyle">italic</item>
-    </style>
-
-    <style name="CollectionCaptionStyle.Description" parent="CollectionCaptionStyle">
-        <item name="android:textSize">14sp</item>
-    </style>
-
 </resources>

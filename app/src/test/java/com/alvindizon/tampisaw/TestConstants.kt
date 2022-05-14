@@ -8,7 +8,7 @@ import com.alvindizon.tampisaw.api.model.getcollections.User
 import com.alvindizon.tampisaw.api.model.listphotos.ListPhotosResponse
 import com.alvindizon.tampisaw.api.model.listphotos.ProfileImage
 import com.alvindizon.tampisaw.api.model.listphotos.Urls
-import com.alvindizon.tampisaw.core.toUnsplashCollection
+import com.alvindizon.tampisaw.core.toCollection
 import com.alvindizon.tampisaw.core.toUnsplashPhoto
 import com.alvindizon.tampisaw.data.download.ImageDownloader
 
@@ -73,8 +73,8 @@ internal object TestConstants {
         )
     )
 
-    val unsplashCollection = collectionsResponse.toUnsplashCollection()
-    val unsplashCollection2 = collectionsResponse2.toUnsplashCollection()
+    val unsplashCollection = collectionsResponse.toCollection()
+    val unsplashCollection2 = collectionsResponse2.toCollection()
     val unsplashCollections = mutableListOf(unsplashCollection, unsplashCollection2)
     val collectionsPagingData = PagingData.from(unsplashCollections)
     val collectionsResponsePagingData =

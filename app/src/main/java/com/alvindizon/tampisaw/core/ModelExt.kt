@@ -1,12 +1,12 @@
 package com.alvindizon.tampisaw.core
 
+import com.alvindizon.tampisaw.collections.model.Collection
 import com.alvindizon.tampisaw.api.model.getcollections.GetCollectionsResponse
 import com.alvindizon.tampisaw.api.model.getphoto.GetPhotoResponse
 import com.alvindizon.tampisaw.api.model.listphotos.ListPhotosResponse
 import com.alvindizon.tampisaw.api.model.listphotos.Urls
 import com.alvindizon.tampisaw.api.model.listphotos.User
 import com.alvindizon.tampisaw.details.model.PhotoDetails
-import com.alvindizon.tampisaw.features.collections.UnsplashCollection
 import com.alvindizon.tampisaw.gallery.model.Photo
 import com.alvindizon.tampisaw.gallery.model.PhotoUrls
 import com.alvindizon.tampisaw.gallery.model.PhotoUser
@@ -52,7 +52,7 @@ fun GetPhotoResponse.getCamera(): String {
 
 fun GetPhotoResponse.getTags(): List<String?>? = tags?.map { it.title }
 
-fun GetCollectionsResponse.toUnsplashCollection() = UnsplashCollection(
+fun GetCollectionsResponse.toCollection() = Collection(
     id, title, description, user.name, user.username, user.profileImage?.large, isPrivate,
     coverPhoto?.color, coverPhoto?.urls?.thumb, coverPhoto?.urls?.regular, coverPhoto?.width,
     coverPhoto?.height, totalPhotos

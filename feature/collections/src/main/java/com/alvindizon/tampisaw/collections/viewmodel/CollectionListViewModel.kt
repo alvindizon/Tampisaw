@@ -1,12 +1,13 @@
-package com.alvindizon.tampisaw.features.collections
+package com.alvindizon.tampisaw.collections.viewmodel
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import androidx.paging.rxjava3.cachedIn
+import com.alvindizon.tampisaw.collections.model.Collection
+import com.alvindizon.tampisaw.collections.usecase.GetAllCollectionsUseCase
 import com.alvindizon.tampisaw.core.ui.BaseViewModel
-import com.alvindizon.tampisaw.domain.GetAllCollectionsUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.kotlin.plusAssign
@@ -19,8 +20,8 @@ class CollectionListViewModel @Inject constructor(
     private val getAllCollectionsUseCase: GetAllCollectionsUseCase
 ) : BaseViewModel() {
 
-    private val _uiState = MutableLiveData<PagingData<UnsplashCollection>>()
-    val uiState: LiveData<PagingData<UnsplashCollection>> get() = _uiState
+    private val _uiState = MutableLiveData<PagingData<Collection>>()
+    val uiState: LiveData<PagingData<Collection>> get() = _uiState
 
     fun getAllCollections() {
         compositeDisposable += getAllCollectionsUseCase.getAllCollections()
