@@ -9,4 +9,5 @@
     <string name="err_download">Error downloading photo.</string>
     <string name="retry">Retry</string>
     <string name="download_again">Photo already downloaded. Do you want to download this photo again?</string>
+    <string name="transition_username">username %s</string>
 </resources>
