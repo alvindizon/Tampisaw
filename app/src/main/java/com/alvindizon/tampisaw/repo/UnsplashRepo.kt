@@ -1,4 +1,4 @@
-package com.alvindizon.tampisaw.domain
+package com.alvindizon.tampisaw.repo
 
 import androidx.paging.PagingData
 import com.alvindizon.tampisaw.api.model.getcollections.GetCollectionsResponse
