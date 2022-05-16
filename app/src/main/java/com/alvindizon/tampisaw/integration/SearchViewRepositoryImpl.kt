@@ -5,12 +5,16 @@ import androidx.paging.map
 import com.alvindizon.tampisaw.collections.model.Collection
 import com.alvindizon.tampisaw.core.toCollection
 import com.alvindizon.tampisaw.core.toPhoto
-import com.alvindizon.tampisaw.domain.UnsplashRepo
 import com.alvindizon.tampisaw.gallery.model.Photo
+import com.alvindizon.tampisaw.repo.UnsplashRepo
 import com.alvindizon.tampisaw.search.integration.SearchViewRepository
 import io.reactivex.rxjava3.core.Observable
+import javax.inject.Inject
+import javax.inject.Singleton
 
-class SearchViewRepositoryImpl(private val unsplashRepo: UnsplashRepo) : SearchViewRepository {
+@Singleton
+class SearchViewRepositoryImpl @Inject constructor(private val unsplashRepo: UnsplashRepo) :
+    SearchViewRepository {
 
     override fun searchPhotos(query: String): Observable<PagingData<Photo>> {
         return unsplashRepo.searchPhotos(query)

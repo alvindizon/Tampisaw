@@ -1,4 +1,4 @@
-package com.alvindizon.tampisaw.data
+package com.alvindizon.tampisaw.repo
 
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
@@ -13,12 +13,14 @@ import com.alvindizon.tampisaw.data.paging.CollectionPagingSource
 import com.alvindizon.tampisaw.data.paging.SearchCollectionsPagingSource
 import com.alvindizon.tampisaw.data.paging.SearchPhotosPagingSource
 import com.alvindizon.tampisaw.data.paging.UnsplashPagingSource
-import com.alvindizon.tampisaw.domain.UnsplashRepo
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.core.Single
+import javax.inject.Inject
+import javax.inject.Singleton
 
 
-class UnsplashRepoImpl(private val unsplashApi: UnsplashApi) : UnsplashRepo {
+@Singleton
+class UnsplashRepoImpl @Inject constructor(private val unsplashApi: UnsplashApi) : UnsplashRepo {
 
     override fun getAllPhotos(): Observable<PagingData<ListPhotosResponse>> = Pager(
         config = PagingConfig(Const.PAGE_SIZE),
