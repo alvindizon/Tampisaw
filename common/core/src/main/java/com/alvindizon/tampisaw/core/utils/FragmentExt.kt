@@ -1,6 +1,8 @@
 package com.alvindizon.tampisaw.core.utils
 
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import androidx.core.view.doOnPreDraw
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.FragmentNavigator
@@ -15,3 +17,6 @@ fun getNavigatorExtras(vararg views: View): FragmentNavigator.Extras {
         views.forEach { addSharedElement(it, it.transitionName) }
     }.build()
 }
+
+typealias ViewBindingInflater<VB> = (LayoutInflater, ViewGroup?, Boolean) -> VB
+

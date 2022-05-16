@@ -7,8 +7,8 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.paging.PagingDataAdapter
-import com.alvindizon.collections.R
-import com.alvindizon.collections.databinding.FragmentCollectionListBinding
+import com.alvindizon.tampisaw.collections.R
+import com.alvindizon.tampisaw.collections.databinding.FragmentCollectionListBinding
 import com.alvindizon.tampisaw.collections.viewmodel.CollectionListViewModel
 import com.alvindizon.tampisaw.core.ui.RetryAdapter
 import com.alvindizon.tampisaw.core.utils.getNavigatorExtras
@@ -52,17 +52,16 @@ class CollectionListFragment : Fragment(R.layout.fragment_collection_list) {
         // Add a click listener for each list item
         val adapter = CollectionAdapter { collection, itemBinding ->
             val extras = getNavigatorExtras(itemBinding.collectionTitle)
-            // TODO navigate to collection w/embedded gallery
-//            findNavController().navigate(
-//                CollectionListFragmentDirections.collectionAction(
-//                    collection.id,
-//                    collection.description,
-//                    collection.totalPhotos,
-//                    collection.fullname,
-//                    collection.title
-//                ),
-//                extras
-//            )
+            findNavController().navigate(
+                CollectionListFragmentDirections.collectionAction(
+                    collection.id,
+                    collection.description,
+                    collection.totalPhotos,
+                    collection.fullname,
+                    collection.title
+                ),
+                extras
+            )
         }
 
         viewModel.uiState.observe(viewLifecycleOwner) {

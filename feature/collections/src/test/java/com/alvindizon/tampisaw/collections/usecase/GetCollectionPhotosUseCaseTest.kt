@@ -1,6 +1,7 @@
-package com.alvindizon.tampisaw.domain
+package com.alvindizon.tampisaw.collections.usecase
 
-import com.alvindizon.tampisaw.TestConstants
+import com.alvindizon.tampisaw.collections.TestConstants
+import com.alvindizon.tampisaw.collections.integration.CollectionsViewRepository
 import com.alvindizon.tampisaw.testbase.collectData
 import io.mockk.every
 import io.mockk.mockk
@@ -15,38 +16,38 @@ import org.junit.jupiter.api.Test
 
 class GetCollectionPhotosUseCaseTest {
 
-    private val unsplashRepo: UnsplashRepo = mockk()
+    private val repo: CollectionsViewRepository = mockk()
 
     private lateinit var useCase: GetCollectionPhotosUseCase
 
     @BeforeEach
     fun setUp() {
-        useCase = GetCollectionPhotosUseCase(unsplashRepo)
+        useCase = GetCollectionPhotosUseCase(repo)
     }
 
     @Test
     fun `verify usecase passes query to repo and returns correct data when repo succeeds`() {
-        every { unsplashRepo.getCollectionPhotos(any()) } returns Observable.just(TestConstants.listPhotosPagingData)
+        every { repo.getCollectionPhotos(any()) } returns Observable.just(TestConstants.listPhotosPagingData)
 
         val pagingData = useCase.getCollectionPhotos("eni").test().values()[0]
 
         val querySlot = slot<String>()
 
-        verify(exactly = 1) { unsplashRepo.getCollectionPhotos(capture(querySlot)) }
+        verify(exactly = 1) { repo.getCollectionPhotos(capture(querySlot)) }
 
         assertEquals("eni", querySlot.captured)
 
         runBlocking {
             val list = pagingData.collectData()
-            assertEquals(TestConstants.unsplashPhoto, list[0])
-            assertEquals(TestConstants.unsplashPhoto2, list[1])
+            assertEquals(TestConstants.photo1, list[0])
+            assertEquals(TestConstants.photo2, list[1])
         }
     }
 
     @Test
     fun `verify usecase errors when repo errors`() {
         val error = Throwable("error")
-        every { unsplashRepo.getCollectionPhotos(any()) } returns Observable.error(error)
+        every { repo.getCollectionPhotos(any()) } returns Observable.error(error)
 
         useCase.getCollectionPhotos("eni").test().assertError {
             it.message == error.message

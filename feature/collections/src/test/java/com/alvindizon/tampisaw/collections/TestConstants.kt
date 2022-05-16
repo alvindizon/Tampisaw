@@ -2,6 +2,9 @@ package com.alvindizon.tampisaw.collections
 
 import androidx.paging.PagingData
 import com.alvindizon.tampisaw.collections.model.Collection
+import com.alvindizon.tampisaw.gallery.model.Photo
+import com.alvindizon.tampisaw.gallery.model.PhotoUrls
+import com.alvindizon.tampisaw.gallery.model.PhotoUser
 
 internal object TestConstants {
     val collections = Collection(
@@ -35,6 +38,28 @@ internal object TestConstants {
         1250,
         100
     )
+    val photo1 = Photo(
+        "id",
+        "desc",
+        PhotoUser("name", "username", "profileurl"),
+        PhotoUrls("raw", "full", "reg", "small", "thumb"),
+        false,
+        "#E0E0E0",
+        100,
+        200
+    )
+    val photo2 = Photo(
+        "id2",
+        "desc",
+        PhotoUser("name2", "username2", "profileurl2"),
+        PhotoUrls("raw", "full", "reg", "small", "thumb"),
+        false,
+        "#E0E0E0",
+        100,
+        200
+    )
 
     val getAllCollectionsPagingData = PagingData.from(listOf(collections, collections2))
+    val listPhotosPagingData =
+        PagingData.from(listOf(photo1, photo2))
 }

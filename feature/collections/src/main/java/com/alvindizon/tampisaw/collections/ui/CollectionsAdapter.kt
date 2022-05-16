@@ -8,8 +8,8 @@ import android.view.ViewGroup
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.alvindizon.collections.R
-import com.alvindizon.collections.databinding.ItemCollectionsBinding
+import com.alvindizon.tampisaw.collections.R
+import com.alvindizon.tampisaw.collections.databinding.ItemCollectionsBinding
 import com.alvindizon.tampisaw.collections.model.Collection
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
