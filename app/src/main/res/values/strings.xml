@@ -1,30 +1,6 @@
 <resources>
     <string name="app_name">Tampisaw</string>
-    <string name="retry">Retry</string>
-    <string name="title_views">Views</string>
-    <string name="title_downloads">Downloads</string>
-    <string name="title_likes">Likes</string>
-    <string name="download_img">Download image</string>
-    <string name="img_details">Show photo details</string>
-    <string name="set_wallpaper">Set image as wallpaper</string>
-    <string name="title_download_again">Download again?</string>
-    <string name="download_again">Photo already downloaded. Do you want to download this photo again?</string>
-    <string name="yes">Yes</string>
-    <string name="no">No</string>
-    <string name="cancel">Cancel</string>
-    <string name="download_complete">Download complete</string>
-    <string name="err_download">Error downloading photo.</string>
-    <string name="title_photo_quality">Choose photo quality</string>
-    <string name="sponsored">Sponsored</string>
-    <string name="title_camera">Camera</string>
-    <string name="title_location">Location</string>
-    <string name="title_dimension">Dimension</string>
     <string name="home">Home</string>
     <string name="search">Search</string>
-    <string name="wallpaper_setting_download">Downloading started…</string>
-    <string name="wallpaper_setting_success">Wallpaper set successfully</string>
-    <string name="wallpaper_setting_ongoing">Setting wallpaper…</string>
-    <string name="wallpaper_download_error">Error downloading wallpaper.</string>
-    <string name="transition_username">username %s</string>
-    <string name="photo_count">%d photos</string>
+
 </resources>

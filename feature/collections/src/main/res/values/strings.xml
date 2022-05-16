@@ -2,4 +2,5 @@
 <resources>
     <string name="transition_collection_title">collection title %s</string>
     <string name="count_name" translatable="false">%s photos curated by %s</string>
+    <string name="photo_count">%d photos</string>
 </resources>
