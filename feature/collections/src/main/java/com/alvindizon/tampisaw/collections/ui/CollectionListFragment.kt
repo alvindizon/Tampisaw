@@ -1,113 +1,32 @@
 package com.alvindizon.tampisaw.collections.ui
 
-import android.os.Bundle
-import android.view.View
-import androidx.core.view.isVisible
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.navigation.fragment.findNavController
-import androidx.paging.PagingDataAdapter
-import com.alvindizon.tampisaw.collections.R
 import com.alvindizon.tampisaw.collections.databinding.FragmentCollectionListBinding
 import com.alvindizon.tampisaw.collections.viewmodel.CollectionListViewModel
-import com.alvindizon.tampisaw.core.ui.RetryAdapter
-import com.alvindizon.tampisaw.core.utils.getNavigatorExtras
-import com.alvindizon.tampisaw.core.utils.setLoadStateListener
-import com.alvindizon.tampisaw.core.utils.waitForTransition
-import com.google.android.material.snackbar.Snackbar
+import com.alvindizon.tampisaw.core.utils.ViewBindingInflater
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class CollectionListFragment : Fragment(R.layout.fragment_collection_list) {
+class CollectionListFragment :
+    BaseCollectionListFragment<FragmentCollectionListBinding, CollectionListViewModel>() {
 
-    private var binding: FragmentCollectionListBinding? = null
+    override val viewModel: CollectionListViewModel by viewModels()
 
-    private val viewModel: CollectionListViewModel by viewModels()
+    override fun FragmentCollectionListBinding.provideCollectionBinding(): FragmentCollectionListBinding =
+        binding
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+    override val viewBindingInflater: ViewBindingInflater<FragmentCollectionListBinding> =
+        FragmentCollectionListBinding::inflate
 
-        // display all collections
-        viewModel.getAllCollections()
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-        waitForTransition(view)
-
-        binding = FragmentCollectionListBinding.bind(view)
-
-        viewLifecycleOwner.lifecycle.addObserver(viewModel)
-
-        setupGallery()
-    }
-
-    override fun onDestroyView() {
-        binding = null
-        super.onDestroyView()
-    }
-
-    private fun setupGallery() {
-        // Add a click listener for each list item
-        val adapter = CollectionAdapter { collection, itemBinding ->
-            val extras = getNavigatorExtras(itemBinding.collectionTitle)
-            findNavController().navigate(
-                CollectionListFragmentDirections.collectionAction(
-                    collection.id,
-                    collection.description,
-                    collection.totalPhotos,
-                    collection.fullname,
-                    collection.title
-                ),
-                extras
-            )
-        }
-
+    override fun observeViewModel(adapter: CollectionAdapter) {
         viewModel.uiState.observe(viewLifecycleOwner) {
-            binding?.swipeLayout?.isRefreshing = false
+            binding.swipeLayout.isRefreshing = false
             adapter.submitData(viewLifecycleOwner.lifecycle, it)
         }
-
-        binding?.apply {
-            // Apply the following settings to our recyclerview
-            list.adapter = adapter.withLoadStateHeaderAndFooter(
-                header = RetryAdapter { adapter.retry() },
-                footer = RetryAdapter { adapter.retry() }
-            )
-
-            // Add a listener for the current state of paging
-            adapter.setLoadStateListener(
-                // Only show the list if refresh succeeds.
-                isNotLoading = { list.isVisible = it },
-                // Show loading spinner during initial load or refresh.
-                isLoading = { progressBar.isVisible = it && !swipeLayout.isRefreshing },
-                // Show the retry state if initial load or refresh fails.
-                isLoadStateError = { retryButton.isVisible = it },
-                errorListener = {
-                    swipeLayout.isRefreshing = false
-                    Snackbar.make(
-                        requireView(),
-                        "\uD83D\uDE28 Wooops $it",
-                        Snackbar.LENGTH_LONG
-                    ).show()
-                }
-            )
-
-            swipeLayout.apply {
-                setOnRefreshListener {
-                    isRefreshing = true
-                    viewModel.getAllCollections()
-                }
-            }
-        }
-
-        setupRetryButton(adapter)
     }
 
-    private fun setupRetryButton(adapter: PagingDataAdapter<*, *>) {
-        binding?.retryButton?.setOnClickListener {
-            adapter.retry()
-        }
+    override fun fetchCollections() {
+        // display all collections
+        viewModel.getAllCollections()
     }
 }
