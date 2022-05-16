@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="collections">Collections</string>
+    <string name="photos">Photos</string>
+    <string name="empty_search">No results here, try searching for something else.</string>
+</resources>

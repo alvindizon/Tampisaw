@@ -1,4 +1,4 @@
-package com.alvindizon.tampisaw.features.search
+package com.alvindizon.tampisaw.search.ui
 
 import android.os.Bundle
 import android.view.View
@@ -9,9 +9,10 @@ import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Lifecycle
 import androidx.navigation.fragment.navArgs
 import androidx.viewpager2.adapter.FragmentStateAdapter
-import com.alvindizon.tampisaw.R
 import com.alvindizon.tampisaw.core.utils.hideKeyboard
-import com.alvindizon.tampisaw.databinding.FragmentSearchBinding
+import com.alvindizon.tampisaw.search.R
+import com.alvindizon.tampisaw.search.databinding.FragmentSearchBinding
+import com.alvindizon.tampisaw.search.viewmodel.SearchViewModel
 import com.google.android.material.tabs.TabLayoutMediator
 import dagger.hilt.android.AndroidEntryPoint
 

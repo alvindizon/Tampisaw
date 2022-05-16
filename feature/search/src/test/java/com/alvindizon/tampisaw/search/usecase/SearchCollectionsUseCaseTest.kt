@@ -1,6 +1,7 @@
-package com.alvindizon.tampisaw.domain
+package com.alvindizon.tampisaw.search.usecase
 
-import com.alvindizon.tampisaw.TestConstants
+import com.alvindizon.tampisaw.search.TestConstants
+import com.alvindizon.tampisaw.search.integration.SearchViewRepository
 import com.alvindizon.tampisaw.testbase.collectData
 import io.mockk.every
 import io.mockk.mockk
@@ -15,40 +16,40 @@ import org.junit.jupiter.api.Test
 
 class SearchCollectionsUseCaseTest {
 
-    private val unsplashRepo: UnsplashRepo = mockk()
+    private val repo: SearchViewRepository = mockk()
 
     private lateinit var useCase: SearchCollectionsUseCase
 
     @BeforeEach
     fun setUp() {
-        useCase = SearchCollectionsUseCase(unsplashRepo)
+        useCase = SearchCollectionsUseCase(repo)
     }
 
     @Test
     fun `verify that usecase returns passes correct query to repo and returns correct data when repo succeeds`() {
         every {
-            unsplashRepo.searchCollections(any())
+            repo.searchCollections(any())
         } returns Observable.just(TestConstants.collectionsResponsePagingData)
 
         val pagingData = useCase.searchCollections("eni").test().values()[0]
 
         val querySlot = slot<String>()
 
-        verify(exactly = 1) { unsplashRepo.searchCollections(capture(querySlot)) }
+        verify(exactly = 1) { repo.searchCollections(capture(querySlot)) }
 
         assertEquals("eni", querySlot.captured)
 
         runTest {
             val list = pagingData.collectData()
-            assertEquals(TestConstants.unsplashCollection, list[0])
-            assertEquals(TestConstants.unsplashCollection2, list[1])
+            assertEquals(TestConstants.collections, list[0])
+            assertEquals(TestConstants.collections2, list[1])
         }
     }
 
     @Test
     fun `verify that if repo errors, usecase returns error`() {
         val error = Throwable("error")
-        every { unsplashRepo.searchCollections(any()) } returns Observable.error(error)
+        every { repo.searchCollections(any()) } returns Observable.error(error)
 
         useCase.searchCollections("eni").test().assertError {
             it.message == error.message

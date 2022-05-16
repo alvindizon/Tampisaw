@@ -1,8 +1,8 @@
-package com.alvindizon.tampisaw.features.search
+package com.alvindizon.tampisaw.search.viewmodel
 
-import com.alvindizon.tampisaw.TestConstants
-import com.alvindizon.tampisaw.domain.SearchCollectionsUseCase
-import com.alvindizon.tampisaw.domain.SearchPhotosUseCase
+import com.alvindizon.tampisaw.search.TestConstants
+import com.alvindizon.tampisaw.search.usecase.SearchCollectionsUseCase
+import com.alvindizon.tampisaw.search.usecase.SearchPhotosUseCase
 import com.alvindizon.tampisaw.testbase.CoroutineExtension
 import com.alvindizon.tampisaw.testbase.InstantExecutorExtension
 import com.alvindizon.tampisaw.testbase.RxSchedulerExtension
@@ -40,9 +40,9 @@ class SearchViewModelTest {
 
     @Test
     fun `verify that usecases are called and correct query passed to usecase functions on updateQuery`() {
-        every { searchPhotosUseCase.searchPhotos(testQuery) } returns Observable.just(TestConstants.photoPagingData)
+        every { searchPhotosUseCase.searchPhotos(testQuery) } returns Observable.just(TestConstants.listPhotosPagingData)
         every { searchCollectionsUseCase.searchCollections(testQuery) } returns Observable.just(
-            TestConstants.collectionsPagingData
+            TestConstants.collectionsResponsePagingData
         )
         val querySlots = mutableListOf<String>()
 
@@ -60,15 +60,15 @@ class SearchViewModelTest {
         val uiState = viewModel.collections.testObserver()
 
         every { searchCollectionsUseCase.searchCollections(testQuery) } returns Observable.just(
-            TestConstants.collectionsPagingData
+            TestConstants.collectionsResponsePagingData
         )
 
         viewModel.searchCollections(testQuery)
 
         runBlocking {
             val collectionsList = uiState.observedValues[0]?.collectData()
-            assertEquals(TestConstants.unsplashCollection, collectionsList?.get(0))
-            assertEquals(TestConstants.unsplashCollection2, collectionsList?.get(1))
+            assertEquals(TestConstants.collections, collectionsList?.get(0))
+            assertEquals(TestConstants.collections2, collectionsList?.get(1))
         }
     }
 
@@ -76,14 +76,14 @@ class SearchViewModelTest {
     fun `searchPhotos loads correct PagingData of type UnsplashPhoto`() {
         val uiState = viewModel.photos.testObserver()
 
-        every { searchPhotosUseCase.searchPhotos(testQuery) } returns Observable.just(TestConstants.photoPagingData)
+        every { searchPhotosUseCase.searchPhotos(testQuery) } returns Observable.just(TestConstants.listPhotosPagingData)
 
         viewModel.searchPhotos(testQuery)
 
         runBlocking {
             val photoList = uiState.observedValues[0]?.collectData()
-            assertEquals(TestConstants.unsplashPhoto, photoList?.get(0))
-            assertEquals(TestConstants.unsplashPhoto2, photoList?.get(1))
+            assertEquals(TestConstants.photo1, photoList?.get(0))
+            assertEquals(TestConstants.photo2, photoList?.get(1))
         }
     }
 

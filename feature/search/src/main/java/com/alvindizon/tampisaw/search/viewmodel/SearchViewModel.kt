@@ -1,15 +1,15 @@
-package com.alvindizon.tampisaw.features.search
+package com.alvindizon.tampisaw.search.viewmodel
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import androidx.paging.rxjava3.cachedIn
+import com.alvindizon.tampisaw.collections.model.Collection
 import com.alvindizon.tampisaw.core.ui.BaseViewModel
-import com.alvindizon.tampisaw.domain.SearchCollectionsUseCase
-import com.alvindizon.tampisaw.domain.SearchPhotosUseCase
-import com.alvindizon.tampisaw.features.collections.UnsplashCollection
-import com.alvindizon.tampisaw.features.gallery.UnsplashPhoto
+import com.alvindizon.tampisaw.gallery.model.Photo
+import com.alvindizon.tampisaw.search.usecase.SearchCollectionsUseCase
+import com.alvindizon.tampisaw.search.usecase.SearchPhotosUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.kotlin.plusAssign
@@ -23,11 +23,11 @@ class SearchViewModel @Inject constructor(
     private val searchCollectionsUseCase: SearchCollectionsUseCase
 ) : BaseViewModel() {
 
-    private val _photos = MutableLiveData<PagingData<UnsplashPhoto>>()
-    val photos: LiveData<PagingData<UnsplashPhoto>> get() = _photos
+    private val _photos = MutableLiveData<PagingData<Photo>>()
+    val photos: LiveData<PagingData<Photo>> get() = _photos
 
-    private val _collections = MutableLiveData<PagingData<UnsplashCollection>>()
-    val collections: LiveData<PagingData<UnsplashCollection>> get() = _collections
+    private val _collections = MutableLiveData<PagingData<Collection>>()
+    val collections: LiveData<PagingData<Collection>> get() = _collections
 
     fun updateQuery(query: String) {
         searchPhotos(query)
