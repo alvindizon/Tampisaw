@@ -1,7 +1,7 @@
-package com.alvindizon.tampisaw.features.collections
+package com.alvindizon.tampisaw.collections.viewmodel
 
-import com.alvindizon.tampisaw.TestConstants
-import com.alvindizon.tampisaw.domain.GetCollectionPhotosUseCase
+import com.alvindizon.tampisaw.collections.TestConstants
+import com.alvindizon.tampisaw.collections.usecase.GetCollectionPhotosUseCase
 import com.alvindizon.tampisaw.testbase.CoroutineExtension
 import com.alvindizon.tampisaw.testbase.InstantExecutorExtension
 import com.alvindizon.tampisaw.testbase.RxSchedulerExtension
@@ -38,15 +38,15 @@ class CollectionViewModelTest {
         val uiState = viewModel.uiState.testObserver()
 
         every { getCollectionPhotoUseCase.getCollectionPhotos(testId) } returns Observable.just(
-            TestConstants.photoPagingData
+            TestConstants.listPhotosPagingData
         )
 
         viewModel.getAllPhotos(testId)
 
         runBlocking {
             val photoList = uiState.observedValues[0]?.collectData()
-            assertEquals(TestConstants.unsplashPhoto, photoList?.get(0))
-            assertEquals(TestConstants.unsplashPhoto2, photoList?.get(1))
+            assertEquals(TestConstants.photo1, photoList?.get(0))
+            assertEquals(TestConstants.photo2, photoList?.get(1))
         }
 
     }

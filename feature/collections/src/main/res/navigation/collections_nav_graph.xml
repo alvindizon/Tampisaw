@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:startDestination="@id/collection_list_dest"
     android:id="@+id/collections_nav_graph">
 
     <fragment
@@ -15,7 +16,7 @@
 
     <fragment
         android:id="@+id/collection_dest"
-        android:name="com.alvindizon.tampisaw.collections.CollectionFragment"
+        android:name="com.alvindizon.tampisaw.collections.ui.CollectionFragment"
         android:label="fragment_collection">
         <argument
             android:name="id"
