@@ -94,19 +94,12 @@ abstract class BaseCollectionListFragment<VB : ViewBinding, VM : ViewModel> : Fr
             // Add a listener for the current state of paging
             adapter.setLoadStateListener(
                 // Only show the list if refresh succeeds.
-                isNotLoading = { list.isVisible = it },
+                isNotLoading = { onIsNotLoading(it) },
                 // Show loading spinner during initial load or refresh.
-                isLoading = { progressBar.isVisible = it && !swipeLayout.isRefreshing },
+                isLoading = { onLoading(it) },
                 // Show the retry state if initial load or refresh fails.
-                isLoadStateError = { retryButton.isVisible = it },
-                errorListener = {
-                    swipeLayout.isRefreshing = false
-                    Snackbar.make(
-                        requireView(),
-                        "\uD83D\uDE28 Wooops $it",
-                        Snackbar.LENGTH_LONG
-                    ).show()
-                }
+                isLoadStateError = { onIsLoadStateError(it) },
+                errorListener = { onAdapterError(it) }
             )
 
             swipeLayout.apply {
@@ -124,5 +117,27 @@ abstract class BaseCollectionListFragment<VB : ViewBinding, VM : ViewModel> : Fr
         _collectionListBinding?.retryButton?.setOnClickListener {
             adapter.retry()
         }
+    }
+
+    protected open fun onIsNotLoading(isNotLoading: Boolean) {
+        collectionListBinding.list.isVisible = isNotLoading
+    }
+
+    protected open fun onLoading(isLoading: Boolean) {
+        collectionListBinding.progressBar.isVisible =
+            isLoading && !collectionListBinding.swipeLayout.isRefreshing
+    }
+
+    protected open fun onIsLoadStateError(isLoadStateError: Boolean) {
+        collectionListBinding.retryButton.isVisible = isLoadStateError
+    }
+
+    protected open fun onAdapterError(throwable: Throwable) {
+        collectionListBinding.swipeLayout.isRefreshing = false
+        Snackbar.make(
+            requireView(),
+            "\uD83D\uDE28 Wooops $throwable",
+            Snackbar.LENGTH_LONG
+        ).show()
     }
 }

@@ -104,19 +104,12 @@ abstract class BaseGalleryFragment<VB : ViewBinding, VM : ViewModel> : Fragment(
             // Add a listener for the current state of paging
             adapter.setLoadStateListener(
                 // Only show the list if refresh succeeds.
-                isNotLoading = { list.isVisible = it },
+                isNotLoading = { onIsNotLoading(it) },
                 // Show loading spinner during initial load or refresh.
-                isLoading = { progressBar.isVisible = it && !swipeLayout.isRefreshing },
+                isLoading = { onLoading(it) },
                 // Show the retry state if initial load or refresh fails.
-                isLoadStateError = { retryButton.isVisible = it },
-                errorListener = {
-                    swipeLayout.isRefreshing = false
-                    Snackbar.make(
-                        requireView(),
-                        "\uD83D\uDE28 Wooops $it",
-                        Snackbar.LENGTH_LONG
-                    ).show()
-                }
+                isLoadStateError = { onIsLoadStateError(it) },
+                errorListener = { onAdapterError(it) }
             )
 
             swipeLayout.apply {
@@ -132,5 +125,26 @@ abstract class BaseGalleryFragment<VB : ViewBinding, VM : ViewModel> : Fragment(
         _galleryBinding?.retryButton?.setOnClickListener {
             adapter.retry()
         }
+    }
+
+    protected open fun onIsNotLoading(isNotLoading: Boolean) {
+        galleryBinding.list.isVisible = isNotLoading
+    }
+
+    protected open fun onLoading(isLoading: Boolean) {
+        galleryBinding.progressBar.isVisible = isLoading && !galleryBinding.swipeLayout.isRefreshing
+    }
+
+    protected open fun onIsLoadStateError(isLoadStateError: Boolean) {
+        galleryBinding.retryButton.isVisible = isLoadStateError
+    }
+
+    protected open fun onAdapterError(throwable: Throwable) {
+        galleryBinding.swipeLayout.isRefreshing = false
+        Snackbar.make(
+            requireView(),
+            "\uD83D\uDE28 Wooops $throwable",
+            Snackbar.LENGTH_LONG
+        ).show()
     }
 }

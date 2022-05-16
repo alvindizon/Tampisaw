@@ -9,25 +9,6 @@
 
     <include app:graph="@navigation/collections_nav_graph" />
 
-    <fragment
-        android:id="@+id/search_dest"
-        android:name="com.alvindizon.tampisaw.features.search.SearchFragment"
-        android:label="fragment_search">
-
-        <argument
-            android:name="query"
-            app:argType="string"
-            app:nullable="true"
-            android:defaultValue="@null"/>
-
-        <action
-            android:id="@+id/detailsAction"
-            app:destination="@id/details_dest" />
-
-        <action
-            android:id="@+id/collectionAction"
-            app:destination="@id/collection_dest" />
-
-    </fragment>
+    <include app:graph="@navigation/search_nav_graph" />
 
 </navigation>
