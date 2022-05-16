@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
-        android:id="@id/gallery_dest"
+        android:id="@id/gallery_nav_graph"
         android:icon="@drawable/ic_home"
         android:title="@string/home"/>
 
     <item
-        android:id="@id/collection_list_dest"
+        android:id="@id/collections_nav_graph"
         android:icon="@drawable/ic_collections"
         android:title="@string/collections"/>
 
     <item
-        android:id="@id/search_dest"
+        android:id="@id/search_nav_graph"
         android:icon="@drawable/ic_search"
         android:title="@string/search"/>
 
