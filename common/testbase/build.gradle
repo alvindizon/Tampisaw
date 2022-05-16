@@ -23,7 +23,7 @@ android {
         targetCompatibility JavaVersion.VERSION_1_8
     }
     kotlinOptions {
-        jvmTarget = '1.8'
+        freeCompilerArgs += ["-opt-in=kotlinx.coroutines.ExperimentalCoroutinesApi"]
     }
 }
 
@@ -35,4 +35,7 @@ dependencies {
 
     implementation deps.androidX.paging.runtime
     implementation deps.androidX.lifecycle.livedata
+
+    implementation deps.rxjava.rxandroid
+    implementation deps.rxjava.rxjava
 }
