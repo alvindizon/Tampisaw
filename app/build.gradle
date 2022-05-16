@@ -47,6 +47,12 @@ android {
             }
         }
     }
+    kotlinOptions {
+        freeCompilerArgs += [
+                "-opt-in=kotlinx.coroutines.ExperimentalCoroutinesApi",
+                "-opt-in=androidx.paging.ExperimentalPagingApi"
+        ]
+    }
 }
 
 dependencies {
