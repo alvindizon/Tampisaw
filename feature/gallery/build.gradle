@@ -33,6 +33,15 @@ android {
         viewBinding true
         dataBinding true
     }
+    testOptions {
+        unitTests.all {
+            useJUnitPlatform()
+            // Show test results.
+            testLogging {
+                events "passed", "skipped", "failed"
+            }
+        }
+    }
 }
 
 dependencies {
