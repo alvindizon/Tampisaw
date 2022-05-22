@@ -1,5 +1,6 @@
 package com.alvindizon.tampisaw.networking.interceptor
 
+import android.annotation.SuppressLint
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import javax.inject.Inject
@@ -13,6 +14,7 @@ interface NetworkMonitor {
 class LiveNetworkMonitor @Inject constructor(private val connectivityManager: ConnectivityManager) :
     NetworkMonitor {
 
+    @SuppressLint("MissingPermission")
     override fun isConnected(): Boolean {
         val capabilities =
             connectivityManager.getNetworkCapabilities(connectivityManager.activeNetwork)

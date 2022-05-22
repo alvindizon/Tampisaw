@@ -1,5 +1,6 @@
 package com.alvindizon.tampisaw.setwallpaper
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.WallpaperManager
 import android.content.ContentResolver
@@ -52,6 +53,7 @@ class WallpaperSettingManagerImpl @Inject constructor(
     }
 
     @Suppress("DEPRECATION")
+    @SuppressLint("MissingPermission")
     @Throws(IOException::class, FileNotFoundException::class)
     override fun setWallpaperByBitmap(uri: Uri) {
         val bitmap = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
