@@ -13,9 +13,9 @@ fun <T> any(): T = Mockito.any()
 
 // Taken here: https://stackoverflow.com/questions/63522656/what-is-the-correct-way-to-check-the-data-from-a-pagingdata-object-in-android-un
 private val dcb = object : DifferCallback {
-    override fun onChanged(position: Int, count: Int) {}
-    override fun onInserted(position: Int, count: Int) {}
-    override fun onRemoved(position: Int, count: Int) {}
+    override fun onChanged(position: Int, count: Int) = Unit
+    override fun onInserted(position: Int, count: Int) = Unit
+    override fun onRemoved(position: Int, count: Int) = Unit
 }
 
 

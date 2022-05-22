@@ -31,5 +31,7 @@ object ActivityModule {
 
     @Provides
     fun provideNavController(activity: FragmentActivity): NavController =
-        NavHostFragment.findNavController(activity.supportFragmentManager.findFragmentById(R.id.nav_host_fragment_txn)!!)
+        NavHostFragment.findNavController(
+            activity.supportFragmentManager.findFragmentById(R.id.nav_host_fragment_txn)!!
+        )
 }
