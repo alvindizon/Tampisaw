@@ -55,10 +55,4 @@ task clean(type: Delete) {
     delete rootProject.buildDir
 }
 
-tasks.withType(Detekt) {
-    exclude "**/src/androidTest/**"
-    exclude "**/src/test/**"
-    exclude "**/test/src/**"
-    exclude "**/build/**"
-    exclude "**/resources/**"
-}
+
