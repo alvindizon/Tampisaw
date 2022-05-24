@@ -42,13 +42,15 @@ class CollectionListFragment : Fragment(R.layout.fragment_collection_list) {
         val adapter = CollectionAdapter { collection, itemBinding ->
             val extras = getNavigatorExtras(itemBinding.collectionTitle)
             findNavController().navigate(
-                CollectionListFragmentDirections.collectionAction(
+                R.id.collections_nav_graph,
+                CollectionFragmentArgs(
                     collection.id,
                     collection.description,
                     collection.totalPhotos,
                     collection.fullname,
                     collection.title
-                ),
+                ).toBundle(),
+                null,
                 extras
             )
         }

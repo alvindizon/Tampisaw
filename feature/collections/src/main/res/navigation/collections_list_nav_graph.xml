@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:startDestination="@id/collection_list_dest"
+    android:id="@+id/collections_list_nav_graph">
+
+    <fragment
+        android:id="@+id/collection_list_dest"
+        android:name="com.alvindizon.tampisaw.collections.ui.CollectionListFragment"
+        android:label="fragment_collection_list">
+
+        <action
+            android:id="@+id/navigateToCollection"
+            app:destination="@id/collection_dest"/>
+    </fragment>
+
+</navigation>
