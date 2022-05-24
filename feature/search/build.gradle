@@ -77,10 +77,4 @@ dependencies {
     // Paging
     implementation deps.androidX.paging.runtime
     implementation deps.androidX.paging.rxjava
-
-    // Swipe Refresh Layout
-    implementation deps.androidX.swipeRefreshLayout
-
-    // Glide
-    implementation deps.glide
 }

@@ -5,7 +5,6 @@ import android.app.WallpaperManager
 import android.content.Context
 import android.net.ConnectivityManager
 import androidx.core.app.NotificationManagerCompat
-import androidx.preference.PreferenceManager
 import com.squareup.moshi.Moshi
 import dagger.Module
 import dagger.Provides
@@ -32,10 +31,6 @@ class AppModule {
     @Singleton
     fun provideMoshi(): Moshi = Moshi.Builder().build()
 
-    @Provides
-    @Singleton
-    fun provideSharedPreferences(context: Context) =
-        PreferenceManager.getDefaultSharedPreferences(context)
 
     @Provides
     @Singleton

@@ -117,36 +117,13 @@ dependencies {
     // Http Logging
     implementation deps.network.interceptor
 
-    // Shimmer UI
-    implementation deps.androidVeil
-
-    // Glide
-    implementation deps.glide
-
     // Paging
     implementation deps.androidX.paging.runtime
     implementation deps.androidX.paging.rxjava
 
-    // Preference
-    implementation deps.androidX.preference
-
     //Navigation
     implementation deps.androidX.navigation.fragment
     implementation deps.androidX.navigation.ui
-    
-    // Expandable FAB
-    implementation deps.expandableFAB
-
-    // WorkManager
-    implementation deps.androidX.work.runtime
-    implementation deps.androidX.work.rxjava
-    implementation deps.androidX.futures
-
-    // Okio
-    implementation deps.network.okio
-    
-    // Swipe Refresh Layout
-    implementation deps.androidX.swipeRefreshLayout
 
     // Timber
     implementation deps.timber
