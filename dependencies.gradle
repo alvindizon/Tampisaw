@@ -39,8 +39,6 @@ versions.moshiVersion = "1.13.0"
 versions.materialVersion = "1.5.0"
 versions.findBugsVersion = "3.0.2"
 versions.okHttpLogInterceptorVer = "4.9.3"
-versions.androidVeilVersion = "1.1.2"
-versions.preferenceVersion = "1.2.0"
 versions.fabVersion = "1.2.1"
 versions.workVersion = "2.7.1"
 versions.okioVersion = "3.1.0"
@@ -81,7 +79,6 @@ def androidX = [:]
     androidX.coreKtx = "androidx.core:core-ktx:$versions.ktxVersion"
     androidX.appCompat = "androidx.appcompat:appcompat:$versions.appCompatVersion"
     androidX.constraintLayout = "androidx.constraintlayout:constraintlayout:$versions.constraintLayoutVersion"
-    androidX.preference = "androidx.preference:preference:$versions.preferenceVersion"
     androidX.futures = "androidx.concurrent:concurrent-futures-ktx:$versions.concurrentVersion"
     androidX.swipeRefreshLayout = "androidx.swiperefreshlayout:swiperefreshlayout:$versions.swipeRefreshLayoutVersion"
     androidX.splashScreen =  "androidx.core:core-splashscreen:$versions.splashScreenVersion"
@@ -152,8 +149,6 @@ def network = [:]
     network.moshi = moshi
 
 deps.network = network
-
-deps.androidVeil = "com.github.skydoves:androidveil:$versions.androidVeilVersion"
 
 deps.glide = "com.github.bumptech.glide:glide:$versions.glideVersion"
 
