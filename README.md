@@ -7,6 +7,7 @@
  * Uses JUnit5 and MockK for unit tests
  * For CI, Github Actions is used
  * Detekt is used for detecting code smells, alongside with lint
+ * Features are separated into their own separate module
 
  ## Screens
 | Gallery      | Collections | Search       |
