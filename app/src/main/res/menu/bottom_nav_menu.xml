@@ -6,7 +6,7 @@
         android:title="@string/home"/>
 
     <item
-        android:id="@id/collections_nav_graph"
+        android:id="@id/collections_list_nav_graph"
         android:icon="@drawable/ic_collections"
         android:title="@string/collections"/>
 
