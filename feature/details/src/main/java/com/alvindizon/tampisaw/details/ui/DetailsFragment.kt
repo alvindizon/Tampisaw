@@ -31,6 +31,7 @@ import com.alvindizon.tampisaw.details.R.layout.fragment_details
 import com.alvindizon.tampisaw.details.databinding.FragmentDetailsBinding
 import com.alvindizon.tampisaw.details.model.PhotoDetails
 import com.alvindizon.tampisaw.details.model.fileName
+import com.alvindizon.tampisaw.details.navigation.DetailsNavigator
 import com.alvindizon.tampisaw.details.viewmodel.DetailsViewModel
 import com.alvindizon.tampisaw.setwallpaper.WallpaperSettingManager
 import com.bumptech.glide.Glide
@@ -62,6 +63,9 @@ class DetailsFragment : Fragment(fragment_details) {
 
     @Inject
     lateinit var wallpaperSettingManager: WallpaperSettingManager
+
+    @Inject
+    lateinit var detailsNavigator: DetailsNavigator
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -297,7 +301,7 @@ class DetailsFragment : Fragment(fragment_details) {
                 activityFragmentManager.run {
                     showDialogFragment(InfoBottomSheet.newInstance(photoDetails.tags) {
                         dismissCurrentDialog()
-                        // TODO send clicked tag to search module
+                        detailsNavigator.navigateToSearch(it)
                     })
                 }
             }
