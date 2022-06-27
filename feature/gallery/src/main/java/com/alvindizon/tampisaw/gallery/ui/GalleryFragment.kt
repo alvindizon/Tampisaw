@@ -98,6 +98,13 @@ class GalleryFragment : Fragment(R.layout.fragment_gallery) {
                 }
             )
 
+            swipeLayout.apply {
+                setOnRefreshListener {
+                    isRefreshing = true
+                    viewModel.getAllPhotos()
+                }
+            }
+
             retryButton.setOnClickListener { adapter.retry() }
         }
     }
