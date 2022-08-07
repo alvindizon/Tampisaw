@@ -24,7 +24,7 @@ def versions = [:]
 
 versions.kotlinVersion = "1.7.10"
 versions.navigationVersion = "2.4.2"
-versions.androidGradlePluginVersion = "7.1.3"
+versions.androidGradlePluginVersion = '7.2.1'
 versions.appCompatVersion = "1.4.1"
 versions.constraintLayoutVersion = "2.1.3"
 versions.espressoVersion = "3.4.0"
