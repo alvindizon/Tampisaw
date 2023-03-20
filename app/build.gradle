@@ -30,8 +30,8 @@ android {
     }
 
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility JavaVersion.VERSION_11
+        targetCompatibility JavaVersion.VERSION_11
     }
 
     buildFeatures {
@@ -69,6 +69,7 @@ dependencies {
     implementation project(":feature:search")
     implementation deps.androidX.coreKtx
     implementation deps.androidX.appCompat
+    implementation deps.androidX.fragment
     implementation deps.androidX.constraintLayout
 
     // test
